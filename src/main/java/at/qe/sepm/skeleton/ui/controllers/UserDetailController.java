@@ -32,4 +32,9 @@ public class UserDetailController {
         user = this.userService.saveUser(user);
     }
 
+    public void doDeleteUser() {
+        this.userService.deleteUser(user);
+        user = null;
+    }
+
 }
