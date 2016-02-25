@@ -10,6 +10,12 @@ import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * Spring boot application. Execute maven with <code>mvn spring-boot:run</code>
+ * to start this web application.
+ *
+ * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
+ */
 @SpringBootApplication
 public class Main extends SpringBootServletInitializer {
 
