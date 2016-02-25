@@ -5,14 +5,16 @@ import at.qe.sepm.skeleton.repositories.UserRepository;
 import java.util.Collection;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Service for accessing and manipulating user data.
  *
  * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
  */
-@Service
+@Component
+@Scope("application")
 public class UserService {
 
     @Autowired

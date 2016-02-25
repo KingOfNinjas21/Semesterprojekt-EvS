@@ -5,16 +5,16 @@
  */
 package at.qe.sepm.skeleton.ui.beans;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Basic request scoped bean to test bean initialization.
  *
  * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
  */
-@ManagedBean
-@RequestScoped
+@Component
+@Scope("request")
 public class HelloWorldBean {
 
     /**

@@ -4,14 +4,16 @@ import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.services.UserService;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Controller for the user list view.
  *
  * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
  */
-@Controller
+@Component
+@Scope("view")
 public class UserListController {
 
     @Autowired

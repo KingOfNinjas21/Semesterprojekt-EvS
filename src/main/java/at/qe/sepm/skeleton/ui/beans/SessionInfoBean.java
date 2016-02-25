@@ -3,20 +3,20 @@ package at.qe.sepm.skeleton.ui.beans;
 import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.model.UserRole;
 import at.qe.sepm.skeleton.services.UserService;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Session information bean to retrieve session-specific parameters.
  *
  * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
  */
-@ManagedBean
-@SessionScoped
+@Component
+@Scope("session")
 public class SessionInfoBean {
 
     @Autowired

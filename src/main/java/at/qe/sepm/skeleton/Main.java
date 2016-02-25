@@ -2,7 +2,10 @@ package at.qe.sepm.skeleton;
 
 import at.qe.sepm.skeleton.configs.CustomServletContextInitializer;
 import at.qe.sepm.skeleton.configs.WebSecurityConfig;
+import at.qe.sepm.skeleton.utils.ViewScope;
+import java.util.HashMap;
 import javax.faces.webapp.FacesServlet;
+import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -35,4 +38,12 @@ public class Main extends SpringBootServletInitializer {
         return servletRegistrationBean;
     }
 
+    @Bean
+    public org.springframework.beans.factory.config.CustomScopeConfigurer customScopeConfigurer() {
+        CustomScopeConfigurer customScopeConfigurer = new CustomScopeConfigurer();
+        HashMap<String, Object> customScopes = new HashMap<>();
+        customScopes.put("view", new ViewScope());
+        customScopeConfigurer.setScopes(customScopes);
+        return customScopeConfigurer;
+    }
 }
