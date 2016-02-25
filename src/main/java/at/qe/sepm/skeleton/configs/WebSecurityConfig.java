@@ -47,24 +47,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/secured/welcome.xhtml")
                 .and().exceptionHandling().accessDeniedPage("/error/denied.xhtml");
+        // :TODO: user failureUrl(/login.xhtml?error) and make sure that a corresponding message is displayed
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        //Configure roles and passwords as in-memory authentication
-        /*auth.inMemoryAuthentication()
-         .withUser("administrator")
-         .password("pass")
-         .roles("ADMIN");
-         auth.inMemoryAuthentication()
-         .withUser("user")
-         .password("pass")
-         .roles("EMPLOYEE");*/
-
         //Configure roles and passwords via datasource
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select username, password, enabled from user where username=?")
                 .authoritiesByUsernameQuery("select user_username, roles from user_user_role where user_username=?");
+        // :TODO: use passwordEncoder and do not store passwords in plain text
     }
 
 }
