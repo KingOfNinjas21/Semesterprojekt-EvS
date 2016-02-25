@@ -1,6 +1,6 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
-import at.qe.sepm.skeleton.common.model.User;
+import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.services.UserService;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;

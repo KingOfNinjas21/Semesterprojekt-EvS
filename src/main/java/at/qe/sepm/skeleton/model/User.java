@@ -1,4 +1,4 @@
-package at.qe.sepm.skeleton.common.model;
+package at.qe.sepm.skeleton.model;
 
 import java.util.Set;
 import javax.persistence.CollectionTable;
