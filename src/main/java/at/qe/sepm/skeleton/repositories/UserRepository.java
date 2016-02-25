@@ -6,6 +6,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+/**
+ * Repository for managing {@link User} entities.
+ *
+ * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
+ */
 public interface UserRepository extends AbstractRepository<User, Long> {
 
     User findFirstByUsername(String username);

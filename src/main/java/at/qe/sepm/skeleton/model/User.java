@@ -1,5 +1,6 @@
 package at.qe.sepm.skeleton.model;
 
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -9,18 +10,32 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.springframework.data.domain.Persistable;
 
 /**
  * Entity representing users.
  */
 @Entity
-public class User {
+public class User implements Persistable<String> {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @Column(length = 100)
     private String username;
+
+    @ManyToOne(optional = false)
+    private User createUser;
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+    @ManyToOne(optional = true)
+    private User updateUser;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
 
     private String password;
 
@@ -100,6 +115,38 @@ public class User {
         this.roles = roles;
     }
 
+    public User getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(User createUser) {
+        this.createUser = createUser;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public User getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(User updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -123,6 +170,16 @@ public class User {
     @Override
     public String toString() {
         return "at.qe.sepm.skeleton.common.model.User[ id=" + username + " ]";
+    }
+
+    @Override
+    public String getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isNew() {
+        return (null == createDate);
     }
 
 }
