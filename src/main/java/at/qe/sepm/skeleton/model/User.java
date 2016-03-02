@@ -148,7 +148,7 @@ public class User implements Persistable<String> {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         int hash = 0;
         hash += (username != null ? username.hashCode() : 0);
         return hash;
@@ -169,7 +169,7 @@ public class User implements Persistable<String> {
 
     @Override
     public String toString() {
-        return "at.qe.sepm.skeleton.common.model.User[ id=" + username + " ]";
+        return "at.qe.sepm.skeleton.model.User[ id=" + username + " ]";
     }
 
     @Override
