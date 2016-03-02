@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -28,6 +29,7 @@ public class UserServiceTest {
     UserService userService;
 
     @Test
+    @WithMockUser(username = "admin", authorities = {"ADMIN"})
     public void testDatainitialization() {
         Assert.assertEquals("Insufficient amount of users initialized for test data source", 3, userService.getAllUsers().size());
         for (User user : userService.getAllUsers()) {
@@ -57,6 +59,7 @@ public class UserServiceTest {
 
     @DirtiesContext
     @Test
+    @WithMockUser(username = "admin", authorities = {"ADMIN"})
     public void testDeleteUser() {
         User adminUser = userService.loadUser("admin");
         Assert.assertNotNull("Admin user could not be loaded from test data source", adminUser);
@@ -76,6 +79,7 @@ public class UserServiceTest {
 
     @DirtiesContext
     @Test
+    @WithMockUser(username = "admin", authorities = {"ADMIN"})
     public void testUpdateUser() {
         User adminUser = userService.loadUser("admin");
         Assert.assertNotNull("Admin user could not be loaded from test data source", adminUser);
@@ -98,6 +102,7 @@ public class UserServiceTest {
 
     @DirtiesContext
     @Test
+    @WithMockUser(username = "admin", authorities = {"ADMIN"})
     public void testCreateUser() {
         User adminUser = userService.loadUser("admin");
         Assert.assertNotNull("Admin user could not be loaded from test data source", adminUser);
@@ -129,12 +134,57 @@ public class UserServiceTest {
     }
 
     @Test(expected = org.springframework.orm.jpa.JpaSystemException.class)
+    @WithMockUser(username = "admin", authorities = {"ADMIN"})
     public void testExceptionForEmptyUsername() {
         User adminUser = userService.loadUser("admin");
         Assert.assertNotNull("Admin user could not be loaded from test data source", adminUser);
 
         User toBeCreatedUser = new User();
         userService.saveUser(toBeCreatedUser, adminUser);
+    }
+
+    @Test(expected = org.springframework.security.authentication.AuthenticationCredentialsNotFoundException.class)
+    public void testUnauthenticateddLoadUsers() {
+        for (User user : userService.getAllUsers()) {
+            Assert.fail("Call to userService.getAllUsers should not work without proper authorization");
+        }
+    }
+
+    @Test(expected = org.springframework.security.access.AccessDeniedException.class)
+    @WithMockUser(username = "user", authorities = {"EMPLOYEE"})
+    public void testUnauthorizedLoadUsers() {
+        for (User user : userService.getAllUsers()) {
+            Assert.fail("Call to userService.getAllUsers should not work without proper authorization");
+        }
+    }
+
+    @Test(expected = org.springframework.security.access.AccessDeniedException.class)
+    @WithMockUser(username = "user1", authorities = {"EMPLOYEE"})
+    public void testUnauthorizedLoadUser() {
+        User user = userService.loadUser("admin");
+        Assert.fail("Call to userService.loadUser should not work without proper authorization for other users than the authenticated one");
+    }
+
+    @WithMockUser(username = "user1", authorities = {"EMPLOYEE"})
+    public void testAuthorizedLoadUser() {
+        User user = userService.loadUser("user1");
+        Assert.assertEquals("Call to userService.loadUser returned wrong user", "user1", user.getUsername());
+    }
+
+    @Test(expected = org.springframework.security.access.AccessDeniedException.class)
+    @WithMockUser(username = "user1", authorities = {"EMPLOYEE"})
+    public void testUnauthorizedSaveUser() {
+        User user = userService.loadUser("user1");
+        Assert.assertEquals("Call to userService.loadUser returned wrong user", "user1", user.getUsername());
+        userService.saveUser(user, user);
+    }
+
+    @Test(expected = org.springframework.security.access.AccessDeniedException.class)
+    @WithMockUser(username = "user1", authorities = {"EMPLOYEE"})
+    public void testUnauthorizedDeleteUser() {
+        User user = userService.loadUser("user1");
+        Assert.assertEquals("Call to userService.loadUser returned wrong user", "user1", user.getUsername());
+        userService.deleteUser(user, user);
     }
 
 }

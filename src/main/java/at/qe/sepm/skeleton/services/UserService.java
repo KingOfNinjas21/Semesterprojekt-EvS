@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,6 +26,7 @@ public class UserService {
      *
      * @return
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Collection<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -35,6 +37,7 @@ public class UserService {
      * @param username the username to search for
      * @return the user with the given username
      */
+    @PreAuthorize("hasAuthority('ADMIN') or principal.username eq #username")
     public User loadUser(String username) {
         return userRepository.findFirstByUsername(username);
     }
@@ -49,6 +52,7 @@ public class UserService {
      * @param currentUser the user requesting this operation
      * @return the updated user
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     public User saveUser(User user, User currentUser) {
         if (user.isNew()) {
             user.setCreateDate(new Date());
@@ -66,6 +70,7 @@ public class UserService {
      * @param user the user to delete
      * @param currentUser the user requesting this operation
      */
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteUser(User user, User currentUser) {
         userRepository.delete(user);
         // :TODO: write some audit log stating who and when this user was permanently deleted.

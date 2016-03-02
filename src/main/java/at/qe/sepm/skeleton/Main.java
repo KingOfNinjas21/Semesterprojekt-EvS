@@ -12,6 +12,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 /**
  * Spring boot application. Execute maven with <code>mvn spring-boot:run</code>
@@ -20,6 +21,7 @@ import org.springframework.context.annotation.Bean;
  * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
  */
 @SpringBootApplication
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class Main extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
