@@ -37,7 +37,7 @@ public class SessionInfoBean {
         if (currentUser == null) {
             String currentUserName = getCurrentUserName();
             if (currentUserName.isEmpty()) {
-                currentUser = null;
+                return null;
             }
             currentUser = userService.loadUser(currentUserName);
         }
@@ -75,7 +75,7 @@ public class SessionInfoBean {
             sb.append(role.getAuthority());
             sb.append(' ');
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     /**
@@ -86,7 +86,11 @@ public class SessionInfoBean {
      */
     public boolean isLoggedIn() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.isAuthenticated() && !auth.getName().equals("anonymousUser");
+        if (auth != null) {
+            return auth.isAuthenticated() && !auth.getName().equals("anonymousUser");
+        } else {
+            return false;
+        }
     }
 
     /**
