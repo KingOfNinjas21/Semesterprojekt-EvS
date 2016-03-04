@@ -10,6 +10,12 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
+    <error-page>
+        <exception-type>org.springframework.security.access.AccessDeniedException</exception-type>
+        <location>/error/access_denied.xhtml</location>
+    </error-page>
+
+
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>server</param-value>

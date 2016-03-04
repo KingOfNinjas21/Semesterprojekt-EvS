@@ -48,4 +48,5 @@ public class Main extends SpringBootServletInitializer {
         customScopeConfigurer.setScopes(customScopes);
         return customScopeConfigurer;
     }
+
 }

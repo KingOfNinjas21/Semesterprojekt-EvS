@@ -15,7 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
  */
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity()
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -50,9 +50,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login.xhtml")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/secured/welcome.xhtml")
-                .and().exceptionHandling().accessDeniedPage("/error/denied.xhtml");
+                .defaultSuccessUrl("/secured/welcome.xhtml");
         // :TODO: user failureUrl(/login.xhtml?error) and make sure that a corresponding message is displayed
+
+        http.exceptionHandling().accessDeniedPage("/error/denied.xhtml");
+
+        http.sessionManagement().invalidSessionUrl("/error/invalid_session.xhtml");
+
     }
 
     @Autowired
