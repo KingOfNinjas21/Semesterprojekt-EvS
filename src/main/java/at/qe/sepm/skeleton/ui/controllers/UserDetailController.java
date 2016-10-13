@@ -2,7 +2,6 @@ package at.qe.sepm.skeleton.ui.controllers;
 
 import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.services.UserService;
-import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -18,9 +17,6 @@ public class UserDetailController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private SessionInfoBean sessionInfoBean;
 
     /**
      * Attribute to cache the currently displayed user
@@ -60,14 +56,14 @@ public class UserDetailController {
      * Action to save the currently displayed user.
      */
     public void doSaveUser() {
-        user = this.userService.saveUser(user, sessionInfoBean.getCurrentUser());
+        user = this.userService.saveUser(user);
     }
 
     /**
      * Action to delete the currently displayed user.
      */
     public void doDeleteUser() {
-        this.userService.deleteUser(user, sessionInfoBean.getCurrentUser());
+        this.userService.deleteUser(user);
         user = null;
     }
 

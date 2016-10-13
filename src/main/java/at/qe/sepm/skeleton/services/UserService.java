@@ -7,6 +7,8 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -49,17 +51,16 @@ public class UserService {
      * or {@link User#updateUser} respectively.
      *
      * @param user the user to save
-     * @param currentUser the user requesting this operation
      * @return the updated user
      */
     @PreAuthorize("hasAuthority('ADMIN')")
-    public User saveUser(User user, User currentUser) {
+    public User saveUser(User user) {
         if (user.isNew()) {
             user.setCreateDate(new Date());
-            user.setCreateUser(currentUser);
+            user.setCreateUser(getAuthenticatedUser());
         } else {
             user.setUpdateDate(new Date());
-            user.setUpdateUser(currentUser);
+            user.setUpdateUser(getAuthenticatedUser());
         }
         return userRepository.save(user);
     }
@@ -68,12 +69,16 @@ public class UserService {
      * Deletes the user.
      *
      * @param user the user to delete
-     * @param currentUser the user requesting this operation
      */
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void deleteUser(User user, User currentUser) {
+    public void deleteUser(User user) {
         userRepository.delete(user);
         // :TODO: write some audit log stating who and when this user was permanently deleted.
+    }
+
+    private User getAuthenticatedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findFirstByUsername(auth.getName());
     }
 
 }

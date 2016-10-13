@@ -66,7 +66,7 @@ public class UserServiceTest {
         User toBeDeletedUser = userService.loadUser("user1");
         Assert.assertNotNull("User1 could not be loaded from test data source", toBeDeletedUser);
 
-        userService.deleteUser(toBeDeletedUser, adminUser);
+        userService.deleteUser(toBeDeletedUser);
 
         Assert.assertEquals("No user has been deleted after calling UserService.deleteUser", 2, userService.getAllUsers().size());
         User deletedUser = userService.loadUser("user1");
@@ -90,7 +90,7 @@ public class UserServiceTest {
         Assert.assertNull("User \"user1\" has a updateDate defined", toBeSavedUser.getUpdateDate());
 
         toBeSavedUser.setEmail("changed-email@whatever.wherever");
-        userService.saveUser(toBeSavedUser, adminUser);
+        userService.saveUser(toBeSavedUser);
 
         User freshlyLoadedUser = userService.loadUser("user1");
         Assert.assertNotNull("User1 could not be loaded from test data source after being saved", freshlyLoadedUser);
@@ -116,7 +116,7 @@ public class UserServiceTest {
         toBeCreatedUser.setEmail("new-email@whatever.wherever");
         toBeCreatedUser.setPhone("+12 345 67890");
         toBeCreatedUser.setRoles(Sets.newSet(UserRole.EMPLOYEE, UserRole.MANAGER));
-        userService.saveUser(toBeCreatedUser, adminUser);
+        userService.saveUser(toBeCreatedUser);
 
         User freshlyCreatedUser = userService.loadUser("newuser");
         Assert.assertNotNull("New user could not be loaded from test data source after being saved", freshlyCreatedUser);
@@ -140,7 +140,7 @@ public class UserServiceTest {
         Assert.assertNotNull("Admin user could not be loaded from test data source", adminUser);
 
         User toBeCreatedUser = new User();
-        userService.saveUser(toBeCreatedUser, adminUser);
+        userService.saveUser(toBeCreatedUser);
     }
 
     @Test(expected = org.springframework.security.authentication.AuthenticationCredentialsNotFoundException.class)
@@ -176,7 +176,7 @@ public class UserServiceTest {
     public void testUnauthorizedSaveUser() {
         User user = userService.loadUser("user1");
         Assert.assertEquals("Call to userService.loadUser returned wrong user", "user1", user.getUsername());
-        userService.saveUser(user, user);
+        userService.saveUser(user);
     }
 
     @Test(expected = org.springframework.security.access.AccessDeniedException.class)
@@ -184,7 +184,7 @@ public class UserServiceTest {
     public void testUnauthorizedDeleteUser() {
         User user = userService.loadUser("user1");
         Assert.assertEquals("Call to userService.loadUser returned wrong user", "user1", user.getUsername());
-        userService.deleteUser(user, user);
+        userService.deleteUser(user);
     }
 
 }
