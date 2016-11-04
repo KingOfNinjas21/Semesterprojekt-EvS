@@ -1,6 +1,7 @@
 package at.qe.sepm.skeleton.model;
 
 import java.util.Date;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -148,20 +149,22 @@ public class User implements Persistable<String> {
     }
 
     @Override
-    public final int hashCode() {
-        int hash = 0;
-        hash += (username != null ? username.hashCode() : 0);
+    public int hashCode() {
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.username);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof User)) {
+    public boolean equals(Object obj) {
+        if (obj == null) {
             return false;
         }
-        User other = (User) object;
-        if ((this.username == null && other.username != null) || (this.username != null && !this.username.equals(other.username))) {
+        if (!(obj instanceof User)) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.username, other.username)) {
             return false;
         }
         return true;

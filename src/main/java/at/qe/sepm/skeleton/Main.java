@@ -9,8 +9,8 @@ import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.embedded.ServletRegistrationBean;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
@@ -41,7 +41,7 @@ public class Main extends SpringBootServletInitializer {
     }
 
     @Bean
-    public org.springframework.beans.factory.config.CustomScopeConfigurer customScopeConfigurer() {
+    public CustomScopeConfigurer customScopeConfigurer() {
         CustomScopeConfigurer customScopeConfigurer = new CustomScopeConfigurer();
         HashMap<String, Object> customScopes = new HashMap<>();
         customScopes.put("view", new ViewScope());

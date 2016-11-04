@@ -16,7 +16,7 @@
         for the web frontend. PrimeFaces (http://primefaces.org) is used as
         JSF component library to prettify the frontend.
 
-        Feel free to use this skeleton project as you see fit. 
+        Feel free to use this skeleton project as you see fit.
     </description>
 
     <repositories>
@@ -110,7 +110,7 @@
         <dependency>
             <groupId>nl.jqno.equalsverifier</groupId>
             <artifactId>equalsverifier</artifactId>
-            <version>1.7.8</version>
+            <version>2.1.6</version>
             <scope>test</scope>
         </dependency>
 
