@@ -16,7 +16,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 /**
  * Some very basic tests for {@link UserService}.
  *
- * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
+ * This class is part of the skeleton project provided for students of the
+ * course "Softwaredevelopment and Project Management" offered by the University
+ * of Innsbruck.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Main.class)

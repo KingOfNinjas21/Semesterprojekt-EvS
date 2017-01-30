@@ -7,7 +7,9 @@ import org.springframework.stereotype.Component;
 /**
  * Basic request scoped bean to test bean initialization.
  *
- * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
+ * This class is part of the skeleton project provided for students of the
+ * course "Softwaredevelopment and Project Management" offered by the University
+ * of Innsbruck.
  */
 @Component
 @Scope("request")

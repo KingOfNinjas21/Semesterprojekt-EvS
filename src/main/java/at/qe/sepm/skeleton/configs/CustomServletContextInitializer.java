@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Spring configuration for servlet context.
  *
- * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
+ * This class is part of the skeleton project provided for students of the
+ * course "Softwaredevelopment and Project Management" offered by the University
+ * of Innsbruck.
  */
 @Configuration
 public class CustomServletContextInitializer implements ServletContextInitializer {

@@ -18,7 +18,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * Spring boot application. Execute maven with <code>mvn spring-boot:run</code>
  * to start this web application.
  *
- * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
+ * This class is part of the skeleton project provided for students of the
+ * course "Softwaredevelopment and Project Management" offered by the University
+ * of Innsbruck.
  */
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)

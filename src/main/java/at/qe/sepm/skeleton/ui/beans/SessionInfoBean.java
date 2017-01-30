@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 /**
  * Session information bean to retrieve session-specific parameters.
  *
- * @author Michael Brunner <Michael.Brunner@uibk.ac.at>
+ * This class is part of the skeleton project provided for students of the
+ * course "Softwaredevelopment and Project Management" offered by the University
+ * of Innsbruck.
  */
 @Component
 @Scope("session")
