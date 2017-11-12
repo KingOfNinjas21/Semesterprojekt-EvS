@@ -1,6 +1,5 @@
 package at.qe.sepm.skeleton.tests;
 
-import at.qe.sepm.skeleton.Main;
 import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.model.UserRole;
 import at.qe.sepm.skeleton.services.UserService;
@@ -9,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.internal.util.collections.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,7 +22,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
  * of Innsbruck.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Main.class)
+@SpringBootTest
 @WebAppConfiguration
 public class UserServiceTest {
 

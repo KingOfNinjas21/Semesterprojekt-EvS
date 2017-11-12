@@ -35,7 +35,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.3.RELEASE</version>
+        <version>1.5.8.RELEASE</version>
     </parent>
 
     <properties>
@@ -92,7 +92,7 @@
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>5.3</version>
+            <version>6.1</version>
             <scope>compile</scope>
         </dependency>
 
@@ -140,7 +140,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.6.201602180812</version>
+                <version>0.7.9</version>
                 <configuration>
                     <propertyName>coverageAgent</propertyName>
                 </configuration>
