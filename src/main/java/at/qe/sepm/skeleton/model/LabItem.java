@@ -29,11 +29,20 @@ public class LabItem implements Persistable<String> {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int itemId;
 
+    @Column(nullable = false)
     private String itemName;
+    
+    @Column(nullable = false)
     private String labName;
-    private String location;
+    
+    @Column(nullable = false)
+    private String location; 
+    
     private String description;
+    
+    @Column(nullable = false)
     private Time maxReservationTime;
+    
     // TODO: List of Manuels
     private String manuel;
     
