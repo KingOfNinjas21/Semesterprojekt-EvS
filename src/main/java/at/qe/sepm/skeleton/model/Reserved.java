@@ -17,7 +17,7 @@ import org.springframework.data.domain.Persistable;
 
 
 @Entity
-public class ReservedItem implements Persistable<String> {
+public class Reserved implements Persistable<String> {
 	
 	private static final long serialVersionUID = 3L;
 	
@@ -89,10 +89,10 @@ public class ReservedItem implements Persistable<String> {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof ReservedItem)) {
+        if (!(obj instanceof Reserved)) {
             return false;
         }
-        final ReservedItem other = (ReservedItem) obj;
+        final Reserved other = (Reserved) obj;
         if (!Objects.equals(this.reservedId, other.reservedId)) {
             return false;
         }

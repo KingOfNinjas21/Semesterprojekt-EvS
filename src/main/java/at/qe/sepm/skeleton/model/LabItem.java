@@ -40,6 +40,7 @@ public class LabItem implements Persistable<String> {
     
     private String description;
     
+    // TODO: Time only for max 24 hours!
     @Column(nullable = false)
     private Time maxReservationTime;
     
