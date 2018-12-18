@@ -20,8 +20,8 @@ public class SecurityTestBean {
         return;
     }
 
-    @PreAuthorize("hasAuthority('MANAGER')")
-    public void doManagerAction() {
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public void doStudentAction() {
         return;
     }
 
