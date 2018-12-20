@@ -6,7 +6,6 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -17,13 +16,13 @@ import org.springframework.data.domain.Persistable;
 
 
 @Entity
-public class Reserved implements Persistable<String> {
+public class Reservation implements Persistable<Long> {
 	
 	private static final long serialVersionUID = 3L;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int reservedId;
+	@GeneratedValue
+	private long reservedId;
 	
 	@ManyToOne(optional=false) 
 	private LabItem labItem;
@@ -36,21 +35,27 @@ public class Reserved implements Persistable<String> {
 	@Temporal(TemporalType.TIMESTAMP)
     private Date returnableDate;
 	
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-	
 
 	private boolean isReturned;
 
 
-	public LabItem getItem() {
+	public long getReservedId() {
+		return reservedId;
+	}
+
+
+	public void setReservedId(long reservedId) {
+		this.reservedId = reservedId;
+	}
+
+
+	public LabItem getLabItem() {
 		return labItem;
 	}
 
 
-	public void setItem(LabItem item) {
-		this.labItem = item;
+	public void setLabItem(LabItem labItem) {
+		this.labItem = labItem;
 	}
 
 
@@ -74,12 +79,12 @@ public class Reserved implements Persistable<String> {
 	}
 
 
-	public boolean isReturned() {
+	public boolean getIsReturned() {
 		return isReturned;
 	}
 
 
-	public void setReturned(boolean isReturned) {
+	public void setIsReturned(boolean isReturned) {
 		this.isReturned = isReturned;
 	}
 	
@@ -89,10 +94,10 @@ public class Reserved implements Persistable<String> {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Reserved)) {
+        if (!(obj instanceof Reservation)) {
             return false;
         }
-        final Reserved other = (Reserved) obj;
+        final Reservation other = (Reservation) obj;
         if (!Objects.equals(this.reservedId, other.reservedId)) {
             return false;
         }
@@ -101,13 +106,13 @@ public class Reserved implements Persistable<String> {
 
 
     @Override
-    public String getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Long getId() {
+        return reservedId;
     }
 
     @Override
     public boolean isNew() {
-        return (null == createDate);
+        return (null == reservationDate);
     }
 
 }
