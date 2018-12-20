@@ -1,6 +1,7 @@
 package at.qe.sepm.skeleton.model;
 
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -40,12 +41,13 @@ public class LabItem implements Persistable<String> {
     
     private String description;
     
-    // TODO: Time only for max 24 hours!
+    private String comment;
+    
     @Column(nullable = false)
     private Time maxReservationTime;
     
-    // TODO: List of Manuels
-    private String manuel;
+    // TODO: List of Manuals
+    private ArrayList<String> manuals;
     
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -62,13 +64,18 @@ public class LabItem implements Persistable<String> {
 	}
 
 
-	public String getManuel() {
-		return manuel;
+	public ArrayList<String> getManuals() {
+		return manuals;
 	}
 
 
-	public void setManuel(String manuel) {
-		this.manuel = manuel;
+	public void setManuals(ArrayList<String> manuals) {
+		this.manuals = manuals;
+	}
+	
+	public void addManual(String manual)
+	{
+		this.manuals.add(manual);
 	}
 
 
@@ -172,5 +179,15 @@ public class LabItem implements Persistable<String> {
 	@Override
 	public boolean isNew() {
 		return (null == createDate);
+	}
+
+
+	public String getComment() {
+		return comment;
+	}
+
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }
