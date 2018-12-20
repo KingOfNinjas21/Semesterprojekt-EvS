@@ -3,11 +3,14 @@ package at.qe.sepm.skeleton.configs;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -44,12 +47,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 				// Only access with admin role
 				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 				// Permit access only for some roles
-				.antMatchers("/secured/**").hasAnyAuthority("ADMIN", "MANAGER", "EMPLOYEE")
+				.antMatchers("/secured/**").hasAnyAuthority("ADMIN", "EMPLOYEE", "STUDENT")
 				// If user doesn't have permission, forward him to login page
 				.and().formLogin().loginPage("/login.xhtml").loginProcessingUrl("/login")
-				.defaultSuccessUrl("/secured/welcome.xhtml").failureUrl("/login.xhtml?error=true");
-		// :TODO: user failureUrl(/login.xhtml?error) and make sure that a corresponding
-		// message is displayed
+				.defaultSuccessUrl("/secured/welcome.xhtml")
+				// .failureUrl("/login.xhtml?error");
+				.failureHandler(customAuthenticationFailureHandler());
 
 		http.exceptionHandling().accessDeniedPage("/error/denied.xhtml");
 
@@ -63,8 +66,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
 		// Configure roles and passwords via datasource
 		auth.jdbcAuthentication().dataSource(dataSource)
 				.usersByUsernameQuery("select username, password, enabled from user where username=?")
-				.authoritiesByUsernameQuery("select user_username, roles from user_user_role where user_username=?");
-		// :TODO: use passwordEncoder and do not store passwords in plain text
+				.authoritiesByUsernameQuery("select user_username, roles from user_user_role where user_username=?")
+				.passwordEncoder(new BCryptPasswordEncoder());
+
+	}
+
+	@Bean
+	public AuthenticationFailureHandler customAuthenticationFailureHandler()
+	{
+		return new CustomAuthenticationFailureHandler();
 	}
 
 }
