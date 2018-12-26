@@ -7,12 +7,14 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.repositories.LabItemRepository;
 
-@ManagedBean(name = "labItemView") 
+@ManagedBean(name = "labItemView")
+@Scope("view")
 @Controller
 public class LabItemView {
 	
@@ -25,13 +27,8 @@ public class LabItemView {
 
 	@PostConstruct
     public void init() {
-		List<LabItem> itemList = labItemRepository.findAll();
 		labItems = new ArrayList<>();
-		
-		// TODO: do better
-		for( LabItem l : itemList )  {
-			labItems.add(l);
-		}
+		labItems.addAll(labItemRepository.findAll());
     }
 
 	public List<LabItem> getLabItems() {
