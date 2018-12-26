@@ -1,7 +1,7 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
 import at.qe.sepm.skeleton.model.Reservation;
-import at.qe.sepm.skeleton.services.ReserveService;
+import at.qe.sepm.skeleton.services.ReservationService;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Scope("view") 
 public class ReservationContoller {
 	@Autowired
-	private ReserveService reserveService;
+	private ReservationService reserveService;
 	
 	
 	//reservations
