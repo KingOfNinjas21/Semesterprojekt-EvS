@@ -12,7 +12,6 @@ import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.repositories.ReservationResository;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
-//TODO: change to ReservationService
 @Component
 @Scope("application")
 public class ReservationService {
