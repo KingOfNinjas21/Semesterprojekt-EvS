@@ -12,16 +12,23 @@ import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.repositories.ReservationResository;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
-
+//TODO: change to ReservationService
 @Component
 @Scope("application")
-public class ReserveService {
+public class ReservationService {
 	
 	@Autowired
 	private ReservationResository reservationResository;
 	
 	@Autowired
 	private SessionInfoBean sessionInfo;
+	
+	
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void add(Reservation res) {
+       
+    	reservationResository.save(res);
+    }
     
     
     @PreAuthorize("hasAuthority('ADMIN') or principal.username eq #username")
