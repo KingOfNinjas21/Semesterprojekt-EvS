@@ -21,13 +21,13 @@ import javax.persistence.TemporalType;
 import org.springframework.data.domain.Persistable;
 
 @Entity
-public class LabItem implements Persistable<String> {
+public class LabItem implements Persistable<Long> {
 
     private static final long serialVersionUID = 2L;
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int itemId;
+    private long itemId;
 
     @Column(nullable = false)
     private String itemName;
@@ -57,7 +57,7 @@ public class LabItem implements Persistable<String> {
     private Set<ItemCondition> condition;
   
     
-    public int getItemId() {
+    public long getItemId() {
 		return itemId;
 	}
 
@@ -164,7 +164,7 @@ public class LabItem implements Persistable<String> {
     
     
 	@Override
-	public String getId() {
+	public Long getId() {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
@@ -172,5 +172,11 @@ public class LabItem implements Persistable<String> {
 	@Override
 	public boolean isNew() {
 		return (null == createDate);
+	}
+
+
+	@Override
+	public String toString() {
+		return itemName;
 	}
 }
