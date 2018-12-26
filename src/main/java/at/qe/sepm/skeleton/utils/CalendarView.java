@@ -7,12 +7,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 @ManagedBean
 @Controller
+@Scope("view")
 public class CalendarView {
          
     private Date beginDate;
@@ -24,10 +25,6 @@ public class CalendarView {
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
     }
      
-    public void click() {
-        PrimeFaces.current().ajax().update("form:display");
-        PrimeFaces.current().executeScript("PF('dlg').show()");
-    }
  
     public Date getBeginDate() {
         return beginDate;
