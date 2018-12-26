@@ -165,8 +165,7 @@ public class LabItem implements Persistable<Long> {
     
 	@Override
 	public Long getId() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not supported yet.");
+		return itemId;
 	}
 	
 	@Override
@@ -177,6 +176,7 @@ public class LabItem implements Persistable<Long> {
 
 	@Override
 	public String toString() {
+		//  CheckboxMenu use this
 		return itemName;
 	}
 }
