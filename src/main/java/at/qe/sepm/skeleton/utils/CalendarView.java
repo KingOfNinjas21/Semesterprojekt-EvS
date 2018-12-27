@@ -15,7 +15,8 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Scope("view")
 public class CalendarView {
-         
+    
+	// TODO: Time is saved wrong (1h less then selected)
     private Date beginDate;
     private Date endDate;
      

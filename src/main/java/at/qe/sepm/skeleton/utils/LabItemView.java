@@ -21,25 +21,31 @@ public class LabItemView {
 	@Autowired
 	LabItemRepository labItemRepository;
  
-    private List<LabItem> labItems;
-    private LabItem[] selectedLabItems;
+	
+	// TODO: implement a Converter and use List of LabItems
+    private List<String> labItems;
+    private String[] selectedLabItems;
 
 
 	@PostConstruct
     public void init() {
 		labItems = new ArrayList<>();
-		labItems.addAll(labItemRepository.findAll());
+		List<LabItem> items = labItemRepository.findAll();
+		
+		for (LabItem item : items) {
+			labItems.add(item.getItemName());
+		}
     }
 
-	public List<LabItem> getLabItems() {
+	public List<String> getLabItems() {
 		return labItems;
 	}
 	
-    public LabItem[] getSelectedLabItems() {
+    public String[] getSelectedLabItems() {
 		return selectedLabItems;
 	}
 
-	public void setSelectedLabItems(LabItem[] selectedLabItems) {
+	public void setSelectedLabItems(String[] selectedLabItems) {
 		this.selectedLabItems = selectedLabItems;
 	}
  
