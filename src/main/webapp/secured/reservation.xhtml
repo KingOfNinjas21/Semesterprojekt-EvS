@@ -32,7 +32,7 @@
                 </p:column>
                 <p:column style="width:100px;text-align: center">
                 
-					<p:commandButton update=":reservationForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-note" title="Edit">
+					<p:commandButton update=":reservationForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-note" title="Edit" disabled="#{reservationDetailController.editDisabled}">
 					    <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
 					</p:commandButton>
                     <p:commandButton action="#{reservationDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":reservationForm:reservationTable" disabled="#{reservationDetailController.removeDisabled}">

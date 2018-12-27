@@ -2,13 +2,11 @@ package at.qe.sepm.skeleton.ui.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.services.LabItemService;
 import at.qe.sepm.skeleton.services.ReservationService;
-import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 import at.qe.sepm.skeleton.utils.CalendarView;
 import at.qe.sepm.skeleton.utils.LabItemView;
 
@@ -108,6 +106,14 @@ public class ReservationDetailController {
     			return false;
     		}
     	} else if (reservationService.isAdmin()) {
+    		return false;
+    	}
+    	
+    	return true;
+    }
+    
+    public boolean getEditDisabled() {
+		if (reservationService.isAdmin()) {
     		return false;
     	}
     	

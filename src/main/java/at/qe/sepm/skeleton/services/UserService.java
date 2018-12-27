@@ -1,8 +1,6 @@
 package at.qe.sepm.skeleton.services;
 
-import at.qe.sepm.skeleton.model.AuditLog;
 import at.qe.sepm.skeleton.model.User;
-import at.qe.sepm.skeleton.repositories.AuditLogRepository;
 import at.qe.sepm.skeleton.repositories.UserRepository;
 
 import java.util.Collection;
@@ -29,7 +27,7 @@ public class UserService {
     private UserRepository userRepository;
     
     @Autowired
-    private AuditLogRepository auditRepo;
+    private AuditLogService auditLogService;
     
     /**
      * Returns a collection of all users.
@@ -81,16 +79,9 @@ public class UserService {
     @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteUser(User user) {
     	String username = user.getUsername();
+    	
         userRepository.delete(user);        
-        
-        // TODO: AuditService erstellen
-        AuditLog entity = new AuditLog();
-       
-        entity.setMessage(String.format("User %s deleted", username));
-        entity.setTime(new Date());
-        
-        auditRepo.save(entity);
-       
+        auditLogService.userDeleted(username);   
     }
 
     private User getAuthenticatedUser() {

@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -23,6 +24,9 @@ public class AuditLog implements Persistable<Long> {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date time;
 	
+	@ManyToOne(optional=false)
+	private User updateUser;
+	
 	
 	public void setId(long id) {
 		this.id = id;
@@ -32,6 +36,12 @@ public class AuditLog implements Persistable<Long> {
 	}
 	public void setMessage(String msg) {
 		this.message = msg;
+	}
+	public User getUpdateUser() {
+		return updateUser;
+	}
+	public void setUpdateUser(User user) {
+		this.updateUser = user;
 	}
 	public Date getTime() {
 		return time;
@@ -46,8 +56,7 @@ public class AuditLog implements Persistable<Long> {
 	}
 	@Override
 	public boolean isNew() {
-		// TODO implement isNew
-		return (id == -1);
+		return (message == null);
 	}
 
 }
