@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -19,6 +20,12 @@ public class CalendarView {
     
     private Date beginDate;
     private Date endDate;
+    
+    @PostConstruct
+    public void init() {
+    	beginDate = new Date();
+    	endDate = new Date();
+    }
      
     public void onDateSelect(SelectEvent event) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
