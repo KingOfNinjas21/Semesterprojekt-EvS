@@ -35,6 +35,9 @@ public class Reservation implements Persistable<Long> {
 	@Temporal(TemporalType.TIMESTAMP)
     private Date returnableDate;
 	
+    @Column(nullable = true)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
 
 	private boolean isReturned;
 
@@ -89,7 +92,17 @@ public class Reservation implements Persistable<Long> {
 	}
 	
 	
-    @Override
+    public Date getCreateDate() {
+		return createDate;
+	}
+
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+
+	@Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -112,7 +125,7 @@ public class Reservation implements Persistable<Long> {
 
     @Override
     public boolean isNew() {
-        return (null == reservationDate);
+        return (null == createDate);
     }
 
 }

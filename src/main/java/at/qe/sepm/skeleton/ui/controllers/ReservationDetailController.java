@@ -80,12 +80,15 @@ public class ReservationDetailController {
     		//TODO: return message
     	}
     	
+    	// TODO: begin und end ist innerhalb der Öffnungszeiten
+    	
     	for (String item : items) {
     		log.debug("Saving: " + item);
     		
     		entity.setLabItem(labItemService.loadByName(item));
     		entity.setReservationDate(begin);
     		entity.setReturnableDate(end);
+    		entity.setCreateDate(new Date());
     		entity.setIsReturned(false);
     		
     		reservationService.save(entity);
@@ -94,7 +97,6 @@ public class ReservationDetailController {
     	calendarView.setBeginDate(null);
     	calendarView.setEndDate(null);
     	labItemView.setSelectedLabItems(null);
-    	entity = null;
     }
     
     
