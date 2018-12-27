@@ -46,9 +46,9 @@ public class ReservationService {
     public void remove(Reservation entity) {
     	
     	// Only when is Student
-    	if (sessionInfo.getCurrentUserRoles().contains("STUDENT") ) {
+    	if (isStudent()) {
 	    	if (!entity.getReservationDate().after(new Date())) {
-	    		return ;
+	    		return;
 	    	}
     	}    	  	
     	
@@ -61,6 +61,17 @@ public class ReservationService {
 	}
     
     
+    public boolean isStudent() {
+    	return sessionInfo.hasRole("STUDENT");
+    }
+    
+    public boolean isEmployee() {
+    	return sessionInfo.hasRole("EMPLOYEE");
+    }
+    
+    public boolean isAdmin() {
+    	return sessionInfo.hasRole("ADMIN");
+    }
 	
 	
 }

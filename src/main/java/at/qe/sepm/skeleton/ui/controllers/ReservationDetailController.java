@@ -7,8 +7,11 @@ import org.springframework.stereotype.Component;
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.services.LabItemService;
 import at.qe.sepm.skeleton.services.ReservationService;
+import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 import at.qe.sepm.skeleton.utils.CalendarView;
 import at.qe.sepm.skeleton.utils.LabItemView;
+
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,22 +92,57 @@ public class ReservationDetailController {
     
     public void doAddModel() {    	
     	Reservation entity = new Reservation();    	
+    	Date begin = calendarView.getBeginDate();
+    	Date end = calendarView.getEndDate();
+    	String[] items = labItemView.getSelectedLabItems();
     	
-    	for (String item : labItemView.getSelectedLabItems()) {
+    	
+    	if (items == null) {
+    		//TODO: return message
+    	}
+    	
+    	if (begin == null) {
+    		//TODO: return message
+    	}
+    	
+    	if (end == null) {
+    		//TODO: return message
+    	}
+    	
+    	if (begin.after(end)) {
+    		//TODO: return message
+    	}
+    	
+    	for (String item : items) {
     		log.debug("Saving: " + item);
     		
     		entity.setLabItem(labItemService.loadByName(item));
-    		entity.setReservationDate(calendarView.getBeginDate());
-    		entity.setReturnableDate(calendarView.getEndDate());
+    		entity.setReservationDate(begin);
+    		entity.setReturnableDate(end);
     		entity.setIsReturned(false);
     		
     		reservationService.save(entity);
     	}
-    	
+	
     	calendarView.setBeginDate(null);
     	calendarView.setEndDate(null);
     	labItemView.setSelectedLabItems(null);
     	entity = null;
+    }
+    
+    
+    public boolean getHasRight() {
+    	
+    	if (reservationService.isStudent()) {
+    		Date begin = reservation.getReservationDate();    		
+    		if (begin.after(new Date())) {
+    			return true;
+    		}
+    	} else if ( (reservationService.isEmployee()) || (reservationService.isAdmin()) ) {
+    		return true;
+    	}
+    	
+    	return false;
     }
 
 }
