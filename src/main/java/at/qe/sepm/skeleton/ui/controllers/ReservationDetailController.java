@@ -90,7 +90,7 @@ public class ReservationDetailController {
     public void doAddModel() {    	
     	Reservation entity = new Reservation();    	
     	
-    	for (String item : labItemView.getLabItems()) {
+    	for (String item : labItemView.getSelectedLabItems()) {
     		log.debug("Saving: " + item);
     		
     		entity.setLabItem(labItemService.loadByName(item));

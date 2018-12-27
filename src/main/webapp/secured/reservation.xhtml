@@ -19,12 +19,12 @@
                 </p:column>
                 <p:column headerText="From">
                     <h:outputText value="#{reservation.reservationDate}">
-                    	<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                    	<f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Warsaw"/>
                     </h:outputText>
                 </p:column>
                 <p:column headerText="To">
                     <h:outputText value="#{reservation.returnableDate}">
-                    	<f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                    	<f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Warsaw"/> />
                     </h:outputText>
                 </p:column>
                 <p:column headerText="Returnend">
