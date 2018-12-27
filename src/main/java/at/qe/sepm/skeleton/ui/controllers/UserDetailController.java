@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 /**
@@ -92,6 +93,7 @@ public class UserDetailController {
         user = null;
     }
     
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void doAddUser() {
     	
     	if ((newUser.getUsername() == null) ||
