@@ -23,13 +23,7 @@ public class ReservationService {
 	private SessionInfoBean sessionInfo;
 	
 	
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public void add(Reservation res) {
-       
-    	reservationResository.save(res);
-    }
-    
-    
+   
     @PreAuthorize("hasAuthority('ADMIN') or principal.username eq #username")
     public Reservation loadReservation(long id) {
         return reservationResository.findFirstByReservedId(id);

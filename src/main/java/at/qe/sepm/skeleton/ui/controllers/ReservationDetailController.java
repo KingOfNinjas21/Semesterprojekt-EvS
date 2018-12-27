@@ -2,6 +2,7 @@ package at.qe.sepm.skeleton.ui.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
@@ -33,58 +34,26 @@ public class ReservationDetailController {
 	private LabItemView labItemView;
 	
     private Reservation reservation;
-    
-    
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     
    
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-        doReloadModel();
-    }
-
-    /**
-     * Returns the currently displayed user.
-     *
-     * @return
-     */
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-	public CalendarView getCalendarView() {
-		return calendarView;
-	}
-
-	public void setCalendarView(CalendarView calendarView) {
-		this.calendarView = calendarView;
-	}
-
-	public LabItemView getLabItemView() {
-		return labItemView;
-	}
-
-	public void setLabItemView(LabItemView labItemView) {
-		this.labItemView = labItemView;
-	}
-
-	/**
-     * Action to force a reload of the currently displayed user.
-     */
     public void doReloadModel() {
     	reservation = reservationService.loadReservation(reservation.getReservedId());
     }
 
-    /**
-     * Action to save the currently displayed user.
-     */
     public void doSaveModel() {
-    	reservation = reservationService.save(reservation);
+
+    	Reservation tmp = reservationService.loadReservation(reservation.getReservedId());
+    	if (tmp.getIsReturned() != reservation.getIsReturned()) {
+    		if (reservationService.isAdmin()) {
+    			reservation = reservationService.save(reservation);
+    		}
+    	}
+    	
+    	//TODO: Benachrichtigung: Keine Berechtigung
     }
 
-    /**
-     * Action to delete the currently displayed user.
-     */
+
     public void doDeleteModel() {
         reservationService.remove(reservation);
         reservation = null;
@@ -131,18 +100,45 @@ public class ReservationDetailController {
     }
     
     
-    public boolean getHasRight() {
+    public boolean getRemoveDisabled() {
     	
     	if (reservationService.isStudent()) {
     		Date begin = reservation.getReservationDate();    		
     		if (begin.after(new Date())) {
-    			return true;
+    			return false;
     		}
-    	} else if ( (reservationService.isEmployee()) || (reservationService.isAdmin()) ) {
-    		return true;
+    	} else if (reservationService.isAdmin()) {
+    		return false;
     	}
     	
-    	return false;
+    	return true;
     }
+    
+    
+    
+    public void setReservation(Reservation reservation) {
+        this.reservation = reservation;
+        doReloadModel();
+    }
+
+    public Reservation getReservation() {
+        return reservation;
+    }
+
+	public CalendarView getCalendarView() {
+		return calendarView;
+	}
+
+	public void setCalendarView(CalendarView calendarView) {
+		this.calendarView = calendarView;
+	}
+
+	public LabItemView getLabItemView() {
+		return labItemView;
+	}
+
+	public void setLabItemView(LabItemView labItemView) {
+		this.labItemView = labItemView;
+	}
 
 }
