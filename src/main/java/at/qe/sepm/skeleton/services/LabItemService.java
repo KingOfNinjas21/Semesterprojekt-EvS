@@ -29,4 +29,8 @@ public class LabItemService {
         return labItemRepository.findAll();
     }
     
+    public LabItem loadByName(String name) {
+    	return labItemRepository.findFirstByItemName(name);
+    }
+    
 }
