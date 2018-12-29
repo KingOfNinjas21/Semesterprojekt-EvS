@@ -12,4 +12,8 @@
         <exception-handler-factory>org.primefaces.application.exceptionhandler.PrimeExceptionHandlerFactory</exception-handler-factory>
     </factory>
 
+	<converter>
+	    <converter-id>customConverter</converter-id>
+	    <converter-class>at.qe.sepm.skeleton.utils.CustomConverter</converter-class>
+	</converter>
 </faces-config>

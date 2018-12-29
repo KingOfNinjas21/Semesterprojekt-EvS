@@ -29,7 +29,12 @@ public class LabItem implements Persistable<Long> {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long itemId;
 
-    @Column(nullable = false)
+    /** 
+     * itemName needs to be unique, otherwise the {@code CustomConverter} won't be able to set the right entity back in the model.
+     * @author Candir Salih
+     * @see {@code CustomConverter}
+     */
+    @Column(nullable = false, unique=true)
     private String itemName;
     
     @Column(nullable = false)
@@ -161,8 +166,19 @@ public class LabItem implements Persistable<Long> {
         }
         return true;
     }
-    
-    
+
+	@Override
+	public int hashCode() {
+        return (getId() != null) 
+                ? (getClass().getSimpleName().hashCode() + getId().hashCode())
+                : super.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return itemName;
+	}
+
 	@Override
 	public Long getId() {
 		return itemId;
@@ -173,10 +189,4 @@ public class LabItem implements Persistable<Long> {
 		return (null == createDate);
 	}
 
-
-	@Override
-	public String toString() {
-		//  CheckboxMenu use this
-		return itemName;
-	}
 }

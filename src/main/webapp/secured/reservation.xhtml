@@ -79,7 +79,8 @@
                         <p:outputLabel for="items" value="Gerät: " />
 				        <p:selectCheckboxMenu id="items" value="#{labItemView.selectedLabItems}" label="Geräte" multiple="true"
 				                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-				            <f:selectItems value="#{labItemView.labItems}"/>
+								<f:selectItems value="#{labItemView.labItems}" var="labItem" itemValue="#{labItem}" itemLabel="#{labItem.itemName}"/> 
+				        	 <f:converter converterId="customConverter"/>
 				        </p:selectCheckboxMenu>
                         
                         <p:outputLabel for="beginDate" value="Begin: " />

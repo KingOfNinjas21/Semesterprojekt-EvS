@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.model.Reservation;
-import at.qe.sepm.skeleton.services.LabItemService;
 import at.qe.sepm.skeleton.services.ReservationService;
 import at.qe.sepm.skeleton.utils.CalendarView;
 import at.qe.sepm.skeleton.utils.LabItemView;
 
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,13 +24,11 @@ public class ReservationDetailController {
 	private ReservationService reservationService;
 	
 	@Autowired
-	private LabItemService labItemService;
-	
-	@Autowired
 	private CalendarView calendarView;
 	
 	@Autowired
 	private LabItemView labItemView;
+
 	
     private Reservation reservation;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -61,7 +60,8 @@ public class ReservationDetailController {
     	Reservation entity = new Reservation();    	
     	Date begin = calendarView.getBeginDate();
     	Date end = calendarView.getEndDate();
-    	String[] items = labItemView.getSelectedLabItems();
+    	
+    	List<LabItem> items = labItemView.getSelectedLabItems();
     	
     	
     	if (items == null) {
@@ -82,10 +82,11 @@ public class ReservationDetailController {
     	
     	// TODO: begin und end ist innerhalb der Öffnungszeiten
     	
-    	for (String item : items) {
+    	for (LabItem item : items) {
     		log.debug("Saving: " + item);
     		
-    		entity.setLabItem(labItemService.loadByName(item));
+    		entity.setLabItem(item);
+    		
     		entity.setReservationDate(begin);
     		entity.setReturnableDate(end);
     		entity.setCreateDate(new Date());
