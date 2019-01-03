@@ -52,6 +52,7 @@ public class ReservationDetailController {
 
 
     public void doDeleteModel() {
+    	// TODO: mittels AuditLogService loggen
         reservationService.remove(reservation);
         reservation = null;
     }
@@ -81,6 +82,10 @@ public class ReservationDetailController {
     	}
     	
     	// TODO: begin und end ist innerhalb der Öffnungszeiten
+    	
+    	// TODO: Max. Reservierungsdauer nicht überschritten
+    	
+    	// TODO: Zustand überprüfen und richtig setzen
     	
     	for (LabItem item : items) {
     		log.debug("Saving: " + item);

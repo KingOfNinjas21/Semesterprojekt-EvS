@@ -89,7 +89,7 @@
                         <p:outputLabel for="endDate" value="End: " />
                         <p:calendar id="endDate" value="#{calendarView.endDate}" pattern="dd.MM.yyyy HH:mm" required="true"/>
 	                </h:panelGrid>
-
+					<!-- //TODO: Wochen- und Monatsübersicht der Reservierungen pro Laborgerät einzusehen -->
                     <h:panelGrid columns="3">
                         <p:commandButton value="Add" action="#{reservationDetailController.doAddModel()}" oncomplete="PF('reservationAddDialog').hide()" update=":reservationForm:reservationTable"/>
                         <p:commandButton value="Abort" onclick="PF('reservationAddDialog').hide()"/>
