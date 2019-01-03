@@ -3,6 +3,7 @@ package at.qe.sepm.skeleton.model;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -14,175 +15,209 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.springframework.data.domain.Persistable;
 
 /**
  * Entity representing users.
  */
 @Entity
-public class User implements Persistable<String> {
+public class User implements Persistable<String>
+{
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(length = 100)
-    private String username;
+	@Id
+	@Column(length = 100)
+	private String username;
 
-    @ManyToOne(optional = false)
-    private User createUser;
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-    @ManyToOne(optional = true)
-    private User updateUser;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
+	@ManyToOne(optional = false)
+	private User createUser;
+	@Column(nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createDate;
+	@ManyToOne(optional = true)
+	private User updateUser;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateDate;
 
-    private String password;
+	private String password;
+	private String cNumber;
+	private String firstName;
+	private String lastName;
+	private String email;
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
+	boolean enabled;
 
-    boolean enabled;
+	@ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
+	@CollectionTable(name = "User_UserRole")
+	@Enumerated(EnumType.STRING)
+	private Set<UserRole> roles;
 
-    @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "User_UserRole")
-    @Enumerated(EnumType.STRING)
-    private Set<UserRole> roles;
+	public String getUsername()
+	{
+		return username;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public void setUsername(String username)
+	{
+		this.username = username;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public String getCNumber()
+	{
+		return cNumber;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setCNumber(String cNumber)
+	{
+		this.cNumber = cNumber;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getPassword()
+	{
+		return password;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getFirstName()
+	{
+		return firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setFirstName(String firstName)
+	{
+		this.firstName = firstName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getLastName()
+	{
+		return lastName;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setLastName(String lastName)
+	{
+		this.lastName = lastName;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail()
+	{
+		return email;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	public boolean isEnabled()
+	{
+		return enabled;
+	}
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+	public void setEnabled(boolean enabled)
+	{
+		this.enabled = enabled;
+	}
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+	public Set<UserRole> getRoles()
+	{
+		return roles;
+	}
 
-    public Set<UserRole> getRoles() {
-        return roles;
-    }
+	public void setRoles(Set<UserRole> roles)
+	{
+		this.roles = roles;
+	}
 
-    public void setRoles(Set<UserRole> roles) {
-        this.roles = roles;
-    }
+	public User getCreateUser()
+	{
+		return createUser;
+	}
 
-    public User getCreateUser() {
-        return createUser;
-    }
+	public void setCreateUser(User createUser)
+	{
+		this.createUser = createUser;
+	}
 
-    public void setCreateUser(User createUser) {
-        this.createUser = createUser;
-    }
+	public Date getCreateDate()
+	{
+		return createDate;
+	}
 
-    public Date getCreateDate() {
-        return createDate;
-    }
+	public void setCreateDate(Date createDate)
+	{
+		this.createDate = createDate;
+	}
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
+	public User getUpdateUser()
+	{
+		return updateUser;
+	}
 
-    public User getUpdateUser() {
-        return updateUser;
-    }
+	public void setUpdateUser(User updateUser)
+	{
+		this.updateUser = updateUser;
+	}
 
-    public void setUpdateUser(User updateUser) {
-        this.updateUser = updateUser;
-    }
+	public Date getUpdateDate()
+	{
+		return updateDate;
+	}
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
+	public void setUpdateDate(Date updateDate)
+	{
+		this.updateDate = updateDate;
+	}
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
+	@Override
+	public int hashCode()
+	{
+		int hash = 7;
+		hash = 59 * hash + Objects.hashCode(this.username);
+		return hash;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.username);
-        return hash;
-    }
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+		{
+			return false;
+		}
+		if (!(obj instanceof User))
+		{
+			return false;
+		}
+		final User other = (User) obj;
+		if (!Objects.equals(this.username, other.username))
+		{
+			return false;
+		}
+		return true;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof User)) {
-            return false;
-        }
-        final User other = (User) obj;
-        if (!Objects.equals(this.username, other.username)) {
-            return false;
-        }
-        return true;
-    }
+	@Override
+	public String toString()
+	{
+		return "at.qe.sepm.skeleton.model.User[ id=" + username + " ]";
+	}
 
-    @Override
-    public String toString() {
-        return "at.qe.sepm.skeleton.model.User[ id=" + username + " ]";
-    }
+	@Override
+	public String getId()
+	{
+		throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
+																		// Tools | Templates.
+	}
 
-    @Override
-    public String getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isNew() {
-        return (null == createDate);
-    }
+	@Override
+	public boolean isNew()
+	{
+		return (null == createDate);
+	}
 
 }

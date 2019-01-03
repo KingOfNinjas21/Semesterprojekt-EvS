@@ -7,6 +7,7 @@
                 template="/WEB-INF/templates/main.xhtml">
     <ui:define name ="content">
         <form id="login_form" action="#{request.contextPath}/login" method="post">
+
             <ui:fragment rendered="${param.error}">
 		        <div class="error">
 					Your login attempt was not successful, try again.
