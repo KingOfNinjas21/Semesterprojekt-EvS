@@ -200,9 +200,6 @@ public class LabItem implements Persistable<Long> {
 		return (null == createDate);
 	}
 
-<<<<<<< src/main/java/at/qe/sepm/skeleton/model/LabItem.java
-=======
-
 	public String getComment() {
 		return comment;
 	}
@@ -211,5 +208,5 @@ public class LabItem implements Persistable<Long> {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
->>>>>>> src/main/java/at/qe/sepm/skeleton/model/LabItem.java
+
 }
