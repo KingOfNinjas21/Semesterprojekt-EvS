@@ -9,14 +9,19 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
+//import at.qe.sepm.skeleton.model.User;
+import at.qe.sepm.skeleton.model.UserRole;
 import at.qe.sepm.skeleton.repositories.ReservationResository;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
 
-/*
- * // TODO: Berechtigungen für Student und Employee hinzufügen/überprüfen
+/**
+ * Service for accessing and manipulating reservation data.
+ * 
+ * @author Candir Salih
  */
 
+// TODO: Berechtigungen für Student und Employee hinzufügen/überprüfen
 @Component
 @Scope("application")
 public class ReservationService {
@@ -26,46 +31,99 @@ public class ReservationService {
 	
 	@Autowired
 	private SessionInfoBean sessionInfo;
-   
 	
-    @PreAuthorize("hasAuthority('ADMIN') or principal.username eq #username")
-    public Reservation loadReservation(long id) {
-        return reservationResository.findFirstByReservedId(id);
-    }
-    
+//	@Autowired
+//	private UserService userService;
+   
+	   
+    /**
+     * Saves the reservation. This method will also set {@link Reservation#createDate} for new reservation.
+     * The user requesting this operation will also be stored as {@link Reservation#createUser}
+     *
+     * @param reservation to save
+     * @return the updated reservation
+     */
     @PreAuthorize("hasAuthority('ADMIN')")
     public Reservation save(Reservation reserved) {
+        if (reserved.isNew()) {
+            reserved.setCreateDate(new Date());
+            // TODO: createUser hinzufügen
+            //reserved.setCreateUser(userService.getAuthenticatedUser());
+        }
+        
         return reservationResository.save(reserved);
     }
     
-    
+    /**
+     * Deletes the reservation.
+     *
+     * @param reservation to delete
+     */
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or principal.username eq #username")
     public void remove(Reservation entity) {
     	
     	// Only when is Student
     	if (isStudent()) {
 	    	if (!entity.getReservationDate().after(new Date())) {
+	    		// TODO: return message
 	    		return;
 	    	}
     	}    	  	
     	
+    	// TODO: Log with AuditLogService
     	reservationResository.delete(entity);
     }
-
+    
+    /**
+     * Loads a single reservation identified by its id.
+     *
+     * @param id to search for
+     * @return the reservation with the given id
+     */
+    @PreAuthorize("hasAuthority('ADMIN') or principal.username eq #username")
+    public Reservation loadReservation(long id) {
+        return reservationResository.findFirstByReservedId(id);
+    }
+    
+    /**
+     * Returns a collection of all reservations.
+     *
+     * @return
+     */
     @PreAuthorize("hasAuthority('ADMIN')")
 	public Collection<Reservation> getAllReservations() {		
 		return reservationResository.findAll();
 	}
     
-    
+    /**
+     * Checks if the user for this session has the role Student (c.f.
+     * {@link UserRole}).
+     *
+     * @return true if a user is authenticated and the current user has the
+     * given role, false otherwise
+     */
     public boolean isStudent() {
     	return sessionInfo.hasRole("STUDENT");
     }
     
+    /**
+     * Checks if the user for this session has the role Employee (c.f.
+     * {@link UserRole}).
+     *
+     * @return true if a user is authenticated and the current user has the
+     * given role, false otherwise
+     */
     public boolean isEmployee() {
     	return sessionInfo.hasRole("EMPLOYEE");
     }
     
+    /**
+     * Checks if the user for this session has the role Admin (c.f.
+     * {@link UserRole}).
+     *
+     * @return true if a user is authenticated and the current user has the
+     * given role, false otherwise
+     */
     public boolean isAdmin() {
     	return sessionInfo.hasRole("ADMIN");
     }

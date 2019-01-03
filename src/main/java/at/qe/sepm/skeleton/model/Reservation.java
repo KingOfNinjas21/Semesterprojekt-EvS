@@ -14,7 +14,9 @@ import javax.persistence.TemporalType;
 import org.springframework.data.domain.Persistable;
 
 
-
+/**
+ * Entity representing reservations.
+ */
 @Entity
 public class Reservation implements Persistable<Long> {
 	

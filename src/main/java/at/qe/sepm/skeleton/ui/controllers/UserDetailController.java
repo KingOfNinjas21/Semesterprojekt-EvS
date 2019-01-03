@@ -35,7 +35,7 @@ public class UserDetailController {
     private User user;
     private User newUser;
     
-    
+
     @PostConstruct
     private void init() {
     	newUser = new User();
@@ -63,10 +63,20 @@ public class UserDetailController {
         return user;
     }
 
+    /**
+     * Returns the new user.
+     *
+     * @return
+     */
     public User getNewUser() {
 		return newUser;
 	}
 
+    /**
+     * Sets the new user.
+     *
+     * @param user
+     */
 	public void setNewUser(User newUser) {
 		this.newUser = newUser;
 	}
@@ -92,7 +102,10 @@ public class UserDetailController {
         this.userService.deleteUser(user);
         user = null;
     }
-    
+   
+    /**
+     * Action to add a new user.
+     */
     @PreAuthorize("hasAuthority('ADMIN')")
     public void doAddUser() {
     	

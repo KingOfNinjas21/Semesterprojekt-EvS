@@ -16,6 +16,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+/**
+ * Controller for the reservation detail view.
+ *
+ * @author Candir Salih
+ */
 @Component
 @Scope("view")
 public class ReservationDetailController {
@@ -33,11 +39,16 @@ public class ReservationDetailController {
     private Reservation reservation;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     
-   
+	/**
+     * Action to force a reload of the currently displayed reservation.
+     */
     public void doReloadModel() {
     	reservation = reservationService.loadReservation(reservation.getReservedId());
     }
 
+    /**
+     * Action to save the currently displayed reservation.
+     */
     public void doSaveModel() {
 
     	Reservation tmp = reservationService.loadReservation(reservation.getReservedId());
@@ -50,13 +61,18 @@ public class ReservationDetailController {
     	//TODO: Benachrichtigung: Keine Berechtigung
     }
 
-
+    /**
+     * Action to delete the currently displayed reservation.
+     */
     public void doDeleteModel() {
-    	// TODO: mittels AuditLogService loggen
         reservationService.remove(reservation);
         reservation = null;
     }
     
+    
+    /**
+     * Action to add a new reservation.
+     */
     public void doAddModel() {    	
     	Reservation entity = new Reservation();    	
     	Date begin = calendarView.getBeginDate();
@@ -94,7 +110,6 @@ public class ReservationDetailController {
     		
     		entity.setReservationDate(begin);
     		entity.setReturnableDate(end);
-    		entity.setCreateDate(new Date());
     		entity.setIsReturned(false);
     		
     		reservationService.save(entity);
@@ -105,7 +120,11 @@ public class ReservationDetailController {
     	labItemView.setSelectedLabItems(null);
     }
     
-    
+    /**
+     * CommandButton is enabled when user is Admin or a Student with a reservation in the future, otherwise it's disabled.
+     * 
+     * @return
+     */
     public boolean getRemoveDisabled() {
     	
     	if (reservationService.isStudent()) {
@@ -120,6 +139,12 @@ public class ReservationDetailController {
     	return true;
     }
     
+    
+    /**
+     * CommandButton is enabled when user is Admin, otherwise it's disabled.
+     * 
+     * @return
+     */
     public boolean getEditDisabled() {
 		if (reservationService.isAdmin()) {
     		return false;

@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * Controller for the reservation list view.
+ *
+ * @author Candir Salih
+ */
 @Component
 @Scope("view") 
 public class ReservationContoller {
@@ -16,7 +20,11 @@ public class ReservationContoller {
 	private ReservationService reserveService;
 	
 	
-	//reservations
+    /**
+     * Returns a list of all reservations.
+     *
+     * @return
+     */
 	public Collection<Reservation> getReservations() {    	
 		return reserveService.getAllReservations();
 	}

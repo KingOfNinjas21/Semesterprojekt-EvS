@@ -12,6 +12,11 @@ import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.repositories.AuditLogRepository;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
+
+/**
+ * Service for logging.
+ * @author Candir Salih
+ */
 @Component
 @Scope("application")
 public class AuditLogService {
@@ -25,7 +30,11 @@ public class AuditLogService {
 	private SessionInfoBean sessionInfo;
 	
    
-	
+    /**
+     * Log's a User delete.
+     *
+     * @param username the username to search for
+     */
 	public void userDeleted(String username) {
 		AuditLog entity = new AuditLog();
 		User user = new User();
@@ -37,7 +46,6 @@ public class AuditLogService {
 	    
 	    auditLogRepository.save(entity);
 	}
-
 
 
 }

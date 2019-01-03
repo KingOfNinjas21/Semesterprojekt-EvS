@@ -11,6 +11,10 @@ import javax.persistence.TemporalType;
 
 import org.springframework.data.domain.Persistable;
 
+
+/**
+ * Entity representing logs.
+ */
 @Entity
 public class AuditLog implements Persistable<Long> {
 	

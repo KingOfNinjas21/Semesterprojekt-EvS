@@ -13,6 +13,12 @@ import org.springframework.stereotype.Controller;
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.repositories.LabItemRepository;
 
+
+/**
+ * A lab item view. Loads the items from {@code LabItemRepository}. 
+ * 
+ * @author Candir Salih
+ */
 @ManagedBean(name = "labItemView")
 @Scope("view")
 @Controller

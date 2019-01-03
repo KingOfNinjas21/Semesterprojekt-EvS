@@ -12,6 +12,12 @@ import org.springframework.stereotype.Controller;
 
 import at.qe.sepm.skeleton.model.UserRole;
 
+
+/**
+ * A user roles view. Loads the items from {@code UserRole}. 
+ * 
+ * @author Candir Salih
+ */
 @ManagedBean(name = "userRolesView")
 @Scope("view")
 @Controller

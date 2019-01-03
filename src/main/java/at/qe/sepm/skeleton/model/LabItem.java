@@ -20,6 +20,9 @@ import javax.persistence.TemporalType;
 
 import org.springframework.data.domain.Persistable;
 
+/**
+ * Entity representing lab items.
+ */
 @Entity
 public class LabItem implements Persistable<Long> {
 

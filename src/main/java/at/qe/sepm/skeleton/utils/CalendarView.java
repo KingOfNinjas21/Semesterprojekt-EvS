@@ -13,6 +13,12 @@ import org.primefaces.event.SelectEvent;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+
+/**
+ * A calendar view to store two dates. 
+ * 
+ * @author Candir Salih
+ */
 @ManagedBean
 @Controller
 @Scope("view")
