@@ -24,6 +24,12 @@
             <id>spring-releases</id>
             <url>https://repo.spring.io/libs-release</url>
         </repository>
+       	<repository>
+	        <id>prime-repo</id>
+	        <name>PrimeFaces Maven Repository</name>
+	        <url>http://repository.primefaces.org</url>
+	        <layout>default</layout>
+	    </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -113,6 +119,11 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+        	<groupId>org.primefaces.themes</groupId>
+        	<artifactId>midnight</artifactId>
+        	<version>1.0.10</version>
+        </dependency>
     </dependencies>
 
     <build>
