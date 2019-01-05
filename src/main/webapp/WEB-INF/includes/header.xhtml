@@ -21,7 +21,8 @@
                         <p:menuitem value="STUDENT Action 2"/>
                     </p:submenu>
                     <p:submenu label="Admin Submenu" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
-                    <p:menuitem value="Manage Reservations" url="/secured/reservation.xhtml"/>
+                        <p:menuitem value="Manage Reservations" url="/secured/reservation.xhtml"/>
+                        <p:menuitem value="Manage Labitems" url="/secured/labitems.xhtml"/>
                         <p:menuitem value="Manage Users" url="/admin/users.xhtml"/>
                     </p:submenu>
                     <p:submenu label="Test Submenu" rendered="#{sessionInfoBean.loggedIn}">

@@ -1,6 +1,7 @@
 package at.qe.sepm.skeleton.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -16,33 +17,42 @@ import at.qe.sepm.skeleton.repositories.LabItemRepository;
 @ManagedBean(name = "labItemView")
 @Scope("view")
 @Controller
-public class LabItemView {
-	
-	@Autowired
-	LabItemRepository labItemRepository;
- 
-    private List<LabItem> labItems;
-    private List<LabItem> selectedLabItems;
+public class LabItemView
+{
 
+	@Autowired
+	private LabItemRepository labItemRepository;
+
+	private List<LabItem> labItems;
+	private List<LabItem> selectedLabItems;
 
 	@PostConstruct
-    public void init() {
+	public void init()
+	{
 		labItems = new ArrayList<LabItem>();
 		selectedLabItems = new ArrayList<LabItem>();
-		
-		labItems.addAll(labItemRepository.findAll());
-    }
 
-	public List<LabItem> getLabItems() {
+		labItems.addAll(labItemRepository.findAll());
+	}
+
+	public List<LabItem> getLabItems()
+	{
 		return labItems;
 	}
-	
-    public List<LabItem> getSelectedLabItems() {
+
+	public Collection<LabItem> getAllLabItems()
+	{
+		return labItemRepository.findAll();
+	}
+
+	public List<LabItem> getSelectedLabItems()
+	{
 		return selectedLabItems;
 	}
 
-	public void setSelectedLabItems(List<LabItem> selectedLabItems) {
+	public void setSelectedLabItems(List<LabItem> selectedLabItems)
+	{
 		this.selectedLabItems = selectedLabItems;
 	}
-	
+
 }
