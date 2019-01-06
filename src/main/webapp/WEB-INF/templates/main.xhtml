@@ -22,27 +22,21 @@
 	            	<h3 style="margin-top:5; font-size: 200%;text-align: center;">Lab Manager</h3>
 	            	<center>
 		                <p:menu>
-		                    <p:submenu label="Employee Submenu 1" rendered="#{sessionInfoBean.hasRole('EMPLOYEE')}">
-		                        <p:menuitem value="Employee Action 1 - 1"/>
-		                        <p:menuitem value="Employee Action 1 - 2"/>
-		                    </p:submenu>
-		                    <p:submenu label="Employee Submenu 2" rendered="#{sessionInfoBean.hasRole('EMPLOYEE')}">
-		                        <p:menuitem value="Employee Action 2 - 1"/>
-		                        <p:menuitem value="Employee Action 2 - 2"/>
-		                    </p:submenu>
-		                    <p:submenu label="STUDENT Submenu" rendered="#{sessionInfoBean.hasRole('STUDENT')}">
-		                        <p:menuitem value="STUDENT Action 1"/>
-		                        <p:menuitem value="STUDENT Action 2"/>
+		                	<p:submenu label="Reservations" rendered="#{sessionInfoBean.hasRole('STUDENT') || sessionInfoBean.hasRole('EMPLOYEE') || sessionInfoBean.hasRole('ADMIN')}">
+		                        <p:menuitem value="Items" url="/secured/reservation.xhtml"/>
+		                        <p:menuitem value="Groups" url="/secured/groupreservation.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE') || sessionInfoBean.hasRole('ADMIN')}"/>
+		                        <p:menuitem value="Edit Groups" url="/secured/groups.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE') || sessionInfoBean.hasRole('ADMIN')}"/>
 		                    </p:submenu>
 		                    <p:submenu label="Administration" rendered="#{sessionInfoBean.hasRole('ADMIN')}" icon="ui ui-icon-gear">
-		                    	<p:menuitem value="Manage Reservations" url="/secured/reservation.xhtml"/>
-		                        <p:menuitem value="Manage Users" url="/admin/users.xhtml"/>
+		                    	<p:menuitem value="Manage All Items" url="/secured/adminitems.xhtml"/>
+		                    	<p:menuitem value="Manage All Reservations" url="/secured/adminreservation.xhtml"/>
+		                        <p:menuitem value="Manage All Users" url="/secured/adminusers.xhtml"/>
+		                        <p:menuitem value="Manage All Groups" url="/secured/admingroups.xhtml"/>
 		                    </p:submenu>
-		                    <p:submenu label="Test Submenu" rendered="#{sessionInfoBean.loggedIn}">
-		                        <p:menuitem value="Security Test" url="/secured/test.xhtml"/>
-		                    </p:submenu>
-		                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}"/>
-		                    <p:menuitem value="Logout" url="/logout" rendered="#{sessionInfoBean.loggedIn}"/>
+		                    <p:submenu label="User Actions">
+			                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}"/>
+			                    <p:menuitem value="Logout" url="/logout" rendered="#{sessionInfoBean.loggedIn}"/>
+			                </p:submenu>
 		                </p:menu>
 	                </center>
 	            </h:form>

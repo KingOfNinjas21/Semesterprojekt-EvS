@@ -21,7 +21,7 @@ import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
  * @author Candir Salih
  */
 
-// TODO: Berechtigungen für Student und Employee hinzufügen/überprüfen
+// TODO: Berechtigungen fï¿½r Student und Employee hinzufï¿½gen/ï¿½berprï¿½fen
 @Component
 @Scope("application")
 public class ReservationService {
@@ -47,7 +47,7 @@ public class ReservationService {
     public Reservation save(Reservation reserved) {
         if (reserved.isNew()) {
             reserved.setCreateDate(new Date());
-            // TODO: createUser hinzufügen
+            // TODO: createUser hinzufï¿½gen
             //reserved.setCreateUser(userService.getAuthenticatedUser());
         }
         

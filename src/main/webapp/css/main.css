@@ -11,6 +11,11 @@
   font-size: 80%;
 }
 
+.ui-inputfield
+{
+	background-color: #777777;
+}
+
 /* Sidebar links */
 .sidebar a {
   display: block;

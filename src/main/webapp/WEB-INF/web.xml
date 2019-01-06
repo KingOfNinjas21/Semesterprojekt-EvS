@@ -14,8 +14,7 @@
         <exception-type>org.springframework.security.access.AccessDeniedException</exception-type>
         <location>/error/access_denied.xhtml</location>
     </error-page>
-
-
+    
     <context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>server</param-value>
@@ -42,4 +41,6 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>#{ThemeBean.applicationTheme}</param-value>
 	</context-param>
+	
+
 </web-app>
