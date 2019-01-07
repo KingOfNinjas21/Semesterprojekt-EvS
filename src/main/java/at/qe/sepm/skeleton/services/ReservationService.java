@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import at.qe.sepm.skeleton.model.Reservation;
 //import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.model.UserRole;
-import at.qe.sepm.skeleton.repositories.ReservationResository;
+import at.qe.sepm.skeleton.repositories.ReservationRepository;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
 
@@ -21,13 +21,13 @@ import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
  * @author Candir Salih
  */
 
-// TODO: Berechtigungen für Student und Employee hinzufügen/überprüfen
+// TODO: Berechtigungen fï¿½r Student und Employee hinzufï¿½gen/ï¿½berprï¿½fen
 @Component
 @Scope("application")
 public class ReservationService {
 	
 	@Autowired
-	private ReservationResository reservationResository;
+	private ReservationRepository reservationRepository;
 	
 	@Autowired
 	private SessionInfoBean sessionInfo;
@@ -47,11 +47,11 @@ public class ReservationService {
     public Reservation save(Reservation reserved) {
         if (reserved.isNew()) {
             reserved.setCreateDate(new Date());
-            // TODO: createUser hinzufügen
+            // TODO: createUser hinzufï¿½gen
             //reserved.setCreateUser(userService.getAuthenticatedUser());
         }
         
-        return reservationResository.save(reserved);
+        return reservationRepository.save(reserved);
     }
     
     /**
@@ -71,7 +71,7 @@ public class ReservationService {
     	}    	  	
     	
     	// TODO: Log with AuditLogService
-    	reservationResository.delete(entity);
+    	reservationRepository.delete(entity);
     }
     
     /**
@@ -82,7 +82,7 @@ public class ReservationService {
      */
     @PreAuthorize("hasAuthority('ADMIN') or principal.username eq #username")
     public Reservation loadReservation(long id) {
-        return reservationResository.findFirstByReservedId(id);
+        return reservationRepository.findFirstByReservedId(id);
     }
     
     /**
@@ -92,7 +92,7 @@ public class ReservationService {
      */
     @PreAuthorize("hasAuthority('ADMIN')")
 	public Collection<Reservation> getAllReservations() {		
-		return reservationResository.findAll();
+		return reservationRepository.findAll();
 	}
     
     /**
