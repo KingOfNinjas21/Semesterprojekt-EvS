@@ -2,5 +2,6 @@
 /src/main/webapp/WEB-INF/classes/
 /.classpath
 /.project
+/bin/
+/.settings/
 /.vscode
-/.settings
