@@ -83,10 +83,7 @@ public class LabItem implements Persistable<Long>
 		this.manuel = manuel;
 	}
 	
-	public void addManual(String manual)
-	{
-		this.manuals.add(manual);
-	}
+
 
 	public void setItemId(int itemId)
 	{
@@ -206,13 +203,5 @@ public class LabItem implements Persistable<Long>
 		return (null == createDate);
 	}
 
-	public String getComment() {
-		return comment;
-	}
-
-
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
 
 }
