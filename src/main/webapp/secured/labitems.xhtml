@@ -14,7 +14,7 @@
   				</p:commandButton>
             </h:panelGrid> 
             
-            <p:dataTable id="labItemTable" var="labItem" value="#{labItemView.getAllLabItems()}">
+            <p:dataTable id="labItemTable" var="labItem" value="#{labItemListController.getLabItems()}">
                 <p:column headerText="Gerätename">
                     <h:outputText value="#{labItem.itemName}"/>
                 </p:column>

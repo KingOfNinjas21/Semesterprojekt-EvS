@@ -1,8 +1,8 @@
 package at.qe.sepm.skeleton.services;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,10 +14,11 @@ import at.qe.sepm.skeleton.repositories.LabItemRepository;
 
 /**
  * Service for accessing and manipulating for lab items.
+ * 
  * @author Candir Salih
  */
 
-//TODO: ggf. Berechtigungen f�r hinzuf�gen/�berpr�fen
+// TODO: ggf. Berechtigungen f�r hinzuf�gen/�berpr�fen
 @Component
 @Scope("application")
 public class LabItemService
@@ -58,6 +59,12 @@ public class LabItemService
 	{
 
 		labItemRepository.delete(item);
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public Collection<LabItem> getAllLabItems()
+	{
+		return labItemRepository.findAll();
 	}
 
 }

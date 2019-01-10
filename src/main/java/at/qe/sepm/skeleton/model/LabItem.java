@@ -1,7 +1,6 @@
 package at.qe.sepm.skeleton.model;
 
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -82,8 +81,6 @@ public class LabItem implements Persistable<Long>
 	{
 		this.manuel = manuel;
 	}
-	
-
 
 	public void setItemId(int itemId)
 	{
@@ -202,6 +199,5 @@ public class LabItem implements Persistable<Long>
 	{
 		return (null == createDate);
 	}
-
 
 }

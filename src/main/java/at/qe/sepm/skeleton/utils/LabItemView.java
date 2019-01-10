@@ -1,7 +1,6 @@
 package at.qe.sepm.skeleton.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -14,9 +13,8 @@ import org.springframework.stereotype.Controller;
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.repositories.LabItemRepository;
 
-
 /**
- * A lab item view. Loads the items from {@code LabItemRepository}. 
+ * A lab item view. Loads the items from {@code LabItemRepository}.
  * 
  * @author Candir Salih
  */
@@ -44,11 +42,6 @@ public class LabItemView
 	public List<LabItem> getLabItems()
 	{
 		return labItems;
-	}
-
-	public Collection<LabItem> getAllLabItems()
-	{
-		return labItemRepository.findAll();
 	}
 
 	public List<LabItem> getSelectedLabItems()
