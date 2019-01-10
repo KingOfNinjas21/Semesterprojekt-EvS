@@ -3,15 +3,9 @@ package at.qe.sepm.skeleton.model;
 import java.sql.Time;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,14 +37,6 @@ public class LabItem implements Persistable<Long>
 	@Column(nullable = false, unique = true)
 	private String itemName;
 
-	@Column(nullable = false)
-	private String labName;
-
-	@Column(nullable = false)
-	private String location;
-
-	private String description;
-
 	// TODO: Time only for max 24 hours!
 	@Column(nullable = false)
 	private Time maxReservationTime;
@@ -61,11 +47,6 @@ public class LabItem implements Persistable<Long>
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
-
-	@ElementCollection(targetClass = ItemCondition.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "LabItem_Condition")
-	@Enumerated(EnumType.STRING)
-	private Set<ItemCondition> condition;
 
 	public long getItemId()
 	{
@@ -97,36 +78,6 @@ public class LabItem implements Persistable<Long>
 		this.itemName = itemName;
 	}
 
-	public String getLabName()
-	{
-		return labName;
-	}
-
-	public void setLabName(String labName)
-	{
-		this.labName = labName;
-	}
-
-	public String getLocation()
-	{
-		return location;
-	}
-
-	public void setLocation(String location)
-	{
-		this.location = location;
-	}
-
-	public String getDescription()
-	{
-		return description;
-	}
-
-	public void setDescription(String description)
-	{
-		this.description = description;
-	}
-
 	public Time getMaxReservationTime()
 	{
 		return maxReservationTime;
@@ -145,16 +96,6 @@ public class LabItem implements Persistable<Long>
 	public void setCreateDate(Date createDate)
 	{
 		this.createDate = createDate;
-	}
-
-	public Set<ItemCondition> getCondition()
-	{ // nur eine??
-		return condition;
-	}
-
-	public void setCondition(Set<ItemCondition> condition)
-	{
-		this.condition = condition;
 	}
 
 	@Override

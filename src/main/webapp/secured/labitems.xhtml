@@ -14,19 +14,17 @@
   				</p:commandButton>
             </h:panelGrid> 
             
+            
             <p:dataTable id="labItemTable" var="labItem" value="#{labItemListController.getLabItems()}">
+               
+                <p:column headerText="Geräte Id">
+                    <h:outputText value="#{labItem.itemId}"/>
+                </p:column>
+
                 <p:column headerText="Gerätename">
                     <h:outputText value="#{labItem.itemName}"/>
                 </p:column>
-                <p:column headerText="Labor">
-                    <h:outputText value="#{labItem.labName}"/>
-                </p:column>
-                <p:column headerText="Ort">
-                    <h:outputText value="#{labItem.location}"/>
-                </p:column>
-                <p:column headerText="Beschreibung">
-                    <h:outputText value="#{labItem.description}" />
-                </p:column>
+
                 <p:column headerText="Max Reservierungdauer">
                     <h:outputText value="#{labItem.maxReservationTime}" />
                 </p:column>
@@ -46,15 +44,7 @@
                        <p:outputLabel for="addItemName" value="Gerätename: " />
                         <p:inputText id="addItemName" value="#{labItemController.newLabItem.itemName}" disabled="false"/>
                         
-                        <p:outputLabel for="addLaboratory" value="Labor: " />
-                        <p:inputText id="addLaboratory" value="#{labItemController.newLabItem.labName}" />
-                        
-                        <p:outputLabel for="addLocation" value="Aufbewahrungsort: " />
-                        <p:inputText id="addLocation" value="#{labItemController.newLabItem.location}" />
-                        
-                        <p:outputLabel for="addDescription" value="Beschreibung: " />
-                        <p:inputText id="addDescription" value="#{labItemController.newLabItem.description}" />
-                        
+
                         <p:outputLabel for="addMaxReservationTime" value="Maximale Reservierungdauer: " />
                         <p:inputText id="addMaxReservationTime" type="time"   value="#{labItemController.newLabItem.maxReservationTime}" />
 
@@ -68,9 +58,10 @@
                         <p:commandButton value="Abort" onclick="PF('labItemAddDialog').hide()"/>
                     </h:panelGrid>
                 </p:outputPanel>
-
-
             </p:dialog> 
+
+
+
         </h:form>
     </ui:define>
 </ui:composition>

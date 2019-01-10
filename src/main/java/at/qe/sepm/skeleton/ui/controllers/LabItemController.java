@@ -69,7 +69,7 @@ public class LabItemController
 	}
 
 	/**
-	 * Action to save the currently displayed user.
+	 * Action to save the currently displayed labItem.
 	 */
 	public void doSaveLabItem()
 	{
@@ -77,9 +77,9 @@ public class LabItemController
 	}
 
 	/**
-	 * Action to delete the currently displayed user.
+	 * Action to delete the currently displayed labItem.
 	 */
-	public void doDeleteUser()
+	public void doDeleteLabItem()
 	{
 		this.labItemService.deleteLabItem(labItem);
 		labItem = null;
