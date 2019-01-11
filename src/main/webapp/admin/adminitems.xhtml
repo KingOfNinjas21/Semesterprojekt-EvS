@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+                
+    <ui:define name ="content">
+        <h:form id="labItemCreation">
+        	<h:panelGrid>
+  				<p:commandButton value="Neu" update=":labItemCreation:labItemAddDialog" oncomplete="PF('labItemAddDialog').show()" icon="ui-icon-note" title="Neu">
+  				</p:commandButton>
+            </h:panelGrid> 
+            
+            
+            <p:dataTable id="labItemTable" var="labItem" value="#{labItemListController.getLabItems()}">
+               
+                <p:column headerText="Geräte Id">
+                    <h:outputText value="#{labItem.itemId}"/>
+                </p:column>
+
+                <p:column headerText="Gerätename">
+                    <h:outputText value="#{labItem.itemName}"/>
+                </p:column>
+
+                <p:column headerText="Max Reservierungdauer">
+                    <h:outputText value="#{labItem.maxReservationTime}" />
+                </p:column>
+                <p:column headerText="Bedienungsanleitung">
+                    <h:outputText value="#{labItem.manuel}" />
+            </p:column>
+
+            </p:dataTable>
+ 
+
+
+            <p:dialog header="Laborgerät Hinzufügen" id="labItemAddDialog" widgetVar="labItemAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    
+                <p:outputPanel id="labItemAdd">
+                
+                	<h:panelGrid columns="2">
+                       <p:outputLabel for="addItemName" value="Gerätename: " />
+                        <p:inputText id="addItemName" value="#{labItemController.newLabItem.itemName}" disabled="false"/>
+                        
+
+                        <p:outputLabel for="addMaxReservationTime" value="Maximale Reservierungdauer: " />
+                        <p:inputText id="addMaxReservationTime" type="time"   value="#{labItemController.newLabItem.maxReservationTime}" />
+
+                         <p:outputLabel for="addManuel" value="Bedienungsanleitung: " />
+                        <p:inputText id="addManuel" value="#{labItemController.newLabItem.manuel}" />
+
+	                </h:panelGrid>
+
+                    <h:panelGrid columns="3">
+                        <p:commandButton value="Save" action="#{labItemController.doAddLabItem()}" oncomplete="PF('labItemAddDialog').hide()" update=":labItemCreation:labItemTable"/>
+                        <p:commandButton value="Abort" onclick="PF('labItemAddDialog').hide()"/>
+                    </h:panelGrid>
+                </p:outputPanel>
+            </p:dialog> 
+
+
+
+        </h:form>
+    </ui:define>
+</ui:composition>

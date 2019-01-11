@@ -9,9 +9,9 @@
     <ui:define name ="content">
         <h:form id="userForm">
         	<h:panelGrid>
-        		<p:commandButton value="Neu" update=":userForm:userAddDialog" oncomplete="PF('userAddDialog').show()" icon="ui-icon-plus" title="Neu"/>
+        		<p:commandButton value="New User" update=":userForm:userAddDialog" oncomplete="PF('userAddDialog').show()" icon="ui-icon-plusthick" title="Neu"/>
         	</h:panelGrid>
-            <p:dataTable id="usersTable" var="user" value="#{userListController.users}">
+            <p:dataTable id="usersTable" var="user" value="#{userListController.users}" resizableColumns="true" resizeMode="expand">
                 <p:column headerText="Username">
                     <h:outputText value="#{user.username}"/>
                 </p:column>
@@ -28,7 +28,7 @@
                     <h:selectBooleanCheckbox value="#{user.enabled}" disabled="true"/>
                 </p:column>
                 <p:column style="width:100px;text-align: center">
-                    <p:commandButton update=":userForm:userEditDialog" oncomplete="PF('userEditDialog').show()" icon="ui-icon-note" title="Edit">
+                    <p:commandButton update=":userForm:userEditDialog" oncomplete="PF('userEditDialog').show()" icon="ui-icon-pencil" title="Edit">
                         <f:setPropertyActionListener value="#{user}" target="#{userDetailController.user}" />
                     </p:commandButton>
                     <p:commandButton action="#{userDetailController.doDeleteUser}" icon="ui-icon-trash" title="Delete" update=":userForm:usersTable">

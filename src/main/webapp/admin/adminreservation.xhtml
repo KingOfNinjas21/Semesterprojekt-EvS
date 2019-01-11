@@ -72,11 +72,11 @@
 			    </p:outputPanel>
 			</p:dialog>    
 
-            <p:dialog header="New Reservation" id="reservationAddDialog" widgetVar="reservationAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:dialog header="Reservierung Hinzufügen" id="reservationAddDialog" widgetVar="reservationAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="reservationAdd">
                 
                 	<h:panelGrid columns="2">
-                        <p:outputLabel for="items" value="Item: " />
+                        <p:outputLabel for="items" value="Gerät: " />
 				        <p:selectCheckboxMenu id="items" value="#{labItemView.selectedLabItems}" label="Geräte" multiple="true"
 				                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
 								<f:selectItems value="#{labItemView.labItems}" var="labItem" itemValue="#{labItem}" itemLabel="#{labItem.itemName}"/> 

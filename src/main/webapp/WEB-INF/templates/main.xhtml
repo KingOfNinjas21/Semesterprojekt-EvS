@@ -3,26 +3,57 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:ui="http://java.sun.com/jsf/facelets"	
+	  xmlns:p="http://primefaces.org/ui"
       >
 
     <h:head>
         <title>SEPM Skeleton</title>
+        <link type="text/css" rel="stylesheet" href="/javax.faces.resource/theme.css.xhtml?ln=primefaces-midnight"/>
+        <link type="text/css" rel="stylesheet" href="/css/main.css" />
     </h:head>
-
-    <h:body style="margin:10px;">
+    
+    <h:body style="margin:0px;">
         <div id="page">
-
-            <div id="header" style="margin-bottom: 10px;">
-                <ui:include src="/WEB-INF/includes/header.xhtml" />
+        
+			<div class="sidebar">
+	            <h:form>
+	            	<p:growl id="messages" showDetail="false"/>
+	            	<h3 style="margin-top:5; font-size: 200%;text-align: center;">Lab Manager</h3>
+	            	<center>
+		                <p:menu>
+		                	<p:submenu label="Reservations" rendered="#{sessionInfoBean.hasRole('STUDENT') || sessionInfoBean.hasRole('EMPLOYEE') || sessionInfoBean.hasRole('ADMIN')}">
+		                        <p:menuitem value="Items" url="/secured/reservation.xhtml"/>
+		                        <p:menuitem value="Groups" url="/secured/groupreservation.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE') || sessionInfoBean.hasRole('ADMIN')}"/>
+		                        <p:menuitem value="Edit Groups" url="/secured/groups.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE') || sessionInfoBean.hasRole('ADMIN')}"/>
+		                    </p:submenu>
+		                    <p:submenu label="Administration" rendered="#{sessionInfoBean.hasRole('ADMIN')}" icon="ui ui-icon-gear">
+		                    	<p:menuitem value="Manage All Items" url="/admin/adminitems.xhtml"/>
+		                    	<p:menuitem value="Manage All Reservations" url="/admin/adminreservation.xhtml"/>
+		                        <p:menuitem value="Manage All Users" url="/admin/adminusers.xhtml"/>
+		                        <p:menuitem value="Manage All Groups" url="/admin/admingroups.xhtml"/>
+		                    </p:submenu>
+		                    <p:submenu label="User Actions">
+			                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}"/>
+			                    <p:menuitem value="Logout" url="/logout" rendered="#{sessionInfoBean.loggedIn}"/>
+			                </p:submenu>
+		                </p:menu>
+	                </center>
+	            </h:form>
             </div>
-
-            <div id="content">
-                <ui:insert name="content">Content</ui:insert>
-            </div>
-
-            <div id="footer" style="margin-top: 10px;">
-                <ui:include src="/WEB-INF/includes/footer.xhtml" />
+            <div class="content">         
+	            <div id="header" style="margin-bottom: 10px;">
+	                <ui:include src="/WEB-INF/includes/header.xhtml" />
+	            </div>
+	            
+	
+	            <div id="content">
+	                <ui:insert name="content">Content</ui:insert>
+	            </div>
+	
+	            <div id="footer" style="margin-top: 10px;">
+	                <ui:include src="/WEB-INF/includes/footer.xhtml" />
+	            </div>
             </div>
 
         </div>
