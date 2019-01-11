@@ -21,7 +21,7 @@ import at.qe.sepm.skeleton.repositories.StockRepository;
 @ManagedBean(name = "labItemView")
 @Scope("view")
 @Controller
-public class LabItemView
+public class StockItemView
 {
 
 	@Autowired

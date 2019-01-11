@@ -8,7 +8,7 @@ import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.services.ReservationService;
 import at.qe.sepm.skeleton.utils.CalendarView;
-import at.qe.sepm.skeleton.utils.LabItemView;
+import at.qe.sepm.skeleton.utils.StockItemView;
 
 import java.util.Date;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ReservationDetailController {
 	private CalendarView calendarView;
 	
 	@Autowired
-	private LabItemView labItemView;
+	private StockItemView stockItemView;
 
 	
     private Reservation reservation;
@@ -78,7 +78,7 @@ public class ReservationDetailController {
     	Date begin = calendarView.getBeginDate();
     	Date end = calendarView.getEndDate();
     	
-    	List<StockItem> items = labItemView.getSelectedItems();
+    	List<StockItem> items = stockItemView.getSelectedItems();
     	
     	
     	if (items == null) {
@@ -117,7 +117,7 @@ public class ReservationDetailController {
 	
     	calendarView.setBeginDate(null);
     	calendarView.setEndDate(null);
-    	labItemView.setSelectedItems(null);
+    	stockItemView.setSelectedItems(null);
     }
     
     /**
@@ -172,12 +172,12 @@ public class ReservationDetailController {
 		this.calendarView = calendarView;
 	}
 
-	public LabItemView getLabItemView() {
-		return labItemView;
+	public StockItemView getStockItemView() {
+		return stockItemView;
 	}
 
-	public void setLabItemView(LabItemView labItemView) {
-		this.labItemView = labItemView;
+	public void setStockItemView(StockItemView labItemView) {
+		this.stockItemView = labItemView;
 	}
 
 }
