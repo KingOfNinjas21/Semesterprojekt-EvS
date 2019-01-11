@@ -71,7 +71,10 @@
             
             <p:dialog header="Add User" id="userAddDialog" widgetVar="userAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="userAdd">
+                    <p:outputLabel id="errorMsg" value="#{errorMessage.message}"/>
+                    <!-- rendered="#{errorMessage.enabled}" -->
                     <h:panelGrid columns="2">
+
                         <p:outputLabel for="addusername" value="Username: " />
                         <p:inputText id="addusername" value="#{userDetailController.newUser.username}" disabled="false"/>
                         
@@ -92,7 +95,8 @@
                     </h:panelGrid>
                     <p:separator />
                     <h:panelGrid columns="3">
-                        <p:commandButton value="Save" action="#{userDetailController.doAddUser()}" oncomplete="PF('userAddDialog').hide()" update=":userForm:usersTable"/>
+                        <p:commandButton value="Save" action="#{userDetailController.doAddUser()}" oncomplete="{PF('userAddDialog').hide()}" update=":userForm:usersTable"/>
+                        <p:commandButton value="Msg" action="#{userDetailController.doAddUser()}" />
                         <p:commandButton value="Abort" onclick="PF('userAddDialog').hide()"/>
                     </h:panelGrid>
                 </p:outputPanel>

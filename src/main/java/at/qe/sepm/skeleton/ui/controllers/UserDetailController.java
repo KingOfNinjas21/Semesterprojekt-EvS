@@ -2,10 +2,13 @@ package at.qe.sepm.skeleton.ui.controllers;
 
 import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.services.UserService;
+import at.qe.sepm.skeleton.utils.ErrorMessage;
 import at.qe.sepm.skeleton.utils.PasswordGenerator;
 import at.qe.sepm.skeleton.utils.UserRolesView;
 
 import javax.annotation.PostConstruct;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -28,6 +31,9 @@ public class UserDetailController {
     
     @Autowired
     private UserRolesView userRoleView;
+    
+    @Autowired
+    private ErrorMessage errorMessage;
 
     /**
      * Attribute to cache the currently displayed user
@@ -109,13 +115,38 @@ public class UserDetailController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public void doAddUser() {
     	
-    	if ((newUser.getUsername() == null) ||
-    			(newUser.getUsername().length() <= 3)) {
-    		//TODO: return message
+    	if (newUser.getUsername().length() <= 3) {
+    		errorMessage.setMessage("Ungültiger Benutzername!");
     		return;
     	}
     	
     	
+    	if (newUser.getFirstName() == "") {
+    		errorMessage.setMessage("Ungültiger Vorname!");
+    		return;
+    	}
+    	
+    	if (newUser.getLastName() == "") {
+    		errorMessage.setMessage("Ungültiger Nachname!");
+    		return;
+    	}
+    	
+    	String email = newUser.getEmail();    	
+		try {
+			InternetAddress emailAddr = new InternetAddress(email);
+			emailAddr.validate();
+		} catch (AddressException ex) {
+			errorMessage.setMessage("Ungültige Email!");
+			return;
+		}
+    	
+		newUser.setRoles(userRoleView.getSelectedSet());
+    	if (newUser.getRoles() == null) {
+    		errorMessage.setMessage("Keine Rollen ausgewählt!");
+    		return;
+    	}
+    	
+
     	
     	// TODO: send password via email
     	String pass = PasswordGenerator.getRandomPassword(5);
@@ -123,10 +154,11 @@ public class UserDetailController {
     	
     	newUser.setPassword(hashedPass);
     	newUser.setEnabled(true);
-    	newUser.setRoles(userRoleView.getSelectedSet());
+    	
     	
     	userService.saveUser(newUser);
     	newUser = new User();
+    	errorMessage.setEnabled(false);
     }
 
 }

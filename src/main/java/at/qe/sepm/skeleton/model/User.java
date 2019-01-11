@@ -42,7 +42,6 @@ public class User implements Persistable<String>
 	private Date updateDate;
 
 	private String password;
-	private String cNumber;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -62,16 +61,6 @@ public class User implements Persistable<String>
 	public void setUsername(String username)
 	{
 		this.username = username;
-	}
-
-	public String getCNumber()
-	{
-		return cNumber;
-	}
-
-	public void setCNumber(String cNumber)
-	{
-		this.cNumber = cNumber;
 	}
 
 	public String getPassword()
