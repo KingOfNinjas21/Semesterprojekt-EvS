@@ -12,12 +12,15 @@ import java.util.Date;
 
 @Entity
 public class LabItemGroup implements Persistable<Long> {
-    @ManyToMany
+    @ManyToOne
     private LabItem labitem;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long GroupId;
+
+    @Column(nullable = false, unique = true)
+    private String groupName;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date groupCreationDate;
