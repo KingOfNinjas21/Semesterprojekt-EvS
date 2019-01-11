@@ -12,7 +12,14 @@ import java.util.Date;
 
 @Entity
 public class LabItemGroup implements Persistable<Long> {
-    @ManyToOne
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2019364544560844557L;
+
+	@ManyToOne
     private LabItem labitem;
 
     @Id
