@@ -18,7 +18,7 @@ import at.qe.sepm.skeleton.repositories.StockRepository;
  * 
  * @author Candir Salih
  */
-@ManagedBean(name = "labItemView")
+@ManagedBean(name = "stockItemView")
 @Scope("view")
 @Controller
 public class StockItemView
