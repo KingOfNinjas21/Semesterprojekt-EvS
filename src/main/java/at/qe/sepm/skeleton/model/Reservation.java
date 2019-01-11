@@ -5,9 +5,12 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -42,6 +45,10 @@ public class Reservation implements Persistable<Long> {
     private Date createDate;
 
 	private boolean isReturned;
+	
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "User_username", nullable = false)
+	private User user;
 
 
 	public long getReservedId() {
@@ -101,6 +108,15 @@ public class Reservation implements Persistable<Long> {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	public User getUser()
+	{
+		return this.user;
 	}
 
 
