@@ -1,9 +1,9 @@
 package at.qe.sepm.skeleton.repositories;
 
-import at.qe.sepm.skeleton.model.StockItems;
+import at.qe.sepm.skeleton.model.StockItem;
 
-public interface StockRepository extends AbstractRepository<StockItems, Long>
+public interface StockRepository extends AbstractRepository<StockItem, Long>
 {
-	public StockItems findFirstByStockItemId(long id);
+	public StockItem findFirstByStockItemId(long id);
 
 }

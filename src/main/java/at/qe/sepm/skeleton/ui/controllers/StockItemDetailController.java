@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
-import at.qe.sepm.skeleton.model.StockItems;
+import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.services.StockItemService;
 
 @Component
@@ -17,21 +17,21 @@ public class StockItemDetailController
 	@Autowired
 	private StockItemService stockItemService;
 
-	private StockItems stockItem;
-	private StockItems newStockItem;
+	private StockItem stockItem;
+	private StockItem newStockItem;
 
 	private int number = 1;
 
 	@PostConstruct
 	private void init()
 	{
-		newStockItem = new StockItems();
+		newStockItem = new StockItem();
 	}
 
 	/**
 	 * @return the stockItem
 	 */
-	public StockItems getStockItem()
+	public StockItem getStockItem()
 	{
 		return stockItem;
 	}
@@ -40,7 +40,7 @@ public class StockItemDetailController
 	 * @param stockItem
 	 *            the stockItem to set
 	 */
-	public void setStockItem(StockItems stockItem)
+	public void setStockItem(StockItem stockItem)
 	{
 		this.stockItem = stockItem;
 	}
@@ -48,7 +48,7 @@ public class StockItemDetailController
 	/**
 	 * @return the newStockItem
 	 */
-	public StockItems getNewStockItem()
+	public StockItem getNewStockItem()
 	{
 		return newStockItem;
 	}
@@ -57,7 +57,7 @@ public class StockItemDetailController
 	 * @param newStockItem
 	 *            the newStockItem to set
 	 */
-	public void setNewStockItem(StockItems newStockItem)
+	public void setNewStockItem(StockItem newStockItem)
 	{
 		this.newStockItem = newStockItem;
 	}
@@ -105,6 +105,6 @@ public class StockItemDetailController
 	public void doAddStockItem()
 	{
 		this.stockItemService.saveMultipleStockItems(newStockItem, number);
-		newStockItem = new StockItems();
+		newStockItem = new StockItem();
 	}
 }

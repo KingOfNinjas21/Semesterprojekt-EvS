@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
-import at.qe.sepm.skeleton.model.StockItems;
+import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.repositories.StockRepository;
 
 @Component
@@ -19,30 +19,30 @@ public class StockItemService
 	private StockRepository stockRepository;
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public StockItems loadStockItem(long id)
+	public StockItem loadStockItem(long id)
 	{
 		return stockRepository.findOne(id);
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public List<StockItems> loadAll()
+	public List<StockItem> loadAll()
 	{
 		return stockRepository.findAll();
 	}
 
-	public StockItems loadByName(long id)
+	public StockItem loadByName(long id)
 	{
 		return stockRepository.findFirstByStockItemId(id);
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public StockItems saveStockItem(StockItems stockItem)
+	public StockItem saveStockItem(StockItem stockItem)
 	{
 		return stockRepository.save(stockItem);
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public void saveMultipleStockItems(StockItems stockItem, int count)
+	public void saveMultipleStockItems(StockItem stockItem, int count)
 	{
 		for (int i = 0; i < count; i++)
 		{
@@ -51,14 +51,14 @@ public class StockItemService
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public void deleteStockItem(StockItems stockItem)
+	public void deleteStockItem(StockItem stockItem)
 	{
 
 		stockRepository.delete(stockItem);
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
-	public Collection<StockItems> getAllStockItems()
+	public Collection<StockItem> getAllStockItems()
 	{
 
 		return stockRepository.findAll();

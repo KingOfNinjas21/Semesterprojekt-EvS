@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
-import at.qe.sepm.skeleton.model.StockItems;
+import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.services.ReservationService;
 import at.qe.sepm.skeleton.utils.CalendarView;
 import at.qe.sepm.skeleton.utils.LabItemView;
@@ -78,7 +78,7 @@ public class ReservationDetailController {
     	Date begin = calendarView.getBeginDate();
     	Date end = calendarView.getEndDate();
     	
-    	List<StockItems> items = labItemView.getSelectedItems();
+    	List<StockItem> items = labItemView.getSelectedItems();
     	
     	
     	if (items == null) {
@@ -103,7 +103,7 @@ public class ReservationDetailController {
     	
     	// TODO: Zustand �berpr�fen und richtig setzen
     	
-    	for (StockItems item : items) {
+    	for (StockItem item : items) {
     		log.debug("Saving: " + item);
     		
     		entity.setItem(item);

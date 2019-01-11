@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import at.qe.sepm.skeleton.model.StockItems;
+import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.repositories.StockRepository;
 
 /**
@@ -27,29 +27,29 @@ public class LabItemView
 	@Autowired
 	private StockRepository stockRepository;
 
-	private List<StockItems> items;
-	private List<StockItems> selectedItems;
+	private List<StockItem> items;
+	private List<StockItem> selectedItems;
 
 	@PostConstruct
 	public void init()
 	{
-		items = new ArrayList<StockItems>();
-		selectedItems = new ArrayList<StockItems>();
+		items = new ArrayList<StockItem>();
+		selectedItems = new ArrayList<StockItem>();
 
 		items.addAll(stockRepository.findAll());
 	}
 
-	public List<StockItems> getItems()
+	public List<StockItem> getItems()
 	{
 		return items;
 	}
 
-	public List<StockItems> getSelectedItems()
+	public List<StockItem> getSelectedItems()
 	{
 		return selectedItems;
 	}
 
-	public void setSelectedItems(List<StockItems> selectedLabItems)
+	public void setSelectedItems(List<StockItem> selectedLabItems)
 	{
 		this.selectedItems = selectedLabItems;
 	}

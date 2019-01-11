@@ -27,7 +27,7 @@ public class Reservation implements Persistable<Long> {
 	private long reservedId;
 	
 	@ManyToOne(optional=false) 
-	private StockItems item;
+	private StockItem item;
 
 	@Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -54,12 +54,12 @@ public class Reservation implements Persistable<Long> {
 	}
 
 
-	public StockItems getItem() {
+	public StockItem getItem() {
 		return item;
 	}
 
 
-	public void setItem(StockItems labItem) {
+	public void setItem(StockItem labItem) {
 		this.item = labItem;
 	}
 

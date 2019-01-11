@@ -20,7 +20,7 @@ import javax.persistence.ManyToOne;
 import org.springframework.data.domain.Persistable;
 
 @Entity
-public class StockItems implements Persistable<Long>
+public class StockItem implements Persistable<Long>
 {
 	private static final long serialVersionUID = 6L;
 	@Id
@@ -182,7 +182,7 @@ public class StockItems implements Persistable<Long>
 		{
 			return false;
 		}
-		final StockItems other = (StockItems) obj;
+		final StockItem other = (StockItem) obj;
 		if (!Objects.equals(this.stockItemId, other.stockItemId))
 		{
 			return false;
