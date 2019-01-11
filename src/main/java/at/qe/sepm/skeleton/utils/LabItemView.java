@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import at.qe.sepm.skeleton.model.StockItem;
-import at.qe.sepm.skeleton.repositories.StockRepository;
+import at.qe.sepm.skeleton.model.LabItem;
+import at.qe.sepm.skeleton.repositories.LabItemRepository;
 
 /**
  * A lab item view. Loads the items from {@code LabItemRepository}.
@@ -25,31 +25,31 @@ public class LabItemView
 {
 
 	@Autowired
-	private StockRepository stockRepository;
+	private LabItemRepository labItemRepository;
 
-	private List<StockItem> items;
-	private List<StockItem> selectedItems;
+	private List<LabItem> items;
+	private List<LabItem> selectedItems;
 
 	@PostConstruct
 	public void init()
 	{
-		items = new ArrayList<StockItem>();
-		selectedItems = new ArrayList<StockItem>();
+		items = new ArrayList<LabItem>();
+		selectedItems = new ArrayList<LabItem>();
 
-		items.addAll(stockRepository.findAll());
+		items.addAll(labItemRepository.findAll());
 	}
 
-	public List<StockItem> getItems()
+	public List<LabItem> getItems()
 	{
 		return items;
 	}
 
-	public List<StockItem> getSelectedItems()
+	public List<LabItem> getSelectedItems()
 	{
 		return selectedItems;
 	}
 
-	public void setSelectedItems(List<StockItem> selectedLabItems)
+	public void setSelectedItems(List<LabItem> selectedLabItems)
 	{
 		this.selectedItems = selectedLabItems;
 	}
