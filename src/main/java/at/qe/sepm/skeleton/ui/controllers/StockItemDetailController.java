@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.StockItem;
+import at.qe.sepm.skeleton.repositories.LabItemRepository;
 import at.qe.sepm.skeleton.services.StockItemService;
 
 @Component
@@ -19,6 +20,7 @@ public class StockItemDetailController
 
 	private StockItem stockItem;
 	private StockItem newStockItem;
+	private LabItemRepository lab;
 
 	private int number = 1;
 
