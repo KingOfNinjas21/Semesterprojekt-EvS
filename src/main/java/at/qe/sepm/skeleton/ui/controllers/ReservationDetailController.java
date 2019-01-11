@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.model.Reservation;
+import at.qe.sepm.skeleton.model.StockItems;
 import at.qe.sepm.skeleton.services.ReservationService;
 import at.qe.sepm.skeleton.utils.CalendarView;
 import at.qe.sepm.skeleton.utils.LabItemView;
@@ -78,7 +78,7 @@ public class ReservationDetailController {
     	Date begin = calendarView.getBeginDate();
     	Date end = calendarView.getEndDate();
     	
-    	List<LabItem> items = labItemView.getSelectedLabItems();
+    	List<StockItems> items = labItemView.getSelectedItems();
     	
     	
     	if (items == null) {
@@ -97,16 +97,16 @@ public class ReservationDetailController {
     		//TODO: return message
     	}
     	
-    	// TODO: begin und end ist innerhalb der Öffnungszeiten
+    	// TODO: begin und end ist innerhalb der ï¿½ffnungszeiten
     	
-    	// TODO: Max. Reservierungsdauer nicht überschritten
+    	// TODO: Max. Reservierungsdauer nicht ï¿½berschritten
     	
-    	// TODO: Zustand überprüfen und richtig setzen
+    	// TODO: Zustand ï¿½berprï¿½fen und richtig setzen
     	
-    	for (LabItem item : items) {
+    	for (StockItems item : items) {
     		log.debug("Saving: " + item);
     		
-    		entity.setLabItem(item);
+    		entity.setItem(item);
     		
     		entity.setReservationDate(begin);
     		entity.setReturnableDate(end);
@@ -117,7 +117,7 @@ public class ReservationDetailController {
 	
     	calendarView.setBeginDate(null);
     	calendarView.setEndDate(null);
-    	labItemView.setSelectedLabItems(null);
+    	labItemView.setSelectedItems(null);
     }
     
     /**

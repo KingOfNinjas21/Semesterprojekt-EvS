@@ -1,6 +1,7 @@
 package at.qe.sepm.skeleton.model;
 
 import java.sql.Date;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -16,8 +17,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.data.domain.Persistable;
+
 @Entity
-public class StockItems
+public class StockItems implements Persistable<Long>
 {
 	private static final long serialVersionUID = 6L;
 	@Id
@@ -166,5 +169,47 @@ public class StockItems
 	{
 		return serialVersionUID;
 	}
+	
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+		{
+			return false;
+		}
+		if (!(obj instanceof LabItem))
+		{
+			return false;
+		}
+		final StockItems other = (StockItems) obj;
+		if (!Objects.equals(this.stockItemId, other.stockItemId))
+		{
+			return false;
+		}
+		return true;
+	}
 
+	@Override
+	public int hashCode()
+	{
+		return (getId() != null) ? (getClass().getSimpleName().hashCode() + getId().hashCode()) : super.hashCode();
+	}
+
+	@Override
+	public String toString()
+	{
+		return labItem.getItemName();
+	}
+
+	@Override
+	public Long getId()
+	{
+		return stockItemId;
+	}
+
+	@Override
+	public boolean isNew() {
+		return (labItem == null);
+	}
 }
