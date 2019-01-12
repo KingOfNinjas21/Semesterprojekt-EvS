@@ -15,7 +15,7 @@
             </h:panelGrid> 
             
             
-            <p:dataTable id="stockItemTable" var="stockItem" value="#{stockItemListController.getStockItems()}">
+            <p:dataTable id="groupTable" var="labItemGroup" value="#{labItemGroupController.getStockItems()}">
                
                 <p:column headerText="Id">
                     <h:outputText value="#{stockItem.stockItemId}"/>

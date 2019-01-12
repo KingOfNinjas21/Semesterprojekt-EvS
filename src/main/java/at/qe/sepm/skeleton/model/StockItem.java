@@ -27,7 +27,7 @@ public class StockItem implements Persistable<Long>
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long stockItemId;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "labItem_itemId", nullable = false)
 	private LabItem labItem;
 
