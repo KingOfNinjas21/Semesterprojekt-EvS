@@ -10,12 +10,12 @@
     <ui:define name ="content">
         <h:form id="reservationForm">
         	<h:panelGrid>
-  				<p:commandButton value="New Reservation" update=":reservationForm:reservationAddDialog" oncomplete="PF('reservationAddDialog').show()" icon="ui-icon-plusthick" title="Neu">
+  				<p:commandButton value="New Reservation" update=":reservationForm:reservationAddDialog" oncomplete="PF('reservationAddDialog').show()" icon="ui-icon-plusthick" title="New Reservation">
   				</p:commandButton>
             </h:panelGrid>        
             <p:dataTable id="reservationTable" var="reservation" value="#{reservationContoller.reservations}" resizableColumns="true" resizeMode="expand">
                 <p:column headerText="Labitem">
-                    <h:outputText value="#{reservation.labItem.itemName}"/>
+                    <h:outputText value="#{reservation.item.labItem.itemName}"/>
                 </p:column>
                 <p:column headerText="From" style="width:130px;text-align: center">
                     <h:outputText value="#{reservation.reservationDate}">
@@ -46,7 +46,7 @@
 			    <p:outputPanel id="reservationData" rendered="#{not empty reservationDetailController.reservation}">
 			        <h:panelGrid columns="2">
 			            <p:outputLabel for="labItem" value="Gerät: " />
-			            <p:inputText id="labItem" value="#{reservationDetailController.reservation.labItem.itemName}" disabled="true"/>
+			            <p:inputText id="labItem" value="#{reservationDetailController.reservation.item.labItem.itemName}" disabled="true"/>
 			            
 			            <p:outputLabel for="reservationDate" value="From: " />
 			            <p:inputText id="reservationDate" value="#{reservationDetailController.reservation.reservationDate}" disabled="true">
@@ -77,9 +77,9 @@
                 
                 	<h:panelGrid columns="2">
                         <p:outputLabel for="items" value="Gerät: " />
-				        <p:selectCheckboxMenu id="items" value="#{labItemView.selectedLabItems}" label="Geräte" multiple="true"
+				        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true"
 				                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-								<f:selectItems value="#{labItemView.labItems}" var="labItem" itemValue="#{labItem}" itemLabel="#{labItem.itemName}"/> 
+								<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}"/> 
 				        	 <f:converter converterId="customConverter"/>
 				        </p:selectCheckboxMenu>
                         

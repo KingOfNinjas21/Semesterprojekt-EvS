@@ -17,7 +17,7 @@ public class StockItemListController
 	@Autowired
 	private StockItemService stockItemService;
 
-	public Collection<StockItem> getLabItems()
+	public Collection<StockItem> getStockItems()
 	{
 		return stockItemService.getAllStockItems();
 	}

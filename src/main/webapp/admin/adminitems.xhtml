@@ -8,54 +8,59 @@
                 template="/WEB-INF/templates/main.xhtml">
                 
     <ui:define name ="content">
-        <h:form id="labItemCreation">
+        <h:form id="stockItemCreation">
         	<h:panelGrid>
-  				<p:commandButton value="Neu" update=":labItemCreation:labItemAddDialog" oncomplete="PF('labItemAddDialog').show()" icon="ui-icon-note" title="Neu">
+  				<p:commandButton value="Neu" update=":stockItemCreation:stockItemAddDialog" oncomplete="PF('stockItemAddDialog').show()" icon="ui-icon-note" title="Neu">
   				</p:commandButton>
             </h:panelGrid> 
             
             
-            <p:dataTable id="labItemTable" var="labItem" value="#{labItemListController.getLabItems()}">
+            <p:dataTable id="stockItemTable" var="stockItem" value="#{stockItemListController.getStockItems()}">
                
-                <p:column headerText="Geräte Id">
-                    <h:outputText value="#{labItem.itemId}"/>
+                <p:column headerText="Id">
+                    <h:outputText value="#{stockItem.stockItemId}"/>
                 </p:column>
 
-                <p:column headerText="Gerätename">
-                    <h:outputText value="#{labItem.itemName}"/>
+                <p:column headerText="Item Name">
+                    <h:outputText value="#{stockItem.labItem.itemName}"/>
                 </p:column>
-
-                <p:column headerText="Max Reservierungdauer">
-                    <h:outputText value="#{labItem.maxReservationTime}" />
+                <p:column headerText="Lab Name">
+                    <h:outputText value="#{stockItem.labName}" />
+                </p:column>
+                <p:column headerText="Location">
+                    <h:outputText value="#{stockItem.location}" />
+                </p:column>
+                <p:column headerText="Max Reservation Time">
+                    <h:outputText value="#{stockItem.labItem.maxReservationTime}" />
                 </p:column>
                 <p:column headerText="Bedienungsanleitung">
-                    <h:outputText value="#{labItem.manuel}" />
+                    <h:outputText value="#{stockItem.labItem.manuel}" />
             </p:column>
 
             </p:dataTable>
  
 
 
-            <p:dialog header="Laborgerät Hinzufügen" id="labItemAddDialog" widgetVar="labItemAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:dialog header="Laborgerät Hinzufügen" id="stockItemAddDialog" widgetVar="stockItemAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                     
                 <p:outputPanel id="labItemAdd">
                 
                 	<h:panelGrid columns="2">
                        <p:outputLabel for="addItemName" value="Gerätename: " />
-                        <p:inputText id="addItemName" value="#{labItemController.newLabItem.itemName}" disabled="false"/>
+                        <p:inputText id="addItemName" value="#{stockItemDetailController.newStockItem.labItem.itemName}" disabled="false"/>
                         
 
                         <p:outputLabel for="addMaxReservationTime" value="Maximale Reservierungdauer: " />
-                        <p:inputText id="addMaxReservationTime" type="time"   value="#{labItemController.newLabItem.maxReservationTime}" />
+                        <p:inputText id="addMaxReservationTime" type="time"   value="#{stockItemDetailController.newStockItem.labItem.maxReservationTime}" />
 
                          <p:outputLabel for="addManuel" value="Bedienungsanleitung: " />
-                        <p:inputText id="addManuel" value="#{labItemController.newLabItem.manuel}" />
+                        <p:inputText id="addManuel" value="#{stockItemDetailController.newStockItem.labItem.manuel}" />
 
 	                </h:panelGrid>
 
                     <h:panelGrid columns="3">
-                        <p:commandButton value="Save" action="#{labItemController.doAddLabItem()}" oncomplete="PF('labItemAddDialog').hide()" update=":labItemCreation:labItemTable"/>
-                        <p:commandButton value="Abort" onclick="PF('labItemAddDialog').hide()"/>
+                        <p:commandButton value="Save" action="#{stockItemDetailController.doAddStockItem()}" oncomplete="PF('stockItemAddDialog').hide()" update=":stockItemCreation:stockItemTable"/>
+                        <p:commandButton value="Abort" onclick="PF('stockItemAddDialog').hide()"/>
                     </h:panelGrid>
                 </p:outputPanel>
             </p:dialog> 
