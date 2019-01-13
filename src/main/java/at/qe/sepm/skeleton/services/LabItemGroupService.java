@@ -17,18 +17,31 @@ import java.util.List;
 @Scope("application")
 public class LabItemGroupService {
     @Autowired
-    private LabItemGroupRepository labitemgroup;
+    private LabItemGroupRepository labItemGroupRepository;
 
     @PreAuthorize("hasAuthority('ADMIN')")
     public LabItemGroup loadLabItemGroup(long id)
     {
-        return labitemgroup.findOne(id);
+        return labItemGroupRepository.findOne(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<LabItemGroup> loadAll()
+    public List<LabItemGroup> getAllLabItemGroups()
     {
-        return labitemgroup.findAll();
+        return labItemGroupRepository.findAll();
     }
+    
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public LabItemGroup saveLabItemGroup(LabItemGroup labItemGroup)
+	{
+		return labItemGroupRepository.save(labItemGroup);
+	}
+	
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public void deleteLabItemGroup(LabItemGroup labItemGroup)
+	{
+
+		labItemGroupRepository.delete(labItemGroup);
+	}
 
 }

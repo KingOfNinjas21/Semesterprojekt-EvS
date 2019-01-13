@@ -60,6 +60,11 @@ public class LabItemGroup implements Persistable<Long> {
     public Long getId() {
         return this.GroupId;
     }
+    
+    public String getGroupName() 
+    {
+    	return this.groupName;
+    }
 
     @Override
     public boolean isNew() {
