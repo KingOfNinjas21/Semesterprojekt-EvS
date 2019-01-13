@@ -4,6 +4,7 @@ import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Entity to a create Group of Items
@@ -19,9 +20,13 @@ public class LabItemGroup implements Persistable<Long> {
 	 */
 	private static final long serialVersionUID = 2019364544560844557L;
 
-	@ManyToOne
-    private LabItem labitem;
-
+	@ManyToMany
+	@JoinTable(
+		name="ITEM_GROUPS",
+		joinColumns=@JoinColumn(name="GROUP_ID", referencedColumnName="GROUPID"),
+		inverseJoinColumns=@JoinColumn(name="ITEM_ID", referencedColumnName="ITEMID"))
+    private List<LabItem> labitem;
+	 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long GroupId;
@@ -32,11 +37,15 @@ public class LabItemGroup implements Persistable<Long> {
     @Temporal(TemporalType.TIMESTAMP)
     private Date groupCreationDate;
 
-    public LabItem getLabitem() {
+	@OneToOne(fetch = FetchType.EAGER, optional = false)
+	@JoinColumn(name = "User_username", nullable = false)
+	private User user;
+	
+    public List<LabItem> getLabitem() {
         return labitem;
     }
 
-    public void setLabitem(LabItem labitem) {
+    public void setLabitem(List<LabItem> labitem) {
         this.labitem = labitem;
     }
 
@@ -64,6 +73,11 @@ public class LabItemGroup implements Persistable<Long> {
     public String getGroupName() 
     {
     	return this.groupName;
+    }
+    
+    public User getUser() 
+    {
+    	return this.user;
     }
 
     @Override

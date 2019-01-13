@@ -15,7 +15,7 @@
             </h:panelGrid> 
             
             
-            <p:dataTable id="labItemGroupTable" var="labItemGroup" value="#{labItemGroupController.getLabItemGroups()}">
+            <p:dataTable id="labItemGroupTable" var="labItemGroup" value="#{labItemGroupController.getLabItemGroupsByUser()}">
                
                 <p:column headerText="Id">
                     <h:outputText value="#{labItemGroup.groupId}"/>

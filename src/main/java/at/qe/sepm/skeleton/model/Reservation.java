@@ -46,7 +46,7 @@ public class Reservation implements Persistable<Long> {
 
 	private boolean isReturned;
 	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
+	@OneToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "User_username", nullable = false)
 	private User user;
 

@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
+import at.qe.sepm.skeleton.model.StockItem;
 //import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.model.UserRole;
 import at.qe.sepm.skeleton.repositories.ReservationRepository;
@@ -93,6 +94,14 @@ public class ReservationService {
     @PreAuthorize("hasAuthority('ADMIN')")
 	public Collection<Reservation> getAllReservations() {		
 		return reservationRepository.findAll();
+	}
+    
+	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('STUDENT') || hasAuthority('EMPLOYEE')")
+	public Collection<Reservation> getReservationsByUser()
+	{
+		Collection<Reservation> allReservations = reservationRepository.findAll();
+		allReservations.removeIf(r -> r.getUser().getUsername() != sessionInfo.getCurrentUserName());
+		return allReservations;
 	}
     
     /**
