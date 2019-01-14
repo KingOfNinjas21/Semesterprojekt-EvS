@@ -92,17 +92,15 @@ public class ReservationService {
      * @return
      */
     @PreAuthorize("hasAuthority('ADMIN')")
-	public Collection<Reservation> getAllReservations() {		
+	public Collection<Reservation> getAllReservations() {
+
+        if (!sessionInfo.hasRole("ADMIN")) {
+            return reservationRepository.findByUser(sessionInfo.getCurrentUser());
+        }
 		return reservationRepository.findAll();
 	}
     
-	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('STUDENT') || hasAuthority('EMPLOYEE')")
-	public Collection<Reservation> getReservationsByUser()
-	{
-		Collection<Reservation> allReservations = reservationRepository.findAll();
-		allReservations.removeIf(r -> r.getUser().getUsername() != sessionInfo.getCurrentUserName());
-		return allReservations;
-	}
+
     
     /**
      * Checks if the user for this session has the role Student (c.f.

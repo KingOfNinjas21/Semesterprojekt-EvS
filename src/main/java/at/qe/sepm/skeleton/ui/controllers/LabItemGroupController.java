@@ -21,11 +21,5 @@ public class LabItemGroupController
 	{
 		return labItemGroupService.getAllLabItemGroups();
 	}
-	
-	public Collection<LabItemGroup> getLabItemGroupsByUser()
-	{
-		return labItemGroupService.getLabItemGroupsByUser();
-	}
-
 
 }

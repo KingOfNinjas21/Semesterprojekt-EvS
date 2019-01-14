@@ -1,9 +1,11 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
 import java.sql.Time;
+import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
 
+import at.qe.sepm.skeleton.model.LabItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +28,7 @@ public class LabItemGroupDetailController
 	private void init()
 	{
 		newLabItemGroup = new LabItemGroup();
+		newLabItemGroup.setLabitem(new ArrayList<LabItem>());
 	}
 
 	/**

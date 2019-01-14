@@ -2,12 +2,7 @@ package at.qe.sepm.skeleton.model;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import org.springframework.data.domain.Persistable;
 
@@ -23,15 +18,20 @@ public class AuditLog implements Persistable<Long> {
 	@Id
 	@GeneratedValue
 	private long id;
+
+	@Column(nullable = false)
 	private String message;
+
+	//Information
+	private String deletedClass;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date time;
 	
 	@ManyToOne(optional=false)
 	private User updateUser;
-	
-	
+
+
 	public void setId(long id) {
 		this.id = id;
 	}

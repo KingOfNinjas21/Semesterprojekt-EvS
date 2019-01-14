@@ -2,13 +2,13 @@ package at.qe.sepm.skeleton.ui.controllers;
 
 import javax.annotation.PostConstruct;
 
+import at.qe.sepm.skeleton.model.LabItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.StockItem;
-import at.qe.sepm.skeleton.repositories.LabItemRepository;
 import at.qe.sepm.skeleton.services.StockItemService;
 
 @Component
@@ -20,7 +20,6 @@ public class StockItemDetailController
 
 	private StockItem stockItem;
 	private StockItem newStockItem;
-	private LabItemRepository lab;
 
 	private int number = 1;
 
@@ -28,6 +27,7 @@ public class StockItemDetailController
 	private void init()
 	{
 		newStockItem = new StockItem();
+		newStockItem.setLabItem(new LabItem());
 	}
 
 	/**

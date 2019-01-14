@@ -47,5 +47,4 @@ public class AuditLogService {
 	    auditLogRepository.save(entity);
 	}
 
-
 }

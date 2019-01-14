@@ -32,9 +32,13 @@ public class LabItemGroupService {
         return labItemGroupRepository.findOne(id);
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public List<LabItemGroup> getAllLabItemGroups()
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+    public Collection<LabItemGroup> getAllLabItemGroups()
     {
+		if (!sessionInfo.hasRole("ADMIN")) {
+			return labItemGroupRepository.findByUser(sessionInfo.getCurrentUser());
+		}
+
         return labItemGroupRepository.findAll();
     }
     
@@ -49,14 +53,6 @@ public class LabItemGroupService {
 	{
 
 		labItemGroupRepository.delete(labItemGroup);
-	}
-	
-	@PreAuthorize("hasAuthority('ADMIN') || hasAuthority('STUDENT') || hasAuthority('EMPLOYEE')")
-	public Collection<LabItemGroup> getLabItemGroupsByUser()
-	{
-		Collection<LabItemGroup> allGroups = labItemGroupRepository.findAll();
-		allGroups.removeIf(g -> g.getUser().getUsername() != sessionInfo.getCurrentUserName());
-		return allGroups;
 	}
 
 }
