@@ -54,6 +54,12 @@ public class AuditLog implements Persistable<Long> {
 		this.time = time;
 	}
 	
+	public String getDeletedClass() {
+		return deletedClass;
+	}
+	public void setDeletedClass(String deletedClass) {
+		this.deletedClass = deletedClass;
+	}
 	@Override
 	public Long getId() {
 		return id;

@@ -1,7 +1,6 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
 import at.qe.sepm.skeleton.model.Reservation;
-import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.services.ReservationService;
 import java.util.Collection;
 
@@ -28,11 +27,6 @@ public class ReservationContoller {
      */
 	public Collection<Reservation> getReservations() {    	
 		return reserveService.getAllReservations();
-	}
-	
-	public Collection<Reservation> getReservationsByUser()
-	{
-		return reserveService.getReservationsByUser();
 	}
 
 }

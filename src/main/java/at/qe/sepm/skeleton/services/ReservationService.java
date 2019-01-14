@@ -9,9 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
-import at.qe.sepm.skeleton.model.StockItem;
-//import at.qe.sepm.skeleton.model.User;
-import at.qe.sepm.skeleton.model.UserRole;
 import at.qe.sepm.skeleton.repositories.ReservationRepository;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
@@ -32,9 +29,6 @@ public class ReservationService {
 	
 	@Autowired
 	private SessionInfoBean sessionInfo;
-	
-//	@Autowired
-//	private UserService userService;
    
 	   
     /**
@@ -48,8 +42,7 @@ public class ReservationService {
     public Reservation save(Reservation reserved) {
         if (reserved.isNew()) {
             reserved.setCreateDate(new Date());
-            // TODO: createUser hinzuf�gen
-            //reserved.setCreateUser(userService.getAuthenticatedUser());
+            reserved.setUser(sessionInfo.getCurrentUser());
         }
         
         return reservationRepository.save(reserved);
@@ -60,11 +53,11 @@ public class ReservationService {
      *
      * @param reservation to delete
      */
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or principal.username eq #username")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
     public void remove(Reservation entity) {
     	
     	// Only when is Student
-    	if (isStudent()) {
+    	if (sessionInfo.isStudent()) {
 	    	if (!entity.getReservationDate().after(new Date())) {
 	    		// TODO: return message
 	    		return;
@@ -94,7 +87,7 @@ public class ReservationService {
     @PreAuthorize("hasAuthority('ADMIN')")
 	public Collection<Reservation> getAllReservations() {
 
-        if (!sessionInfo.hasRole("ADMIN")) {
+        if (!sessionInfo.isAdmin()) {
             return reservationRepository.findByUser(sessionInfo.getCurrentUser());
         }
 		return reservationRepository.findAll();
@@ -102,38 +95,7 @@ public class ReservationService {
     
 
     
-    /**
-     * Checks if the user for this session has the role Student (c.f.
-     * {@link UserRole}).
-     *
-     * @return true if a user is authenticated and the current user has the
-     * given role, false otherwise
-     */
-    public boolean isStudent() {
-    	return sessionInfo.hasRole("STUDENT");
-    }
-    
-    /**
-     * Checks if the user for this session has the role Employee (c.f.
-     * {@link UserRole}).
-     *
-     * @return true if a user is authenticated and the current user has the
-     * given role, false otherwise
-     */
-    public boolean isEmployee() {
-    	return sessionInfo.hasRole("EMPLOYEE");
-    }
-    
-    /**
-     * Checks if the user for this session has the role Admin (c.f.
-     * {@link UserRole}).
-     *
-     * @return true if a user is authenticated and the current user has the
-     * given role, false otherwise
-     */
-    public boolean isAdmin() {
-    	return sessionInfo.hasRole("ADMIN");
-    }
+
 	
 	
 }

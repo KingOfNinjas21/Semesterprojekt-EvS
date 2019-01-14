@@ -46,6 +46,7 @@ public class Reservation implements Persistable<Long> {
 
 	private boolean isReturned;
 	
+	// TODO: Bug: Wird der User gelöscht und der aber eine Reservation erstellt hat, kann der User nicht gelöscht werden!
 	@OneToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "User_username", nullable = false)
 	private User user;

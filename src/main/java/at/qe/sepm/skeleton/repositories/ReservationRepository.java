@@ -1,6 +1,5 @@
 package at.qe.sepm.skeleton.repositories;
 
-import at.qe.sepm.skeleton.model.LabItemGroup;
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.model.User;
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.services.ReservationService;
+import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 import at.qe.sepm.skeleton.utils.CalendarView;
 import at.qe.sepm.skeleton.utils.StockItemView;
 
@@ -30,6 +31,9 @@ public class ReservationDetailController {
 	private ReservationService reservationService;
 	
 	@Autowired
+	private SessionInfoBean sessionInfo;
+	
+	@Autowired
 	private CalendarView calendarView;
 	
 	@Autowired
@@ -51,14 +55,7 @@ public class ReservationDetailController {
      */
     public void doSaveModel() {
 
-    	Reservation tmp = reservationService.loadReservation(reservation.getReservedId());
-    	if (tmp.getIsReturned() != reservation.getIsReturned()) {
-    		if (reservationService.isAdmin()) {
-    			reservation = reservationService.save(reservation);
-    		}
-    	}
-    	
-    	//TODO: Benachrichtigung: Keine Berechtigung
+    	reservation = reservationService.save(reservation);
     }
 
     /**
@@ -127,12 +124,12 @@ public class ReservationDetailController {
      */
     public boolean getRemoveDisabled() {
     	
-    	if (reservationService.isStudent()) {
+    	if (sessionInfo.isStudent()) {
     		Date begin = reservation.getReservationDate();    		
     		if (begin.after(new Date())) {
     			return false;
     		}
-    	} else if (reservationService.isAdmin()) {
+    	} else if (sessionInfo.isAdmin()) {
     		return false;
     	}
     	
@@ -145,12 +142,8 @@ public class ReservationDetailController {
      * 
      * @return
      */
-    public boolean getEditDisabled() {
-		if (reservationService.isAdmin()) {
-    		return false;
-    	}
-    	
-    	return true;
+    public boolean getEditDisabled() {    	
+    	return !sessionInfo.isAdmin();
     }
     
     

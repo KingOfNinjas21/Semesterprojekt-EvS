@@ -115,5 +115,39 @@ public class SessionInfoBean {
         }
         return false;
     }
+    
+    
+    /**
+     * Checks if the user for this session has the role Student (c.f.
+     * {@link UserRole}).
+     *
+     * @return true if a user is authenticated and the current user has the
+     * given role, false otherwise
+     */
+    public boolean isStudent() {
+    	return hasRole("STUDENT");
+    }
+    
+    /**
+     * Checks if the user for this session has the role Employee (c.f.
+     * {@link UserRole}).
+     *
+     * @return true if a user is authenticated and the current user has the
+     * given role, false otherwise
+     */
+    public boolean isEmployee() {
+    	return hasRole("EMPLOYEE");
+    }
+    
+    /**
+     * Checks if the user for this session has the role Admin (c.f.
+     * {@link UserRole}).
+     *
+     * @return true if a user is authenticated and the current user has the
+     * given role, false otherwise
+     */
+    public boolean isAdmin() {
+    	return hasRole("ADMIN");
+    }
 
 }

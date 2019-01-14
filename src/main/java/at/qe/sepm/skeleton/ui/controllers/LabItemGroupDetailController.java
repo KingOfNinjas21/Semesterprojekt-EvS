@@ -1,6 +1,5 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 import javax.annotation.PostConstruct;
