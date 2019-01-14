@@ -22,16 +22,16 @@
 	            	<h3 style="margin-top:5; font-size: 200%;text-align: center;">Lab Manager</h3>
 	            	<center>
 		                <p:menu>
-		                	<p:submenu label="Reservations" rendered="#{sessionInfoBean.hasRole('STUDENT') || sessionInfoBean.hasRole('EMPLOYEE') || sessionInfoBean.hasRole('ADMIN')}">
+		                	<p:submenu label="Reservations" rendered="#{sessionInfoBean.hasRole('STUDENT') || sessionInfoBean.hasRole('EMPLOYEE')}">
 		                        <p:menuitem value="Items" url="/secured/reservation.xhtml"/>
-		                        <p:menuitem value="Groups" url="/secured/groupreservation.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE') || sessionInfoBean.hasRole('ADMIN')}"/>
-		                        <p:menuitem value="Edit Groups" url="/secured/groups.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE') || sessionInfoBean.hasRole('ADMIN')}"/>
+		                        <p:menuitem value="Groups" url="/secured/groupreservation.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE')}"/>
+		                        <p:menuitem value="Edit Groups" url="/secured/groups.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE')}"/>
 		                    </p:submenu>
 		                    <p:submenu label="Administration" rendered="#{sessionInfoBean.hasRole('ADMIN')}" icon="ui ui-icon-gear">
 		                    	<p:menuitem value="Manage All Items" url="/admin/adminitems.xhtml"/>
-		                    	<p:menuitem value="Manage All Reservations" url="/admin/adminreservation.xhtml"/>
+		                    	<p:menuitem value="Manage All Reservations" url="/secured/reservation.xhtml"/>
 		                        <p:menuitem value="Manage All Users" url="/admin/adminusers.xhtml"/>
-                                <p:menuitem value="Manage All Groups" url="/admin/admingroups.xhtml"/>
+                                <p:menuitem value="Manage All Groups" url="/secured/groups.xhtml"/>
 		                    </p:submenu>
 		                    <p:submenu label="User Actions">
 			                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}"/>

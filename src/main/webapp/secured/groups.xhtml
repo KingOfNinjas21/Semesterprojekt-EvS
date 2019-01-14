@@ -8,73 +8,99 @@
                 template="/WEB-INF/templates/main.xhtml">
                 
     <ui:define name ="content">
-        <h:form id="labItemGroupCreation">
+        <h:form id="groupReservationForm">
         	<h:panelGrid>
-  				<p:commandButton value="New Group" update=":labItemGroupCreation:labItemGroupAddDialog" oncomplete="PF('labItemGroupAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
+  				<p:commandButton value="New Reservation" update=":groupReservationForm:groupReservationAddDialog" oncomplete="PF('groupReservationAddDialog').show()" icon="ui-icon-plusthick" title="New Reservation">
   				</p:commandButton>
-            </h:panelGrid> 
-            
-            
-            <p:dataTable id="labItemGroupTable" var="labItemGroup" value="#{labItemGroupController.getLabItemGroupsByUser()}">
-               
-                <p:column headerText="Id">
-                    <h:outputText value="#{labItemGroup.groupId}"/>
+            </h:panelGrid>        
+            <p:dataTable id="groupReservationTable" var="reservation" value="#{reservationContoller.getReservationsByUser()}" resizableColumns="true" resizeMode="expand">
+                <p:column headerText="Labitem">
+                    <h:outputText value="#{reservation.item.labItem.itemName}"/>
                 </p:column>
-
-                <p:column headerText="Group Name">
-                    <h:outputText value="#{labItemGroup.groupName}"/>
+                <p:column headerText="From" style="width:130px;text-align: center">
+                    <h:outputText value="#{reservation.reservationDate}">
+                    	<f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Warsaw"/>
+                    </h:outputText>
                 </p:column>
-            	
-            	<p:column style="width:100px;text-align: center">
-					<p:commandButton update=":labItemGroupCreation:labItemGroupEditDialog" oncomplete="PF('labItemGroupEditDialog').show()" icon="ui-icon-pencil" title="Edit">
-					    <f:setPropertyActionListener value="#{labItemGroup}" target="#{labItemGroupDetailController.labItemGroup}" />
+                <p:column headerText="To" style="width:130px;text-align: center">
+                    <h:outputText value="#{reservation.returnableDate}">
+                    	<f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Warsaw"/> />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Returned" style="width:100px;text-align: center">
+                    <h:selectBooleanCheckbox value="#{reservation.isReturned}" disabled="true"/>
+                </p:column>
+                <p:column style="width:100px;text-align: center">
+                
+					<p:commandButton update=":groupReservationForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-pencil" title="Edit" disabled="#{reservationDetailController.editDisabled}">
+					    <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
 					</p:commandButton>
-                    <p:commandButton action="#{labItemGroupDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":labItemGroupCreation:labItemGroupTable">
-                        <f:setPropertyActionListener value="#{labItemGroup}" target="#{labItemGroupDetailController.labItemGroup}" />
-                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this item? You cannot undo this operation." icon="ui-icon-alert" />
+                    <p:commandButton action="#{reservationDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":groupReservationForm:groupReservationTable" disabled="#{reservationDetailController.removeDisabled}">
+                        <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this reservation? You cannot undo this operation." icon="ui-icon-alert" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
- 
-                <p:dialog header="Edit Reservation" id="labItemGroupEditDialog" widgetVar="labItemGroupEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-				    <p:outputPanel id="labItemGroupData" rendered="#{not empty labItemGroupDetailController.labItemGroup}">
-				        <h:panelGrid columns="2">
-				            <p:outputLabel for="labItemGroup" value="Item: " />
-				            <p:inputText id="labItemGroup" value="#{labItemGroupDetailController.labItemGroup.labItem.itemName}" disabled="true"/>
-				        </h:panelGrid>                  
-				        <p:separator />
-				        <h:panelGrid columns="3">
-				            <p:commandButton value="Save" action="#{labItemGroupDetailController.doSavelabItemGroup()}" oncomplete="PF('labItemGroupEditDialog').hide()" update=":labItemGroupForm:labItemGroupTable"/>
-				            <p:commandButton value="Reload" action="#{labItemGroupDetailController.doReloadlabItemGroup()}" update=":labItemGroupForm:labItemGroupData"/>
-				            <p:commandButton value="Abort" onclick="PF('labItemGroupEditDialog').hide()"/>
-				        </h:panelGrid>
-				    </p:outputPanel>
-				</p:dialog>  
+            
+			<p:dialog header="Edit Reservation" id="reservationEditDialog" widgetVar="reservationEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			    <p:outputPanel id="reservationData" rendered="#{not empty reservationDetailController.reservation}">
+			        <h:panelGrid columns="2">
+			            <p:outputLabel for="labItem" value="Gerät: " />
+			            <p:inputText id="labItem" value="#{reservationDetailController.reservation.item.labItem.itemName}" disabled="true"/>
+			            
+			            <p:outputLabel for="reservationDate" value="From: " />
+			            <p:inputText id="reservationDate" value="#{reservationDetailController.reservation.reservationDate}" disabled="true">
+			                <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+			            </p:inputText>
+			            
+			            <p:outputLabel for="returnableDate" value="To: " />
+			            <p:inputText id="returnableDate" value="#{reservationDetailController.reservation.returnableDate}" disabled="true">
+			                <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+			            </p:inputText>
+			        </h:panelGrid>
+			        <p:separator />                    
+			        <h:panelGrid columns="2">
+			            <p:outputLabel for="isReturned" value="Returned: " />
+			            <p:selectBooleanCheckbox id="isReturned" value="#{reservationDetailController.reservation.isReturned}"/>
+			        </h:panelGrid>
+			        <p:separator />
+			        <h:panelGrid columns="3">
+			            <p:commandButton value="Save" action="#{reservationDetailController.doSaveModel()}" oncomplete="PF('reservationEditDialog').hide()" update=":groupReservationForm:groupReservationTable"/>
+			            <p:commandButton value="Reload" action="#{reservationDetailController.doReloadModel()}" update=":groupReservationForm:reservationData"/>
+			            <p:commandButton value="Abort" onclick="PF('reservationEditDialog').hide()"/>
+			        </h:panelGrid>
+			    </p:outputPanel>
+			</p:dialog>    
 
-            <p:dialog header="New Labitem" id="labItemGroupAddDialog" widgetVar="labItemGroupAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                    
-                <p:outputPanel id="labItemGroupAdd">
+            <p:dialog header="Add Reservation" id="groupReservationAddDialog" widgetVar="groupReservationAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="reservationAdd">
                 
                 	<h:panelGrid columns="2">
-                       <p:outputLabel for="addGroupName" value="Group Name: " />
-                        <p:inputText id="addGroupName" value="#{labItemGroupDetailController.newLabItemGroup.groupName}" disabled="false"/>
+                        <p:outputLabel for="items" value="Gerät: " />
+				        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true"
+				                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+								<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}"/> 
+				        	 <f:converter converterId="customConverter"/>
+				        </p:selectCheckboxMenu>
                         
+                        <p:outputLabel for="beginDate" value="Begin: " />
+                        <p:calendar id="beginDate" value="#{calendarView.beginDate}" pattern="dd.MM.yyyy HH:mm" required="true"/>
+                        
+                        <p:outputLabel for="endDate" value="End: " />
+                        <p:calendar id="endDate" value="#{calendarView.endDate}" pattern="dd.MM.yyyy HH:mm" required="true"/>
 	                </h:panelGrid>
-					<p:separator />
-                    <h:panelGrid columns="2">
-                        <p:commandButton value="Save" action="#{labItemGroupDetailController.doAddlabItemGroup()}" oncomplete="PF('labItemGroupAddDialog').hide()" update=":labItemGroupCreation:labItemGroupTable"/>
-                        <p:commandButton value="Abort" onclick="PF('labItemGroupAddDialog').hide()"/>
+					<!-- //TODO: Wochen- und Monatsübersicht der Reservierungen pro Laborgerät einzusehen -->
+                    <h:panelGrid columns="3">
+                        <p:commandButton value="Add" action="#{reservationDetailController.doAddModel()}" oncomplete="PF('groupReservationAddDialog').hide()" update=":groupReservationForm:groupReservationTable"/>
+                        <p:commandButton value="Abort" onclick="PF('groupReservationAddDialog').hide()"/>
                     </h:panelGrid>
                 </p:outputPanel>
-            </p:dialog> 
-            
+            </p:dialog>      
+   
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>     
-
-
-
         </h:form>
     </ui:define>
 </ui:composition>
