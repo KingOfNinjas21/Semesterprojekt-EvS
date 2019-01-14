@@ -1,5 +1,7 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +9,10 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
+import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.model.StockItem;
-import at.qe.sepm.skeleton.repositories.LabItemRepository;
 import at.qe.sepm.skeleton.services.StockItemService;
+import at.qe.sepm.skeleton.utils.LabItemView;
 
 @Component
 @Scope("view")
@@ -20,7 +23,8 @@ public class StockItemDetailController
 
 	private StockItem stockItem;
 	private StockItem newStockItem;
-	private LabItemRepository lab;
+	@Autowired
+	private LabItemView labView;
 
 	private int number = 1;
 
@@ -106,7 +110,29 @@ public class StockItemDetailController
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void doAddStockItem()
 	{
+		// LabItem item = newStockItem.getLabItem();
+		List<LabItem> selectedItem = labView.getSelectedItem();
+		String laboratory = newStockItem.getLabName();
+		String location = newStockItem.getLocation();
+
+		if (selectedItem.isEmpty())
+		{
+			return;
+		}
+
+		if (laboratory == null)
+		{
+			return;
+		}
+
+		if (location == null)
+		{
+			return;
+		}
+
+		newStockItem.setLabItem(labView.getSelectedItem().get(0));
 		this.stockItemService.saveMultipleStockItems(newStockItem, number);
+		number = 1;
 		newStockItem = new StockItem();
 	}
 }

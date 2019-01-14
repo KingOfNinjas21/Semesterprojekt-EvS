@@ -28,30 +28,49 @@ public class LabItemView
 	private LabItemRepository labItemRepository;
 
 	private List<LabItem> items;
-	private List<LabItem> selectedItems;
+	private List<LabItem> selectedItem;
 
 	@PostConstruct
 	public void init()
 	{
 		items = new ArrayList<LabItem>();
-		selectedItems = new ArrayList<LabItem>();
+		selectedItem = new ArrayList<LabItem>();
 
 		items.addAll(labItemRepository.findAll());
 	}
 
+	/**
+	 * @return the items
+	 */
 	public List<LabItem> getItems()
 	{
 		return items;
 	}
 
-	public List<LabItem> getSelectedItems()
+	/**
+	 * @param items
+	 *            the items to set
+	 */
+	public void setItems(List<LabItem> items)
 	{
-		return selectedItems;
+		this.items = items;
 	}
 
-	public void setSelectedItems(List<LabItem> selectedLabItems)
+	/**
+	 * @return the selectedItem
+	 */
+	public List<LabItem> getSelectedItem()
 	{
-		this.selectedItems = selectedLabItems;
+		return selectedItem;
+	}
+
+	/**
+	 * @param selectedItem
+	 *            the selectedItem to set
+	 */
+	public void setSelectedItem(List<LabItem> selectedItem)
+	{
+		this.selectedItem = selectedItem;
 	}
 
 }
