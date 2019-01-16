@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+                
+    <ui:define name ="content">
+        <h:form id="stockItemCreation" enctype="multipart/form-data" >
+   
+        <h:panelGrid>
+  				<p:commandButton value="Neu" update=":stockItemCreation:stockItemAddDialog" oncomplete="PF('stockItemAddDialog').show()" icon="ui-icon-note" title="Neu">
+                  </p:commandButton>
+                  
+            </h:panelGrid> 
+
+
+
+            <p:dataTable id="stockItemTable" var="stockItem" value="#{stockItemListController.getStockItems()}">
+               
+                <p:column headerText="Stock Id:">
+                    <h:outputText value="#{stockItem.stockItemId}"/>
+                </p:column>
+                <!-- TODO: name von LabItem anzeigen-->
+                <p:column headerText="Gerätename:">
+                    <h:outputText value="#{stockItem.labItem.itemName}"/>
+                </p:column> 
+
+                <p:column headerText="Beschreibung:">
+                    <h:outputText value="#{stockItem.description}" />
+                </p:column>
+                <p:column headerText="Labor:">
+                    <h:outputText value="#{stockItem.labName}" />
+                </p:column>
+
+                <p:column headerText="Ort:">
+                    <h:outputText value="#{stockItem.location}" />
+                </p:column>
+
+                
+
+            </p:dataTable>
+ 
+
+
+            <p:dialog header="Item in Stock hinzufügen" id="stockItemAddDialog" widgetVar="stockItemAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    
+                <p:outputPanel id="stockItemAdd">
+                
+                	<h:panelGrid columns="2">
+                        <p:outputLabel for="items" value="Gerät: " />
+				        <p:selectCheckboxMenu id="items" value="#{labItemView.selectedItem}" label="Geräte" multiple="false" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+							<f:selectItems value="#{labItemView.items}" var="labItem" itemValue="#{labItem}" itemLabel="#{labItem.itemName}"/> 
+				        	 <f:converter converterId="customConverter"/>
+				        </p:selectCheckboxMenu>
+
+                        <p:outputLabel for="addDescription" value="Beschreibung: " />
+                        <p:inputText id="addDescription" value="#{stockItemDetailController.newStockItem.description}" disabled="false"/>
+                        <p:outputLabel for="addLocation" value="Ort: " />
+                        <p:inputText id="addLocation" value="#{stockItemDetailController.newStockItem.location}" disabled="false"/>
+                        <p:outputLabel for="addLabName" value="Laborname: " />
+                        <p:inputText id="addLabName" value="#{stockItemDetailController.newStockItem.labName}" disabled="false"/>
+                        <p:outputLabel for="addNumber" value="Anzahl: " />
+                        <p:inputText id="addNumber" value="#{stockItemDetailController.number}" disabled="false"/>
+                        
+                    </h:panelGrid>
+                    
+                    <h:panelGrid columns="3">
+                        <p:commandButton value="Save" action="#{stockItemDetailController.doAddStockItem()}" oncomplete="PF('stockItemAddDialog').hide()" update=":stockItemCreation"/>
+                        <p:commandButton value="Abort" onclick="PF('stockItemAddDialog').hide()"/>
+             
+                    </h:panelGrid>
+
+                </p:outputPanel>
+            </p:dialog> 
+        </h:form>
+--
+    <h:form id="addManualForm" enctype="multipart/form-data">
+    <h:panelGrid>
+        <p:outputLabel for="addFile" value="Bedienungsanleitung: " />
+        <p:fileUpload id="addFile" fileUploadListener="#{addManualBean.handleFileUpload}" multiple="false"
+                                        mode="advanced"
+                                       auto="true" sizeLimit="10000000"
+                                      allowTypes="/(\.|\/)(txt|md|pdf|html|jpe?g|png)$/" />
+
+        <p:fileUpload id="addFile1" fileUploadListener="#{fileController.handleFileUpload}" multiple="false"
+                                        mode="advanced"
+                                       auto="true" sizeLimit="10000000"
+                                      allowTypes="/(\.|\/)(txt|md|pdf|html|jpe?g|png)$/" />
+
+        <p:fileUpload id="addFile2" value="#{fileController.file}" multiple="false"
+                                        mode="advanced"
+                                       auto="true" sizeLimit="10000000"
+                                      allowTypes="/(\.|\/)(txt|md|pdf|html|jpe?g|png)$/" />
+        <p:fileUpload value="#{fileController.file}" mode="simple" skinSimple="true"/>
+         <p:commandButton value="Submit" ajax="false" action="#{fileController.doSaveManual()}" disabled="false" />
+</h:panelGrid>
+    </h:form>
+
+    </ui:define>
+</ui:composition>
