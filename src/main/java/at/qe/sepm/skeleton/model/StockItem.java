@@ -1,21 +1,20 @@
 package at.qe.sepm.skeleton.model;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.springframework.data.domain.Persistable;
 
@@ -40,11 +39,16 @@ public class StockItem implements Persistable<Long>
 	private String location;
 
 	private String description;
+	private boolean blocked;
 
-	@ElementCollection(targetClass = ItemCondition.class, fetch = FetchType.EAGER)
-	@CollectionTable(name = "LabItem_Condition")
-	@Enumerated(EnumType.STRING)
-	private Set<ItemCondition> condition;
+	// @ElementCollection(targetClass = ItemCondition.class, fetch =
+	// FetchType.EAGER)
+	// @CollectionTable(name = "LabItem_Condition")
+	// @Enumerated(EnumType.STRING)
+	// private Set<ItemCondition> condition;
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
+	private List<Reservation> reservations;
 
 	/**
 	 * @return the stockItemId
@@ -149,10 +153,44 @@ public class StockItem implements Persistable<Long>
 	}
 
 	/**
+	 * @return the blocked
+	 */
+	public boolean isBlocked()
+	{
+		return blocked;
+	}
+
+	/**
+	 * @param blocked
+	 *            the blocked to set
+	 */
+	public void setBlocked(boolean blocked)
+	{
+		this.blocked = blocked;
+	}
+
+	/**
 	 * @return the condition
 	 */
 	public Set<ItemCondition> getCondition()
 	{
+		Set<ItemCondition> condition = new HashSet<ItemCondition>();
+		Date date = new Date();
+		for (Reservation res : reservations)
+		{
+			if (res.getIsReturned())
+				continue;
+
+			if (res.getReturnableDate().before(date))
+				condition.add(ItemCondition.OVERDUE);
+			else
+				condition.add(ItemCondition.RESERVED);
+
+		}
+		if (blocked == true)
+			condition.add(ItemCondition.BLOCKED);
+		if (condition.isEmpty())
+			condition.add(ItemCondition.AVALIABLE);
 		return condition;
 	}
 
@@ -160,17 +198,34 @@ public class StockItem implements Persistable<Long>
 	 * @param condition
 	 *            the condition to set
 	 */
-	public void setCondition(Set<ItemCondition> condition)
-	{
-		this.condition = condition;
-	}
+	// public void setCondition(Set<ItemCondition> condition)
+	// {
+	// this.condition = condition;
+	//
+	// }
 
 	public static long getSerialversionuid()
 	{
 		return serialVersionUID;
 	}
-	
-	
+
+	/**
+	 * @return the reservations
+	 */
+	public List<Reservation> getReservations()
+	{
+		return reservations;
+	}
+
+	/**
+	 * @param reservations
+	 *            the reservations to set
+	 */
+	public void setReservations(List<Reservation> reservations)
+	{
+		this.reservations = reservations;
+	}
+
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -209,7 +264,8 @@ public class StockItem implements Persistable<Long>
 	}
 
 	@Override
-	public boolean isNew() {
+	public boolean isNew()
+	{
 		return (labItem == null);
 	}
 }

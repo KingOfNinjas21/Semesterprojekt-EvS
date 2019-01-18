@@ -35,6 +35,9 @@
                 </p:column>
                 <p:column headerText="Manual">
                     <h:outputText value="#{stockItem.labItem.manuel}" />
+                </p:column>
+                <p:column headerText="Condition">
+                    <h:outputText value="#{stockItem.getCondition()}" />
             	</p:column>
             	
             	<p:column style="width:100px;text-align: center">

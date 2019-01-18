@@ -2,6 +2,7 @@ package at.qe.sepm.skeleton.model;
 
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -47,6 +49,9 @@ public class LabItem implements Persistable<Long>
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
+
+	@OneToMany(mappedBy = "labItem")
+	private List<StockItem> stockItems;
 
 	public long getItemId()
 	{
