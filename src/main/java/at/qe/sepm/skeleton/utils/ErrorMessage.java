@@ -1,10 +1,10 @@
 package at.qe.sepm.skeleton.utils;
 
-import javax.faces.bean.RequestScoped;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequestScoped
+@Scope("view")
 public class ErrorMessage {
 
 	

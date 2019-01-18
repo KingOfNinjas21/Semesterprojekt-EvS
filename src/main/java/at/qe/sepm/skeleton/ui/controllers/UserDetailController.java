@@ -158,7 +158,7 @@ public class UserDetailController {
     	
     	userService.saveUser(newUser);
     	newUser = new User();
-    	errorMessage.setEnabled(false);
+    	errorMessage.reset();
     }
 
 }

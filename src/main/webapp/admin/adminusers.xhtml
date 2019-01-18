@@ -89,13 +89,14 @@
 
                         <p:outputLabel for="role" value="Roles: " />
 				        <p:selectCheckboxMenu id="role" value="#{userRolesView.selected}" label="Rollen" multiple="true"
-				                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+				                              filter="false" filterMatchMode="startsWith" panelStyle="width:250px">
 				            <f:selectItems value="#{userRolesView.roles}"/>
 				        </p:selectCheckboxMenu>
                     </h:panelGrid>
                     <p:separator />
                     <h:panelGrid columns="3">
-                        <p:commandButton value="Save" action="#{userDetailController.doAddUser()}" oncomplete="if (#{errorMessage.enabled}) { PF('userAddDialog').hide() }" update="@widgetVar(userAdd)"/>
+                    	<!--  TODO: Bug with onComplete, after save .hide doesn't called -->
+                        <p:commandButton value="Save" action="#{userDetailController.doAddUser()}" oncomplete="if (#{!errorMessage.enabled}) { PF('userAddDialog').hide() }" update="@widgetVar(userAdd), :userForm:usersTable"/>
                         <p:commandButton value="Abort" onClick="PF('userAddDialog').hide()"/>
                     </h:panelGrid>
                 </p:panel>
