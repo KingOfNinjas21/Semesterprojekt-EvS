@@ -1,10 +1,10 @@
 package at.qe.sepm.skeleton.utils;
 
-import org.springframework.context.annotation.Scope;
+import javax.faces.bean.RequestScoped;
 import org.springframework.stereotype.Component;
 
-@Scope("view")
 @Component
+@RequestScoped
 public class ErrorMessage {
 
 	
@@ -12,21 +12,25 @@ public class ErrorMessage {
 	private String message = "";
 	
 	
-	public boolean isEnabled() {
+	public boolean getEnabled() {
 		return enabled;
 	}
+	
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	
 	public String getMessage() {
 		return message;
 	}
+	
 	public void setMessage(String message) {
 		enabled = true;
 		this.message = message;
 	}
 	
-	
-	
-	
+	public void reset() {
+		enabled = false;
+		message = "";
+	}
 }

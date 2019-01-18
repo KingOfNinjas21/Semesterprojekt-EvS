@@ -70,8 +70,8 @@
             </p:dialog>
             
             <p:dialog header="Add User" id="userAddDialog" widgetVar="userAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                <p:outputPanel id="userAdd">
-                    <p:outputLabel id="errorMsg" value="#{errorMessage.message}"/>
+                <p:panel id="userAdd" widgetVar="userAdd">
+                    <p:outputLabel id="errorMsg" value="#{errorMessage.message}"  style="color: red"/>
                     <!-- rendered="#{errorMessage.enabled}" -->
                     <h:panelGrid columns="2">
 
@@ -95,11 +95,10 @@
                     </h:panelGrid>
                     <p:separator />
                     <h:panelGrid columns="3">
-                        <p:commandButton value="Save" action="#{userDetailController.doAddUser()}" oncomplete="{PF('userAddDialog').hide()}" update=":userForm:usersTable"/>
-                        <p:commandButton value="Msg" action="#{userDetailController.doAddUser()}" />
-                        <p:commandButton value="Abort" onclick="PF('userAddDialog').hide()"/>
+                        <p:commandButton value="Save" action="#{userDetailController.doAddUser()}" oncomplete="if (#{errorMessage.enabled}) { PF('userAddDialog').hide() }" update="@widgetVar(userAdd)"/>
+                        <p:commandButton value="Abort" onClick="PF('userAddDialog').hide()"/>
                     </h:panelGrid>
-                </p:outputPanel>
+                </p:panel>
             </p:dialog>
 
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
