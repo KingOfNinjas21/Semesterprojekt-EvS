@@ -104,12 +104,12 @@ public class ReservationDetailController {
 			return;
     	}
 		//TODO: Implemetierung testen
-		if(begin.toString().contains("Sonntag") || begin.toString().contains("Samstag")) {
+		if(begin.toString().contains("Sunday") || begin.toString().contains("Saturday")) {
     		errorMessage.setMessage("Am Wochenende geschlossen!");
     		return;
 		}
 
-		if(end.toString().contains("Sonntag") || end.toString().contains("Samstag")) {
+		if(end.toString().contains("Sunday") || end.toString().contains("Saturday")) {
 			errorMessage.setMessage("Am Wochenende geschlossen!");
 			return;
 		}
