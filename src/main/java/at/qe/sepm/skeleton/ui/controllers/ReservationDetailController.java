@@ -1,5 +1,6 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
+import at.qe.sepm.skeleton.utils.ErrorMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,8 @@ public class ReservationDetailController {
 	@Autowired
 	private StockItemView stockItemView;
 
+	@Autowired
+	private ErrorMessage errorMessage;
 	
     private Reservation reservation;
     private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -79,19 +82,23 @@ public class ReservationDetailController {
     	
     	
     	if (items == null) {
-    		//TODO: return message
+			errorMessage.setMessage("Items konnten nicht geladen werden!");
+			return;
     	}
     	
     	if (begin == null) {
-    		//TODO: return message
+			errorMessage.setMessage("Ungültige Startzeit!");
+			return;
     	}
     	
     	if (end == null) {
-    		//TODO: return message
+			errorMessage.setMessage("Ungültige Endzeit!");
+			return;
     	}
     	
     	if (begin.after(end)) {
-    		//TODO: return message
+			errorMessage.setMessage("Startzeit nach Endzeit!");
+			return;
     	}
     	
     	// TODO: begin und end ist innerhalb der �ffnungszeiten
