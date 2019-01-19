@@ -62,6 +62,18 @@ public class LabItemService
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
+	public LabItem reSaveLabItem(LabItem item)
+	{
+		if (item.isNew())
+		{
+			item.setCreateDate(new Date());
+		}
+
+		return labItemRepository.save(item);
+
+	}
+
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public void deleteLabItem(LabItem item)
 	{
 

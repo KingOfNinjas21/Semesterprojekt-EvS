@@ -95,6 +95,12 @@ public class StockItemDetailController
 	public void doSaveStockItem()
 	{
 		this.stockItemService.saveStockItem(stockItem);
+		labController.doSaveLabItem();
+	}
+
+	public void doLoadLabItem()
+	{
+		labController.setLabItem(stockItem.getLabItem());
 	}
 
 	/**
