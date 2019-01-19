@@ -111,35 +111,34 @@ public class ReservationDetailController
 			return;
 		}
 		// TODO: Implemetierung testen
-		//
-		// if (begin.toString().contains("Sunday") ||
-		// begin.toString().contains("Saturday"))
-		// {
-		// errorMessage.setMessage("Am Wochenende geschlossen!");
-		// return;
-		// }
-		//
-		// if (end.toString().contains("Sunday") || end.toString().contains("Saturday"))
-		// {
-		// errorMessage.setMessage("Am Wochenende geschlossen!");
-		// return;
-		// }
-		//
-		// if (begin.after(openingHour))
-		// {
-		// errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
-		// return;
-		// }
-		//
-		// if (end.after(closingHour))
-		// {
-		// errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
-		// return;
-		// }
-		//
-		// // TODO: Max. Reservierungsdauer nicht �berschritten
-		// // if(begin+maxresdauer > end)
-		// // TODO: Zustand �berpr�fen und richtig setzen
+
+		if (begin.toString().contains("Sunday") || begin.toString().contains("Saturday"))
+		{
+			errorMessage.setMessage("Am Wochenende geschlossen!");
+			return;
+		}
+
+		if (end.toString().contains("Sunday") || end.toString().contains("Saturday"))
+		{
+			errorMessage.setMessage("Am Wochenende geschlossen!");
+			return;
+		}
+
+		if (begin.after(openingHour))
+		{
+			errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
+			return;
+		}
+
+		if (end.after(closingHour))
+		{
+			errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
+			return;
+		}
+
+		// TODO: Max. Reservierungsdauer nicht �berschritten
+		// if(begin+maxresdauer > end)
+		// TODO: Zustand �berpr�fen und richtig setzen
 
 		for (StockItem item : items)
 		{

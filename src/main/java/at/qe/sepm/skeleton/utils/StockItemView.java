@@ -36,7 +36,13 @@ public class StockItemView
 		items = new ArrayList<StockItem>();
 		selectedItems = new ArrayList<StockItem>();
 
-		items.addAll(stockRepository.findAll());
+		for (StockItem item : stockRepository.findAll())
+		{
+			if (item.isBlocked())
+				continue;
+			else
+				items.add(item);
+		}
 	}
 
 	public List<StockItem> getItems()
