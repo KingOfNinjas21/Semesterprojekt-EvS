@@ -73,7 +73,8 @@ public class LabItemController
 	 */
 	public void doSaveLabItem()
 	{
-		labItem = this.labItemService.saveLabItem(labItem);
+		labItem = this.labItemService.reSaveLabItem(labItem);
+
 	}
 
 	/**

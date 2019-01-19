@@ -41,7 +41,7 @@
             	</p:column>
             	
             	<p:column style="width:100px;text-align: center">
-					<p:commandButton update=":stockItemCreation:stockItemEditDialog" oncomplete="PF('stockItemEditDialog').show()" icon="ui-icon-pencil" title="Edit">
+					<p:commandButton update=":stockItemCreation:stockItemEditDialog" oncomplete="PF('stockItemEditDialog').show()" icon="ui-icon-pencil" title="Edit" action="#{stockItemDetailController.doLoadLabItem()}">
 					    <f:setPropertyActionListener value="#{stockItem}" target="#{stockItemDetailController.stockItem}" />
 					</p:commandButton>
                     <p:commandButton action="#{stockItemDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":stockItemCreation:stockItemTable">
@@ -51,18 +51,38 @@
                 </p:column>
             </p:dataTable>
  
-                <p:dialog header="Edit Items" id="stockItemEditDialog" widgetVar="stockItemEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                hi    
+                <p:dialog header="Edit Items" id="stockItemEditDialog" widgetVar="stockItemEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">   
                 <p:outputPanel id="stockItemData" rendered="#{not empty stockItemDetailController.stockItem}">
-                    hallo
-				        <h:panelGrid columns="2">
-				            <p:outputLabel for="stockItem" value="Item: " />
-				            <p:inputText id="stockItem" value="#{stockItemDetailController.stockItem.labItem.itemName}" disabled="true"/>
-				        </h:panelGrid>                  
+
+                <h:panelGrid columns="2">
+                        <p:outputLabel for="itemName" value="Item Name: " />
+                        <p:inputText id="itemName" value="#{labItemController.labItem.itemName}" disabled="true"/>
+                        
+
+                        <p:outputLabel for="maxReservationTime" value="Max Reservation Time: " />
+                        <p:inputText id="maxReservationTime" type="time"   value="#{labItemController.labItem.maxReservationTime}" disabled="true"/>
+
+                        <p:outputLabel for="manual" value="Manual: " />
+                        <p:inputText id="manual" value="#{labItemController.labItem.manuel}" /> 
+
+                        <p:outputLabel for="lab" value="Labor: " />
+                        <p:inputText id="lab" value="#{stockItemDetailController.stockItem.labName}" />
+
+                        <p:outputLabel for="location" value="Ort: " />
+                        <p:inputText id="location" value="#{stockItemDetailController.stockItem.location}" />
+
+                        <p:outputLabel for="description" value="Bschreibung: " />
+                        <p:inputText id="description" value="#{stockItemDetailController.stockItem.description}" />
+
+
+	                </h:panelGrid>
+					<p:separator />
+
+                  
 				        <p:separator />
 				        <h:panelGrid columns="3">
-				            <p:commandButton value="Save" action="#{stockItemDetailController.doSaveStockItem()}" oncomplete="PF('stockItemEditDialog').hide()" update=":stockItemForm:stockItemTable"/>
-				            <p:commandButton value="Reload" action="#{stockItemDetailController.doReloadStockItem()}" update=":stockItemForm:stockItemData"/>
+                            <p:commandButton value="Save" action="#{stockItemDetailController.doSaveStockItem()}" oncomplete="PF('stockItemEditDialog').hide()" update=":stockItemCreation:stockItemTable"/>
+				            <p:commandButton value="Reload" action="#{stockItemDetailController.doReloadStockItem()}" update=":stockItemCreation:stockItemTable"/>
 				            <p:commandButton value="Abort" onclick="PF('stockItemEditDialog').hide()"/>
 				        </h:panelGrid>
 				    </p:outputPanel>
