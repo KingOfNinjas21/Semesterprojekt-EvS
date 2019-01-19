@@ -1,6 +1,7 @@
 package at.qe.sepm.skeleton.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -26,11 +27,26 @@ public class CalendarView {
     
     private Date beginDate;
     private Date endDate;
+
+    public Date getOpeningHour() {
+        return openingHour;
+    }
+
+    public Date getClosingHour() {
+        return closingHour;
+    }
+
+    private Date openingHour, closingHour;
     
     @PostConstruct
     public void init() {
     	beginDate = new Date();
     	endDate = new Date();
+    	openingHour = new Date();
+    	closingHour = new Date();
+
+    	openingHour.setTime(8*60*60*1000);
+    	closingHour.setTime(17*60*60*1000);
     }
      
     public void onDateSelect(SelectEvent event) {

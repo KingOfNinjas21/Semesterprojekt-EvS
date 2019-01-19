@@ -18,12 +18,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 /**
  * Controller for the reservation detail view.
  *
  * @author Candir Salih
  */
+
 @Component
 @Scope("view")
 public class ReservationDetailController {
@@ -77,7 +77,10 @@ public class ReservationDetailController {
     	Reservation entity = new Reservation();    	
     	Date begin = calendarView.getBeginDate();
     	Date end = calendarView.getEndDate();
-    	
+    	Date openingHour = calendarView.getOpeningHour();
+    	Date closingHour = calendarView.getClosingHour();
+
+
     	List<StockItem> items = stockItemView.getSelectedItems();
     	
     	
@@ -100,18 +103,37 @@ public class ReservationDetailController {
 			errorMessage.setMessage("Startzeit nach Endzeit!");
 			return;
     	}
-    	
-    	// TODO: begin und end ist innerhalb der �ffnungszeiten
-    	
+		//TODO: Implemetierung testen
+		if(begin.toString().contains("Sonntag") || begin.toString().contains("Samstag")) {
+    		errorMessage.setMessage("Am Wochenende geschlossen!");
+    		return;
+		}
+
+		if(end.toString().contains("Sonntag") || end.toString().contains("Samstag")) {
+			errorMessage.setMessage("Am Wochenende geschlossen!");
+			return;
+		}
+
+		if(begin.after(openingHour)) {
+			errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
+			return;
+		}
+
+		if(end.after(closingHour)) {
+			errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
+			return;
+		}
+
+
+
     	// TODO: Max. Reservierungsdauer nicht �berschritten
-    	
+    	//if(begin+maxresdauer > end)
     	// TODO: Zustand �berpr�fen und richtig setzen
     	
     	for (StockItem item : items) {
     		log.debug("Saving: " + item);
     		
     		entity.setItem(item);
-    		
     		entity.setReservationDate(begin);
     		entity.setReturnableDate(end);
     		entity.setIsReturned(false);
@@ -179,5 +201,4 @@ public class ReservationDetailController {
 	public void setStockItemView(StockItemView labItemView) {
 		this.stockItemView = labItemView;
 	}
-
 }
