@@ -233,10 +233,7 @@ public class StockItem implements Persistable<Long>
 		{
 			return false;
 		}
-		if (!(obj instanceof LabItem))
-		{
-			return false;
-		}
+
 		final StockItem other = (StockItem) obj;
 		if (!Objects.equals(this.stockItemId, other.stockItemId))
 		{
@@ -254,7 +251,7 @@ public class StockItem implements Persistable<Long>
 	@Override
 	public String toString()
 	{
-		return labItem.getItemName();
+		return String.format("ExampleEntity[%d, %s]", stockItemId, labItem.getItemName());
 	}
 
 	@Override

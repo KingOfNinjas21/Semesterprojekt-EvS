@@ -9,9 +9,10 @@
                 
     <ui:define name ="content">
         <h:form id="reservationForm">
+    
         	<h:panelGrid>
-  				<p:commandButton value="New Reservation" update=":reservationForm:reservationAddDialog" oncomplete="PF('reservationAddDialog').show()" icon="ui-icon-plusthick" title="New Reservation">
-  				</p:commandButton>
+  				<p:commandButton value="New Reservation" update=":reservationForm:reservationAddDialog" oncomplete="PF('reservationAddDialog').show()" icon="ui-icon-plusthick" title="New Reservation" >
+                  </p:commandButton>
             </h:panelGrid>        
             <p:dataTable id="reservationTable" var="reservation" value="#{reservationContoller.reservations}" resizableColumns="true" resizeMode="expand">
                 <p:column headerText="Labitem">
@@ -74,11 +75,10 @@
 
             <p:dialog header="Add Reservation" id="reservationAddDialog" widgetVar="reservationAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="reservationAdd">
-                
+    
                 	<h:panelGrid columns="2">
                         <p:outputLabel for="items" value="Gerät: " />
-				        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true"
-				                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+				        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
 								<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}"/> 
 				        	 <f:converter converterId="customConverter"/>
 				        </p:selectCheckboxMenu>
