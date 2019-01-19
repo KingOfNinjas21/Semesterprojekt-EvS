@@ -51,8 +51,10 @@
                 </p:column>
             </p:dataTable>
  
-                <p:dialog header="Edit Reservation" id="stockItemEditDialog" widgetVar="stockItemEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-				    <p:outputPanel id="stockItemData" rendered="#{not empty stockItemDetailController.stockItem}">
+                <p:dialog header="Edit Items" id="stockItemEditDialog" widgetVar="stockItemEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                hi    
+                <p:outputPanel id="stockItemData" rendered="#{not empty stockItemDetailController.stockItem}">
+                    hallo
 				        <h:panelGrid columns="2">
 				            <p:outputLabel for="stockItem" value="Item: " />
 				            <p:inputText id="stockItem" value="#{stockItemDetailController.stockItem.labItem.itemName}" disabled="true"/>
@@ -72,14 +74,30 @@
                 
                 	<h:panelGrid columns="2">
                        <p:outputLabel for="addItemName" value="Item Name: " />
-                        <p:inputText id="addItemName" value="#{stockItemDetailController.newStockItem.labItem.itemName}" disabled="false"/>
+                        <p:inputText id="addItemName" value="#{labItemController.newLabItem.itemName}" disabled="false"/>
                         
 
                         <p:outputLabel for="addMaxReservationTime" value="Max Reservation Time: " />
-                        <p:inputText id="addMaxReservationTime" type="time"   value="#{stockItemDetailController.newStockItem.labItem.maxReservationTime}" />
+                        <p:inputText id="addMaxReservationTime" type="time"   value="#{labItemController.newLabItem.maxReservationTime}" />
 
-                         <p:outputLabel for="addManuel" value="Manual: " />
-                        <p:inputText id="addManuel" value="#{stockItemDetailController.newStockItem.labItem.manuel}" />
+                        <p:outputLabel for="addManual" value="Manual: " />
+                        <p:inputText id="addManual" value="#{labItemController.newLabItem.manuel}" />
+
+                        <p:outputLabel for="addLab" value="Labor: " />
+                        <p:inputText id="addLab" value="#{stockItemDetailController.newStockItem.labName}" />
+
+                        <p:outputLabel for="addLocation" value="Ort: " />
+                        <p:inputText id="addLocation" value="#{stockItemDetailController.newStockItem.location}" />
+
+                        <p:outputLabel for="addDescription" value="Bschreibung: " />
+                        <p:inputText id="addDescription" value="#{stockItemDetailController.newStockItem.description}" />
+
+                         <p:outputLabel for="number" value="Anzahl: " />
+                        <p:inputText id="number" value="#{stockItemDetailController.number}" />
+                        <p:slider for="number" />
+
+
+                        
 
 	                </h:panelGrid>
 					<p:separator />

@@ -96,7 +96,7 @@ public class LabItemController
 		}
 
 		this.newLabItem.setMaxReservationTime(new Time(100000000));
-		this.labItemService.saveLabItem(newLabItem);
+		labItem = this.labItemService.saveLabItem(newLabItem);
 		newLabItem = new LabItem();
 	}
 

@@ -47,11 +47,18 @@ public class LabItemService
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public LabItem saveLabItem(LabItem item)
 	{
+		LabItem temp = item;
+		String name = item.getItemName();
 		if (item.isNew())
 		{
 			item.setCreateDate(new Date());
 		}
-		return labItemRepository.save(item);
+
+		temp = labItemRepository.findFirstByItemName(name);
+		if (temp == null)
+			return labItemRepository.save(item);
+		return temp;
+
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")

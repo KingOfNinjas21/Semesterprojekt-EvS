@@ -2,12 +2,12 @@ package at.qe.sepm.skeleton.ui.controllers;
 
 import javax.annotation.PostConstruct;
 
-import at.qe.sepm.skeleton.model.LabItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
+import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.services.StockItemService;
 
@@ -17,6 +17,9 @@ public class StockItemDetailController
 {
 	@Autowired
 	private StockItemService stockItemService;
+
+	@Autowired
+	private LabItemController labController;
 
 	private StockItem stockItem;
 	private StockItem newStockItem;
@@ -106,6 +109,9 @@ public class StockItemDetailController
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void doAddStockItem()
 	{
+		labController.doAddLabItem();
+		LabItem item = labController.getLabItem();
+		newStockItem.setLabItem(item);
 		this.stockItemService.saveMultipleStockItems(newStockItem, number);
 		newStockItem = new StockItem();
 	}
