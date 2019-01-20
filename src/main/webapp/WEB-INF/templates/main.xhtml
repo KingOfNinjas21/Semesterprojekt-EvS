@@ -28,7 +28,8 @@
 		                        <p:menuitem value="Edit Groups" url="/secured/groups.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE')}"/>
 		                    </p:submenu>
 		                    <p:submenu label="Administration" rendered="#{sessionInfoBean.hasRole('ADMIN')}" icon="ui ui-icon-gear">
-		                    	<p:menuitem value="Manage All Items" url="/admin/adminitems.xhtml"/>
+		                    	<p:menuitem value="Manage All Lab Items" url="/admin/adminlabitems.xhtml"/>
+		                    	<p:menuitem value="Manage All Stock Items" url="/admin/adminstockitems.xhtml"/>
 		                    	<p:menuitem value="Manage All Reservations" url="/admin/adminreservation.xhtml"/>
 		                        <p:menuitem value="Manage All Users" url="/admin/adminusers.xhtml"/>
                                 <p:menuitem value="Manage All Groups" url="/secured/groups.xhtml"/>

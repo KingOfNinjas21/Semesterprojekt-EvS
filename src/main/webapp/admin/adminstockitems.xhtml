@@ -17,7 +17,7 @@
             
             <p:dataTable id="stockItemTable" var="stockItem" value="#{stockItemListController.getStockItems()}">
                
-                <p:column headerText="Id">
+                <p:column headerText="Id" style="width:30px;text-align: center">
                     <h:outputText value="#{stockItem.stockItemId}"/>
                 </p:column>
 
@@ -30,13 +30,7 @@
                 <p:column headerText="Location">
                     <h:outputText value="#{stockItem.location}" />
                 </p:column>
-                <p:column headerText="Max Reservation Time">
-                    <h:outputText value="#{stockItem.labItem.maxReservationTime}" />
-                </p:column>
-                <p:column headerText="Manual">
-                    <h:outputText value="#{stockItem.labItem.manuel}" />
-                </p:column>
-                <p:column headerText="Condition">
+                <p:column headerText="Condition" style="width:100px;text-align: center">
                     <h:outputText value="#{stockItem.getCondition()}" />
             	</p:column>
             	
@@ -44,7 +38,7 @@
 					<p:commandButton update=":stockItemCreation:stockItemEditDialog" oncomplete="PF('stockItemEditDialog').show()" icon="ui-icon-pencil" title="Edit" action="#{stockItemDetailController.doLoadLabItem()}">
 					    <f:setPropertyActionListener value="#{stockItem}" target="#{stockItemDetailController.stockItem}" />
 					</p:commandButton>
-                    <p:commandButton action="#{stockItemDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":stockItemCreation:stockItemTable">
+                    <p:commandButton action="#{stockItemDetailController.doDeleteStockItem()}" icon="ui-icon-trash" title="Delete" update=":stockItemCreation:stockItemTable">
                         <f:setPropertyActionListener value="#{stockItem}" target="#{stockItemDetailController.stockItem}" />
                         <p:confirm header="Confirmation" message="Are you sure that you want to delete this item? You cannot undo this operation." icon="ui-icon-alert" />
                     </p:commandButton>
@@ -56,29 +50,23 @@
 
                 <h:panelGrid columns="2">
                         <p:outputLabel for="itemName" value="Item Name: " />
-                        <p:inputText id="itemName" value="#{labItemController.labItem.itemName}" disabled="true"/>
+                        <p:inputText id="itemName" value="#{labItemController.labItem.itemName}" disabled="true" style="width:290px"/>
                         
+                        <p:outputLabel for="lab" value="Lab Name: " />
+                        <p:inputText id="lab" value="#{stockItemDetailController.stockItem.labName}" style="width:290px"/>
 
-                        <p:outputLabel for="maxReservationTime" value="Max Reservation Time: " />
-                        <p:inputText id="maxReservationTime" type="time"   value="#{labItemController.labItem.maxReservationTime}" disabled="true"/>
-
-                        <p:outputLabel for="manual" value="Manual: " />
-                        <p:inputText id="manual" value="#{labItemController.labItem.manuel}" /> 
-
-                        <p:outputLabel for="lab" value="Labor: " />
-                        <p:inputText id="lab" value="#{stockItemDetailController.stockItem.labName}" />
-
-                        <p:outputLabel for="location" value="Ort: " />
-                        <p:inputText id="location" value="#{stockItemDetailController.stockItem.location}" />
-
-                        <p:outputLabel for="description" value="Bschreibung: " />
-                        <p:inputText id="description" value="#{stockItemDetailController.stockItem.description}" />
-
+                        <p:outputLabel for="location" value="Location: " />
+                        <p:inputText id="location" value="#{stockItemDetailController.stockItem.location}" style="width:290px"/>
+                    </h:panelGrid>
+                    <p:separator />
+                    <h:panelGrid columns="2">
+						
+                        <p:outputLabel for="description" value="Description: " style="width:100px"/>
+					    <p:inputTextarea id="description" value="#{stockItemDetailController.stockItem.description}" rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} characters remaining." autoResize="false" />
+						<h:outputText id="display" />
 
 	                </h:panelGrid>
-					<p:separator />
-
-                  
+                 
 				        <p:separator />
 				        <h:panelGrid columns="3">
                             <p:commandButton value="Save" action="#{stockItemDetailController.doSaveStockItem()}" oncomplete="PF('stockItemEditDialog').hide()" update=":stockItemCreation:stockItemTable"/>
@@ -93,26 +81,24 @@
                 <p:outputPanel id="stockItemAdd">
                 
                 	<h:panelGrid columns="2">
-                       <p:outputLabel for="addItemName" value="Item Name: " />
-                        <p:inputText id="addItemName" value="#{labItemController.newLabItem.itemName}" disabled="false"/>
                         
-
-                        <p:outputLabel for="addMaxReservationTime" value="Max Reservation Time: " />
-                        <p:inputText id="addMaxReservationTime" type="time"   value="#{labItemController.newLabItem.maxReservationTime}" />
-
-                        <p:outputLabel for="addManual" value="Manual: " />
-                        <p:inputText id="addManual" value="#{labItemController.newLabItem.manuel}" />
-
-                        <p:outputLabel for="addLab" value="Labor: " />
+                       <p:outputLabel for="addItemName" value="Labitem: " />
+				        <p:selectOneMenu id="addItemName" value="#{labItemController.newLabItem.itemName}" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
+               				<f:selectItem itemLabel="Select Labitem" itemValue="" noSelectionOption="false" />
+                			<f:selectItems value="#{labItemView.items}" var="labItem" itemValue="#{labItem}" itemLabel="#{labItem.itemName}"/> 
+                			<f:converter converterId="customConverter"/>
+           				</p:selectOneMenu>
+           				
+                        <p:outputLabel for="addLab" value="Lab Name: " />
                         <p:inputText id="addLab" value="#{stockItemDetailController.newStockItem.labName}" />
 
-                        <p:outputLabel for="addLocation" value="Ort: " />
+                        <p:outputLabel for="addLocation" value="Location: " />
                         <p:inputText id="addLocation" value="#{stockItemDetailController.newStockItem.location}" />
 
-                        <p:outputLabel for="addDescription" value="Bschreibung: " />
+                        <p:outputLabel for="addDescription" value="Description: " />
                         <p:inputText id="addDescription" value="#{stockItemDetailController.newStockItem.description}" />
 
-                         <p:outputLabel for="number" value="Anzahl: " />
+                         <p:outputLabel for="number" value="Count: " />
                         <p:inputText id="number" value="#{stockItemDetailController.number}" />
                         <p:slider for="number" />
 

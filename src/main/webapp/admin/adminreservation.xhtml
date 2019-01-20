@@ -75,7 +75,7 @@
 
             <p:dialog header="Add Reservation" id="reservationAddDialog" widgetVar="reservationAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="reservationAdd">
-    
+
                 	<h:panelGrid columns="2">
                         <p:outputLabel for="items" value="Gerät: " />
 				        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
@@ -100,7 +100,8 @@
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>     
+            </p:confirmDialog>    
+            
         </h:form>
     </ui:define>
 </ui:composition>
