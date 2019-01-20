@@ -95,18 +95,21 @@ public class ReservationDetailController
 
 		if (begin == null)
 		{
+
 			errorMessage.setMessage("Ungültige Startzeit!");
 			return;
 		}
 
 		if (end == null)
 		{
+
 			errorMessage.setMessage("Ungültige Endzeit!");
 			return;
 		}
 
 		if (begin.after(end))
 		{
+
 			errorMessage.setMessage("Startzeit nach Endzeit!");
 			return;
 		}
@@ -114,27 +117,31 @@ public class ReservationDetailController
 
 		if (begin.toString().contains("Sunday") || begin.toString().contains("Saturday"))
 		{
+
 			errorMessage.setMessage("Am Wochenende geschlossen!");
 			return;
 		}
 
 		if (end.toString().contains("Sunday") || end.toString().contains("Saturday"))
 		{
+
 			errorMessage.setMessage("Am Wochenende geschlossen!");
 			return;
 		}
 
-		if (begin.after(openingHour))
-		{
-			errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
-			return;
-		}
-
-		if (end.after(closingHour))
-		{
-			errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
-			return;
-		}
+		// if (begin.before(openingHour))
+		// {
+		// System.out.println("7");
+		// errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
+		// return;
+		// }
+		//
+		// if (end.after(closingHour))
+		// {
+		// System.out.println("8");
+		// errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
+		// return;
+		// }
 
 		// TODO: Max. Reservierungsdauer nicht �berschritten
 		// if(begin+maxresdauer > end)
@@ -143,6 +150,13 @@ public class ReservationDetailController
 		for (StockItem item : items)
 		{
 			log.debug("Saving: " + item);
+			if (!isAvailable(item, begin, end))
+			{
+				// TODO: Error Msg,
+				errorMessage.setMessage("Das Item: " + item.getLabItem().getItemName()
+						+ " kann in dieser Zeit nicht ausgeliehen werden");
+				continue;
+			}
 
 			entity.setItem(item);
 			entity.setReservationDate(begin);
@@ -222,4 +236,26 @@ public class ReservationDetailController
 		this.stockItemView = labItemView;
 	}
 
+	public boolean isAvailable(StockItem item, Date from, Date to)
+	{
+
+		for (Reservation reservstion : item.getReservations())
+		{
+			if (reservstion.getIsReturned())
+			{
+				continue;
+			}
+			if (from.before(reservstion.getReservationDate()) && to.before(reservstion.getReservationDate()))
+			{
+				continue;
+			}
+			if (from.after(reservstion.getReturnableDate()) && to.after(reservstion.getReturnableDate()))
+			{
+				continue;
+			}
+			return false;
+		}
+
+		return true;
+	}
 }
