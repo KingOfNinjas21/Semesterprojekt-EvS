@@ -1,5 +1,6 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.model.StockItem;
+import at.qe.sepm.skeleton.services.HolidayService;
+import at.qe.sepm.skeleton.services.OpeningHourService;
 import at.qe.sepm.skeleton.services.ReservationService;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 import at.qe.sepm.skeleton.utils.CalendarView;
@@ -39,6 +42,12 @@ public class ReservationDetailController
 
 	@Autowired
 	private StockItemView stockItemView;
+
+	@Autowired
+	private OpeningHourService openingHourService;
+
+	@Autowired
+	private HolidayService holidayService;
 
 	@Autowired
 	private ErrorMessage errorMessage;
@@ -74,18 +83,44 @@ public class ReservationDetailController
 
 	/**
 	 * Action to add a new reservation.
+	 * 
+	 * @throws ParseException
 	 */
 
-	public void doAddModel()
+	public void doAddModel() throws ParseException
 	{
 
 		Reservation entity = new Reservation();
 		Date begin = calendarView.getBeginDate();
 		Date end = calendarView.getEndDate();
-		Date openingHour = calendarView.getOpeningHour();
-		Date closingHour = calendarView.getClosingHour();
 
 		List<StockItem> items = stockItemView.getSelectedItems();
+
+		if (holidayService.isHoliday(begin))
+		{
+			errorMessage.setMessage("Begin liegt an einem Feiertag");
+			return;
+		}
+
+		if (holidayService.isHoliday(end))
+		{
+			errorMessage.setMessage("Ende liegt an einem Feiertag");
+			return;
+		}
+
+		if (!openingHourService.withinOpeningHours(begin))
+		{
+			errorMessage.setMessage("Begin nicht innerhalb der Öffnungszeiten");
+			return;
+		}
+
+		if (!openingHourService.withinOpeningHours(end))
+		{
+
+			errorMessage.setMessage("Ende nicht innerhalb der Öffnungszeiten");
+			return;
+
+		}
 
 		if (items == null)
 		{
@@ -113,35 +148,6 @@ public class ReservationDetailController
 			errorMessage.setMessage("Startzeit nach Endzeit!");
 			return;
 		}
-		// TODO: Implemetierung testen
-
-		if (begin.toString().contains("Sunday") || begin.toString().contains("Saturday"))
-		{
-
-			errorMessage.setMessage("Am Wochenende geschlossen!");
-			return;
-		}
-
-		if (end.toString().contains("Sunday") || end.toString().contains("Saturday"))
-		{
-
-			errorMessage.setMessage("Am Wochenende geschlossen!");
-			return;
-		}
-
-		// if (begin.before(openingHour))
-		// {
-		// System.out.println("7");
-		// errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
-		// return;
-		// }
-		//
-		// if (end.after(closingHour))
-		// {
-		// System.out.println("8");
-		// errorMessage.setMessage("Außerhalb der Öffnungszeiten!");
-		// return;
-		// }
 
 		// TODO: Max. Reservierungsdauer nicht �berschritten
 		// if(begin+maxresdauer > end)
@@ -163,7 +169,8 @@ public class ReservationDetailController
 			entity.setReturnableDate(end);
 			entity.setIsReturned(false);
 
-			reservationService.save(entity);
+			reservation = reservationService.save(entity);
+			item.addReservation(reservation);
 		}
 
 		calendarView.setBeginDate(null);
@@ -241,16 +248,19 @@ public class ReservationDetailController
 
 		for (Reservation reservstion : item.getReservations())
 		{
+
 			if (reservstion.getIsReturned())
 			{
 				continue;
 			}
 			if (from.before(reservstion.getReservationDate()) && to.before(reservstion.getReservationDate()))
 			{
+
 				continue;
 			}
 			if (from.after(reservstion.getReturnableDate()) && to.after(reservstion.getReturnableDate()))
 			{
+
 				continue;
 			}
 			return false;

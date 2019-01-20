@@ -3,6 +3,7 @@ package at.qe.sepm.skeleton.model;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +29,8 @@ public class Reservation implements Persistable<Long>
 	@GeneratedValue
 	private long reservedId;
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade =
+	{ CascadeType.REFRESH, CascadeType.PERSIST })
 	private StockItem item;
 
 	@Column(nullable = false)
