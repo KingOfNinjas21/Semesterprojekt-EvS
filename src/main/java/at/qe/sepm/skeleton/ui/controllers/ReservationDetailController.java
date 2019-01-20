@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.model.StockItem;
+import at.qe.sepm.skeleton.services.HolidayService;
 import at.qe.sepm.skeleton.services.OpeningHourService;
 import at.qe.sepm.skeleton.services.ReservationService;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
@@ -44,6 +45,9 @@ public class ReservationDetailController
 
 	@Autowired
 	private OpeningHourService openingHourService;
+
+	@Autowired
+	private HolidayService holidayService;
 
 	@Autowired
 	private ErrorMessage errorMessage;
@@ -91,6 +95,18 @@ public class ReservationDetailController
 		Date end = calendarView.getEndDate();
 
 		List<StockItem> items = stockItemView.getSelectedItems();
+
+		if (holidayService.isHoliday(begin))
+		{
+			errorMessage.setMessage("Begin liegt an einem Feiertag");
+			return;
+		}
+
+		if (holidayService.isHoliday(end))
+		{
+			errorMessage.setMessage("Ende liegt an einem Feiertag");
+			return;
+		}
 
 		if (!openingHourService.withinOpeningHours(begin))
 		{
@@ -231,16 +247,19 @@ public class ReservationDetailController
 
 		for (Reservation reservstion : item.getReservations())
 		{
+
 			if (reservstion.getIsReturned())
 			{
 				continue;
 			}
 			if (from.before(reservstion.getReservationDate()) && to.before(reservstion.getReservationDate()))
 			{
+
 				continue;
 			}
 			if (from.after(reservstion.getReturnableDate()) && to.after(reservstion.getReturnableDate()))
 			{
+
 				continue;
 			}
 			return false;

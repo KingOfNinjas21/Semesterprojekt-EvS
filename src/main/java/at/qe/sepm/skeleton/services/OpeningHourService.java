@@ -75,6 +75,7 @@ public class OpeningHourService
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		int id = cal.get(Calendar.DAY_OF_WEEK);
+
 		OpeningHour openingHour = this.loadOpeningHour(id);
 
 		if (openingHour == null)
