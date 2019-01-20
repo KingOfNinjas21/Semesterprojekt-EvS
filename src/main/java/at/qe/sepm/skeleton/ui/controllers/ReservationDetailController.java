@@ -169,7 +169,8 @@ public class ReservationDetailController
 			entity.setReturnableDate(end);
 			entity.setIsReturned(false);
 
-			reservationService.save(entity);
+			reservation = reservationService.save(entity);
+			item.addReservation(reservation);
 		}
 
 		calendarView.setBeginDate(null);

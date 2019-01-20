@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,7 +48,8 @@ public class StockItem implements Persistable<Long>
 	// @Enumerated(EnumType.STRING)
 	// private Set<ItemCondition> condition;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "item", cascade =
+	{ CascadeType.REFRESH, CascadeType.PERSIST })
 	private List<Reservation> reservations;
 
 	/**
@@ -264,5 +266,10 @@ public class StockItem implements Persistable<Long>
 	public boolean isNew()
 	{
 		return (labItem == null);
+	}
+
+	public void addReservation(Reservation res)
+	{
+		reservations.add(res);
 	}
 }
