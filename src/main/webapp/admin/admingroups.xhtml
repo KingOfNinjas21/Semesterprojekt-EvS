@@ -8,9 +8,9 @@
                 template="/WEB-INF/templates/main.xhtml">
                 
     <ui:define name ="content">
-        <h:form id="labItemGroupCreation">
+        <h:form id="labItemGroupForm">
         	<h:panelGrid>
-  				<p:commandButton value="New Group" update=":labItemGroupCreation:labItemGroupAddDialog" oncomplete="PF('labItemGroupAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
+  				<p:commandButton value="New Group" update=":labItemGroupAddForm:labItemGroupAddDialog" oncomplete="PF('labItemGroupAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
   				</p:commandButton>
             </h:panelGrid> 
             
@@ -26,31 +26,35 @@
                 </p:column>
             	
             	<p:column style="width:100px;text-align: center">
-					<p:commandButton update=":labItemGroupCreation:labItemGroupEditDialog" oncomplete="PF('labItemGroupEditDialog').show()" icon="ui-icon-pencil" title="Edit">
+					<p:commandButton update=":labItemGroupEditForm:labItemGroupEditDialog" oncomplete="PF('labItemGroupEditDialog').show()" icon="ui-icon-pencil" title="Edit">
 					    <f:setPropertyActionListener value="#{labItemGroup}" target="#{labItemGroupDetailController.labItemGroup}" />
 					</p:commandButton>
-                    <p:commandButton action="#{labItemGroupDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":labItemGroupCreation:labItemGroupTable">
+                    <p:commandButton action="#{labItemGroupDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":labItemGroupForm:labItemGroupTable">
                         <f:setPropertyActionListener value="#{labItemGroup}" target="#{labItemGroupDetailController.labItemGroup}" />
-                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this item? You cannot undo this operation." icon="ui-icon-alert" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this group? You cannot undo this operation." icon="ui-icon-alert" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
- 
+ 		</h:form>
+ 		
+ 		<h:form id="labItemGroupEditForm">
                 <p:dialog header="Edit Reservation" id="labItemGroupEditDialog" widgetVar="labItemGroupEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 				    <p:outputPanel id="labItemGroupData" rendered="#{not empty labItemGroupDetailController.labItemGroup}">
 				        <h:panelGrid columns="2">
-				            <p:outputLabel for="labItemGroup" value="Item: " />
-				            <p:inputText id="labItemGroup" value="#{labItemGroupDetailController.labItemGroup.labItem.itemName}" disabled="true"/>
+				            <p:outputLabel for="labItemGroup" value="Items: " />
+				            <p:inputText id="labItemGroup" value="#{labItemGroupDetailController.labItemGroup.groupName}" disabled="true"/>
 				        </h:panelGrid>                  
 				        <p:separator />
 				        <h:panelGrid columns="3">
 				            <p:commandButton value="Save" action="#{labItemGroupDetailController.doSavelabItemGroup()}" oncomplete="PF('labItemGroupEditDialog').hide()" update=":labItemGroupForm:labItemGroupTable"/>
-				            <p:commandButton value="Reload" action="#{labItemGroupDetailController.doReloadlabItemGroup()}" update=":labItemGroupForm:labItemGroupData"/>
+				            <p:commandButton value="Reload" action="#{labItemGroupDetailController.doReloadlabItemGroup()}" update=":labItemGroupEditForm:labItemGroupData"/>
 				            <p:commandButton value="Abort" onclick="PF('labItemGroupEditDialog').hide()"/>
 				        </h:panelGrid>
 				    </p:outputPanel>
 				</p:dialog>  
-
+ 		</h:form>
+ 		
+ 		<h:form id="labItemGroupAddForm">
             <p:dialog header="New Labitem" id="labItemGroupAddDialog" widgetVar="labItemGroupAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                     
                 <p:outputPanel id="labItemGroupAdd">
@@ -62,19 +66,18 @@
 	                </h:panelGrid>
 					<p:separator />
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save" action="#{labItemGroupDetailController.doAddlabItemGroup()}" oncomplete="PF('labItemGroupAddDialog').hide()" update=":labItemGroupCreation:labItemGroupTable"/>
+                        <p:commandButton value="Save" action="#{labItemGroupDetailController.doAddlabItemGroup()}" oncomplete="PF('labItemGroupAddDialog').hide()" update=":labItemGroupForm:labItemGroupTable"/>
                         <p:commandButton value="Abort" onclick="PF('labItemGroupAddDialog').hide()"/>
                     </h:panelGrid>
                 </p:outputPanel>
             </p:dialog> 
-            
+ 		</h:form>
+ 		
+ 		<h:form id="labItemGroupConfirmationForm">
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
                 <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
                 <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>     
-
-
-
         </h:form>
     </ui:define>
 </ui:composition>

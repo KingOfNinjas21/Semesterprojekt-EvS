@@ -9,14 +9,18 @@
                 
     <ui:define name ="content">
         <h:form id="reservationForm">
+    
         	<h:panelGrid>
-  				<p:commandButton value="New Reservation" update=":reservationForm:reservationAddDialog" oncomplete="PF('reservationAddDialog').show()" icon="ui-icon-plusthick" title="New Reservation">
-  				</p:commandButton>
+  				<p:commandButton value="New Reservation" update=":reservationAddForm:reservationAddDialog" oncomplete="PF('reservationAddDialog').show()" icon="ui-icon-plusthick" title="New Reservation" >
+                  </p:commandButton>
             </h:panelGrid>        
             <p:dataTable id="reservationTable" var="reservation" value="#{reservationContoller.reservations}" resizableColumns="true" resizeMode="expand">
                 <p:column headerText="Labitem">
                     <h:outputText value="#{reservation.item.labItem.itemName}"/>
                 </p:column>
+                <p:column headerText="Manuals">
+	                <h:outputText value="#{labItemController.labItem.manuel}" />   
+	            </p:column>  
                 <p:column headerText="From" style="width:130px;text-align: center">
                     <h:outputText value="#{reservation.reservationDate}">
                     	<f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Warsaw"/>
@@ -32,20 +36,22 @@
                 </p:column>
                 <p:column style="width:100px;text-align: center">
                 
-					<p:commandButton update=":reservationForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-pencil" title="Edit" disabled="#{reservationDetailController.editDisabled}">
+					<p:commandButton update=":reservationEditForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-pencil" title="Edit" disabled="#{reservationDetailController.editDisabled}">
 					    <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
 					</p:commandButton>
                     <p:commandButton action="#{reservationDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":reservationForm:reservationTable" disabled="#{reservationDetailController.removeDisabled}">
                         <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
-                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this reservation? You cannot undo this operation." icon="ui-icon-alert" />
+                        <p:confirm header="Warning!" message="Are you sure that you want to delete this reservation? You cannot undo this operation." icon="ui-icon-alert" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
-            
-			<p:dialog header="Edit Reservation" id="reservationEditDialog" widgetVar="reservationEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        </h:form>
+        
+        <h:form id="reservationEditForm">
+			<p:dialog header="Edit Reservation" id="reservationEditDialog" dynamic="true" widgetVar="reservationEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 			    <p:outputPanel id="reservationData" rendered="#{not empty reservationDetailController.reservation}">
 			        <h:panelGrid columns="2">
-			            <p:outputLabel for="labItem" value="Gerät: " />
+			            <p:outputLabel for="labItem" value="Item: " />
 			            <p:inputText id="labItem" value="#{reservationDetailController.reservation.item.labItem.itemName}" disabled="true"/>
 			            
 			            <p:outputLabel for="reservationDate" value="From: " />
@@ -66,41 +72,56 @@
 			        <p:separator />
 			        <h:panelGrid columns="3">
 			            <p:commandButton value="Save" action="#{reservationDetailController.doSaveModel()}" oncomplete="PF('reservationEditDialog').hide()" update=":reservationForm:reservationTable"/>
-			            <p:commandButton value="Reload" action="#{reservationDetailController.doReloadModel()}" update=":reservationForm:reservationData"/>
+			            <p:commandButton value="Reload" action="#{reservationDetailController.doReloadModel()}" update=":reservationEditForm:reservationData"/>
 			            <p:commandButton value="Abort" onclick="PF('reservationEditDialog').hide()"/>
 			        </h:panelGrid>
 			    </p:outputPanel>
 			</p:dialog>    
-
-            <p:dialog header="Add Reservation" id="reservationAddDialog" widgetVar="reservationAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        </h:form>
+        
+        <h:form id="reservationAddForm">
+            <p:dialog header="Add Reservation" id="reservationAddDialog" dynamic="true" widgetVar="reservationAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="items">
                 <p:outputPanel id="reservationAdd">
-                
-                	<h:panelGrid columns="2">
-                        <p:outputLabel for="items" value="Gerät: " />
-				        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true"
-				                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px">
-								<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}"/> 
+			    	
+                	<h:panelGrid id="addGrid" columns="3">
+                        <p:outputLabel for="items" value="Items: " />
+				        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Select at least one item.">
+								<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
 				        	 <f:converter converterId="customConverter"/>
 				        </p:selectCheckboxMenu>
+				        <p:message for="addGrid" display="icon" />
                         
                         <p:outputLabel for="beginDate" value="Begin: " />
-                        <p:calendar id="beginDate" value="#{calendarView.beginDate}" pattern="dd.MM.yyyy HH:mm" required="true"/>
+                        <p:calendar id="beginDate" binding="#{beginDate}" value="#{calendarView.beginDate}" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="Begin Date required." maxdate="#{calendarView.endDate}">
+                        	<p:ajax event="dateSelect" update="endDate" />
+                        </p:calendar>
+                        <p:message for="beginDate" display="icon" />
+                        
                         
                         <p:outputLabel for="endDate" value="End: " />
-                        <p:calendar id="endDate" value="#{calendarView.endDate}" pattern="dd.MM.yyyy HH:mm" required="true"/>
+                        <p:calendar id="endDate" binding="#{endDate}" value="#{calendarView.endDate}" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="End Date required." mindate="#{calendarView.beginDate}">
+                        	<p:ajax event="dateSelect" update="beginDate" />
+                        </p:calendar>
+                        <p:message for="endDate" display="icon" />
 	                </h:panelGrid>
-					<!-- //TODO: Wochen- und Monatsübersicht der Reservierungen pro Laborgerät einzusehen -->
+					<!-- //TODO: Wochen- und Monatsübersicht der Reservierungen pro Laborgerät einzusehen -->					
+					
                     <h:panelGrid columns="3">
-                        <p:commandButton value="Add" action="#{reservationDetailController.doAddModel()}" oncomplete="PF('reservationAddDialog').hide()" update=":reservationForm:reservationTable"/>
+                        <p:commandButton value="Add" action="#{reservationDetailController.doAddModel()}" oncomplete="if (!args.validationFailed) PF('reservationAddDialog').hide()" update="addGrid :reservationForm:reservationTable"/>
                         <p:commandButton value="Abort" onclick="PF('reservationAddDialog').hide()"/>
                     </h:panelGrid>
+                    <p:messages id="addMessages" closable="true" >
+						<p:autoUpdate />
+					</p:messages>
                 </p:outputPanel>
             </p:dialog>      
-   
+   		</h:form>
+   		<h:form id="reservationConfirmForm">
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>     
+                <p:commandButton id="Yes" value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" style="width:125px"/>
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" style="width:125px"/>
+            </p:confirmDialog>    
         </h:form>
+        
     </ui:define>
 </ui:composition>
