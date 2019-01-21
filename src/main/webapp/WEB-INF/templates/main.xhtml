@@ -8,19 +8,20 @@
       >
 
     <h:head>
-        <title>SEPM Skeleton</title>
+        <title>SportLa</title>
         <link type="text/css" rel="stylesheet" href="/javax.faces.resource/theme.css.xhtml?ln=primefaces-midnight"/>
         <link type="text/css" rel="stylesheet" href="/css/main.css" />
     </h:head>
     
     <h:body style="margin:0px;">
         <div id="page">
-        
+        	<p:growl id="messages" showDetail="false"/>
 			<div class="sidebar">
-	            <h:form>
-	            	<p:growl id="messages" showDetail="false"/>
-	            	<h3 style="margin-top:5; font-size: 200%;text-align: center;">Lab Manager</h3>
-	            	<center>
+			<h3 style="margin-top:25px;margin-bottom:30px; font-size: 400%;text-align: center;">SportLa</h3>
+	            <h:form rendered="#{sessionInfoBean.loggedIn}">
+	            	
+	            	
+	            	<center >
 		                <p:menu>
 		                	<p:submenu label="Reservations" rendered="#{sessionInfoBean.hasRole('STUDENT') || sessionInfoBean.hasRole('EMPLOYEE')}">
 		                        <p:menuitem value="Items" url="/secured/reservation.xhtml"/>
@@ -32,19 +33,25 @@
 		                    	<p:menuitem value="Manage All Stock Items" url="/admin/adminstockitems.xhtml"/>
 		                    	<p:menuitem value="Manage All Reservations" url="/secured/reservation.xhtml"/>
 		                        <p:menuitem value="Manage All Users" url="/admin/adminusers.xhtml"/>
-                                <p:menuitem value="Manage All Groups" url="/admin/admingroups.xhtml"/>
+                                <p:menuitem value="Manage All Groups" url="/secured/groups.xhtml"/>
 		                    </p:submenu>
-		                    <p:submenu label="User Actions">
+		                    <p:submenu label="Other Actions">
 			                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}"/>
+			                    <p:menuitem value="Home" url="/secured/welcome.xhtml" rendered="#{sessionInfoBean.loggedIn}"/>
+			                    <p:menuitem value="Help" url="/secured/help.xhtml" rendered="#{sessionInfoBean.loggedIn}"/>
 			                    <p:menuitem value="Logout" url="/logout" rendered="#{sessionInfoBean.loggedIn}"/>
+			                    
 
 			                </p:submenu>
 		                </p:menu>
 
-	                </center>
-	                <div id="footer" style="margin-left: 30px;margin-top: 5px;float: left">
+	                
+	                <div id="footer" style="margin-left: 30px;margin-top: 50px;float: left" >
+	                	<h:form>
 	                	<ui:include src="/WEB-INF/includes/footer.xhtml" />
+	                	</h:form>
 	            	</div>
+	            	</center>
 	            </h:form>
             </div>
             <div class="content">         

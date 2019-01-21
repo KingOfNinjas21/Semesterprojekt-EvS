@@ -17,7 +17,7 @@
             </h:panelGrid> 
             
             
-            <p:dataTable id="stockItemTable" var="stockItem" value="#{stockItemListController.getStockItems()}">
+            <p:dataTable id="stockItemTable" var="stockItem" value="#{stockItemListController.getStockItems()}" resizableColumns="true" >
                
                 <p:column headerText="Id" style="width:30px;text-align: center">
                     <h:outputText value="#{stockItem.stockItemId}"/>

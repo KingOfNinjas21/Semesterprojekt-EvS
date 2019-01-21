@@ -10,7 +10,11 @@
         <h:form>
             <p:panel header="Invalid Session">
                 Your session has expired.
-            </p:panel>
+            
+            <p:menu>
+			    	<p:menuitem value="Click here to Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}" style="width:auto;margin-top:10px"/>
+		    </p:menu>
+		    </p:panel>
         </h:form>
 
     </ui:define>

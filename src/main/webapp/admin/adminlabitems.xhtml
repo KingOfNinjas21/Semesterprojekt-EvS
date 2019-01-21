@@ -13,7 +13,7 @@
   				<p:commandButton value="New Lab Item" update=":labItemAddForm:labItemAddDialog" oncomplete="PF('labItemAddDialog').show()" icon="ui-icon-plusthick" title="New Item"/>
             </h:panelGrid> 
             
-            <p:dataTable id="labItemTable" var="labItem" value="#{labItemListController.getLabItems()}">
+            <p:dataTable id="labItemTable" var="labItem" value="#{labItemListController.getLabItems()}" resizableColumns="true" >
                 <p:column headerText="Id" style="width:30px;text-align: center">
                     <h:outputText value="#{labItem.itemId}"/>
                 </p:column>
@@ -102,7 +102,6 @@
                         <p:outputLabel for="addItemName" value="" />
                         <p:watermark for="addItemName" value="New Item" id="additemnamewatermark" />
                         
-
                         <p:outputLabel value="Max Reservation Time" />
 		                <p:inputNumber id="maxDays" value="#{labItemController.days}" mask="999" 
 		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
