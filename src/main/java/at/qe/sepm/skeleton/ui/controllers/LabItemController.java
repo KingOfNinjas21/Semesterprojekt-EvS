@@ -1,9 +1,8 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
-import java.sql.Time;
-
 import javax.annotation.PostConstruct;
 
+import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +20,9 @@ public class LabItemController
 
 	private LabItem labItem;
 	private LabItem newLabItem;
+	private int days	= 0;
+	private int hours	= 0;
+	private int minutes	= 0;
 
 	@PostConstruct
 	private void init()
@@ -63,6 +65,30 @@ public class LabItemController
 		this.newLabItem = newLabItem;
 	}
 
+	public int getDays() {
+		return days;
+	}
+
+	public void setDays(int days) {
+		this.days = days;
+	}
+
+	public int getHours() {
+		return hours;
+	}
+
+	public void setHours(int hours) {
+		this.hours = hours;
+	}
+
+	public int getMinutes() {
+		return minutes;
+	}
+
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
+	}
+
 	public void doReloadLabItem()
 	{
 		labItem = labItemService.loadLabItem(labItem.getItemId());
@@ -89,15 +115,24 @@ public class LabItemController
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void doAddLabItem()
 	{
-
 		if ((newLabItem.getItemName() == null) || (newLabItem.getItemName().length() <= 3))
 		{
 			// TODO: return message
 			return;
 		}
+		
+		
+		if (days + hours + minutes <= 0) {
+			return;
+		}
+		
 
-		this.newLabItem.setMaxReservationTime(new Time(100000000));
-		labItem = this.labItemService.saveLabItem(newLabItem);
+		Period period = new Period().withDays(days)
+				.withHours(hours)
+				.withMinutes(minutes);
+
+		newLabItem.setMaxReservationTime(period);
+		labItem = labItemService.saveLabItem(newLabItem);
 		newLabItem = new LabItem();
 	}
 

@@ -1,6 +1,5 @@
 package at.qe.sepm.skeleton.model;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.joda.time.Period;
 import org.springframework.data.domain.Persistable;
 
 /**
@@ -39,10 +39,18 @@ public class LabItem implements Persistable<Long>
 	@Column(nullable = false, unique = true)
 	private String itemName;
 
-	// TODO: Time only for max 24 hours!
-	@Column(nullable = false)
-	private Time maxReservationTime;
-
+//	@Column(nullable = false)
+//	@Type(type="org.joda.time.contrib.hibernate.PersistentPeriod")
+//	private Period maxReservationTime;
+	
+	@Column(nullable = true)
+	private int days;
+	@Column(nullable = true)
+	private int hours;
+	@Column(nullable = true)
+	private int minutes;
+	
+	
 	// TODO: List of Manuels
 	private String manuel;
 
@@ -83,14 +91,20 @@ public class LabItem implements Persistable<Long>
 		this.itemName = itemName;
 	}
 
-	public Time getMaxReservationTime()
+	public Period getMaxReservationTime()
 	{
-		return maxReservationTime;
+		// TODO: to string?
+		Period p = new Period(days, hours, minutes, 0);
+		return p;
+//		return maxReservationTime;
 	}
 
-	public void setMaxReservationTime(Time maxReservationTime)
+	public void setMaxReservationTime(Period maxReservationTime)
 	{
-		this.maxReservationTime = maxReservationTime;
+		this.days = maxReservationTime.getDays();
+		this.hours= maxReservationTime.getHours();
+		this.minutes = maxReservationTime.getMinutes();
+//		this.maxReservationTime = maxReservationTime;
 	}
 
 	public Date getCreateDate()

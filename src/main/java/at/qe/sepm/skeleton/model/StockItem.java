@@ -192,7 +192,7 @@ public class StockItem implements Persistable<Long>
 		if (blocked == true)
 			condition.add(ItemCondition.BLOCKED);
 		if (condition.isEmpty())
-			condition.add(ItemCondition.AVALIABLE);
+			condition.add(ItemCondition.AVAILABLE);
 		return condition;
 	}
 

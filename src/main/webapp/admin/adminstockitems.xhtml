@@ -141,8 +141,10 @@
                         <p:watermark for="addItemName" value="New Labitem" id="addItemNamewatermark" />
                         
                         <p:outputLabel for="addMaxReservationTime" value="Max Reservation Time" />
-                        <p:inputMask id="addMaxReservationTime" value="#{labItemController.newLabItem.maxReservationTime}" mask="999:99:99" required="true" requiredMessage="Max Reservation Time required."/>
-                        <p:watermark for="addMaxReservationTime" value="ddd:hh:mm" id="addmaxreservationtimewatermark" />
+                        <p:inputNumber id="addMaxReservationTime" value="#{labItemController.days}" mask="999" 
+                        				required="true" requiredMessage="Max Reservation Time required."
+                        				minValue="0" maxValue="365" symbol=" Tage" symbolPosition="s" decimalPlaces="0"/>
+                        <p:outputLabel for="addItemName" value="" />
            				
                         <p:outputLabel for="addLab" value="Lab Name" />
                         <p:inputText id="addLab" value="#{stockItemDetailController.newStockItem.labName}" required="true" requiredMessage="Lab Name required."/>
