@@ -33,7 +33,7 @@
                     </p:commandButton>
                     <p:commandButton action="#{userDetailController.doDeleteUser}" icon="ui-icon-trash" title="Delete" update=":userForm:usersTable">
                         <f:setPropertyActionListener value="#{user}" target="#{userDetailController.user}" />
-                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this user? You cannot undo this operation." icon="ui-icon-alert" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this user? You cannot undo this operation." icon="ui-icon-blank" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -133,10 +133,12 @@
         </h:form>
         
         <h:form id="userConfirmationForm">
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="300">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="500" style="text-align: center;padding-top: 0px;">
+            	<h:panelGrid columns="2" style="margin: 0 auto">
+	                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </h:panelGrid>
+            </p:confirmDialog>    
         </h:form>
     </ui:define>
 </ui:composition>

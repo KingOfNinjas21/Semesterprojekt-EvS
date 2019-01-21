@@ -74,6 +74,12 @@ body {
   color: white;
 }
 
+.ui-slider{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+
 /* If browser width is smaller than 700px sidebar becomes a topbar */
 @media screen and (max-width: 700px) {
   .sidebar {
