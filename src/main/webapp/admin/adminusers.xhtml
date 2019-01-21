@@ -42,28 +42,38 @@
         <h:form id="userEditForm">
             <p:dialog header="Edit User" id="userEditDialog" dynamic="true" widgetVar="userEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:outputPanel id="userData" rendered="#{not empty userDetailController.user}">
-                    <h:panelGrid columns="2">
-                        <p:outputLabel for="username" value="Username: " />
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Username" />
                         <p:inputText id="username" value="#{userDetailController.user.username}" disabled="true" required="true" requiredMessage="User Name required." validatorMessage="Username must have at least 4 characters.">
                         	<f:validateLength minimum="4"/>
                         </p:inputText>
-                        <p:outputLabel for="password" value="Password: " />
-                        <p:password id="password" value="#{userDetailController.user.password}" disabled="true"/>
+                        <p:outputLabel for="username" value="" />
+                        
+                        <p:outputLabel value="Password" />
+                        <p:password id="password" value="#{userDetailController.user.password}" disabled="true" required="true" requiredMessage="Password required."/>
+                        <p:outputLabel for="password" value="" />
+                        
                     </h:panelGrid>
                     <p:separator />
-                    <h:panelGrid columns="2">
-                        <p:outputLabel for="firstName" value="First Name: " />
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="First Name" />
                         <p:inputText id="firstName" value="#{userDetailController.user.firstName}" required="true" requiredMessage="Firstname required." validatorMessage="Firstname must have at least 3 characters.">
                             <f:validateLength minimum="3"/>
                         </p:inputText>
-                        <p:outputLabel for="firstName" value="Last Name: " />
+                        <p:outputLabel for="firstName" value="" />
+                        
+                        <p:outputLabel value="Last Name" />
                         <p:inputText id="lastName" value="#{userDetailController.user.lastName}" required="true" requiredMessage="Lastname required." validatorMessage="Lastname must have at least 3 characters.">
                             <f:validateLength minimum="3"/>
                         </p:inputText>
-                        <p:outputLabel for="email" value="E-Mail: " />
+                        <p:outputLabel for="firstName" value="" />
+                        
+                        <p:outputLabel value="E-Mail" />
                         <p:inputText id="email" value="#{userDetailController.user.email}" required="true" requiredMessage="E-Mail required." validatorMessage="E-Mail not valid.">
                         	<f:validateRegex pattern="^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$" />
                         </p:inputText>
+                        <p:outputLabel for="email" value="" />
+                        
                     </h:panelGrid>
                     <p:separator />
                     <h:panelGrid columns="2">
@@ -86,37 +96,42 @@
         <h:form id="userAddForm">
             <p:dialog header="Add User" id="userAddDialog" dynamic="true" widgetVar="userAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                 <p:panel id="userAdd" widgetVar="userAdd">
-                    <h:panelGrid columns="3">
+                    <h:panelGrid columns="4">
 
-                        <p:outputLabel for="addusername" value="Username: " />
+                        <p:outputLabel value="Username" />
                         <p:inputText id="addusername" value="#{userDetailController.newUser.username}" disabled="false" required="true" requiredMessage="User Name required." validatorMessage="Username must have at least 4 characters.">
                         	<f:validateLength minimum="4"/>
                         </p:inputText>
+                        <p:outputLabel for="addusername" value="" />
                         <p:watermark for="addusername" value="csav1234" id="addusernamewatermark" />
                         
-                        <p:outputLabel for="addfirstName" value="First Name: " />
+                        <p:outputLabel value="First Name" />
                         <p:inputText id="addfirstName" value="#{userDetailController.newUser.firstName}" required="true" requiredMessage="Firstname required." validatorMessage="Firstname must have at least 3 characters.">
                             <f:validateLength minimum="3"/>
                         </p:inputText>
+                        <p:outputLabel for="addfirstName" value="" />
                         <p:watermark for="addfirstName" value="Max" id="addfirstNamewatermark" />
                         
-                        <p:outputLabel for="addfirstName" value="Last Name: " />
+                        <p:outputLabel value="Last Name" />
                         <p:inputText id="addlastName" value="#{userDetailController.newUser.lastName}" required="true" requiredMessage="Lastname required." validatorMessage="Lastname must have at least 3 characters.">
                             <f:validateLength minimum="3"/>
                         </p:inputText>
+                        <p:outputLabel for="addfirstName" value="" />
                         <p:watermark for="addlastName" value="Mustermann" id="addlastNamewatermark" />
                         
-                        <p:outputLabel for="addemail" value="E-Mail: " />
+                        <p:outputLabel value="E-Mail" />
                         <p:inputText id="addemail" value="#{userDetailController.newUser.email}" required="true" requiredMessage="E-Mail required." validatorMessage="E-Mail not valid.">
                         	<f:validateRegex pattern="^\w+[\w-\.]*\@\w+((-\w+)|(\w*))\.[a-z]{2,3}$" />
                         </p:inputText>
+                        <p:outputLabel for="addemail" value="" />
                         <p:watermark for="addemail" value="example@mail.at" id="addemailwatermark" />
 
-                        <p:outputLabel for="role" value="Roles: " />
+                        <p:outputLabel value="Roles" />
 				        <p:selectCheckboxMenu id="role" value="#{userRolesView.selected}" label="Rollen" multiple="true"
 				                              filter="false" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="User Role required.">
 				            <f:selectItems value="#{userRolesView.roles}"/>
 				        </p:selectCheckboxMenu>
+				        <p:outputLabel for="role" value="" />
 				        <h:panelGroup />
                     </h:panelGrid>
                     <p:separator />

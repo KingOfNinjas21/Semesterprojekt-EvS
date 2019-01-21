@@ -84,25 +84,25 @@
                 <p:outputPanel id="reservationAdd">
 			    	
                 	<h:panelGrid id="addGrid" columns="3">
-                        <p:outputLabel for="items" value="Items: " />
+                        <p:outputLabel value="Items: " />
 				        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Select at least one item.">
 								<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
 				        	 <f:converter converterId="customConverter"/>
 				        </p:selectCheckboxMenu>
-				        <p:message for="addGrid" display="icon" />
+				        <p:outputLabel for="items" value="" />
                         
-                        <p:outputLabel for="beginDate" value="Begin: " />
+                        <p:outputLabel value="Begin" />
                         <p:calendar id="beginDate" binding="#{beginDate}" value="#{calendarView.beginDate}" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="Begin Date required." maxdate="#{calendarView.endDate}">
                         	<p:ajax event="dateSelect" update="endDate" />
                         </p:calendar>
-                        <p:message for="beginDate" display="icon" />
+                        <p:outputLabel for="beginDate" value="" />
                         
                         
-                        <p:outputLabel for="endDate" value="End: " />
+                        <p:outputLabel  value="End: " />
                         <p:calendar id="endDate" binding="#{endDate}" value="#{calendarView.endDate}" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="End Date required." mindate="#{calendarView.beginDate}">
                         	<p:ajax event="dateSelect" update="beginDate" />
                         </p:calendar>
-                        <p:message for="endDate" display="icon" />
+                        <p:outputLabel for="endDate" value="" />
 	                </h:panelGrid>
 					<!-- //TODO: Wochen- und Monatsübersicht der Reservierungen pro Laborgerät einzusehen -->					
 					

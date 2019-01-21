@@ -87,31 +87,36 @@
                     
                 <p:outputPanel id="stockItemAdd">
                 
-                	<h:panelGrid id="addStockGrid" columns="3">
-                       <p:outputLabel for="addItemName" value="Labitem" />
+                	<h:panelGrid id="addStockGrid" columns="4">
+                       <p:outputLabel value="Labitem" />
 				        <p:selectOneMenu id="addItemName" value="#{labItemController.newLabItem.itemName}" filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Lab Item required.">
                				<f:selectItem itemLabel="Select Labitem" itemValue="" noSelectionOption="false" />
                 			<f:selectItems value="#{labItemView.items}" var="labItem" itemValue="#{labItem}" itemLabel="#{labItem.itemName}"/> 
                 			<f:converter converterId="customConverter"/>
            				</p:selectOneMenu>
+           				<p:outputLabel for="addItemName" value="" />
            				<h:panelGroup />
            				
-                        <p:outputLabel for="addLab" value="Lab Name" />
+                        <p:outputLabel value="Lab Name" />
                         <p:inputText id="addLab" value="#{stockItemDetailController.newStockItem.labName}" required="true" requiredMessage="Lab Name required."/>
+                        <p:outputLabel for="addLab" value="" />
                         <p:watermark for="addLab" value="Lab 1" id="addLabwatermark" />
 
-                        <p:outputLabel for="addLocation" value="Location" />
+                        <p:outputLabel value="Location" />
                         <p:inputText id="addLocation" value="#{stockItemDetailController.newStockItem.location}" required="true" requiredMessage="Location required."/>
+                        <p:outputLabel for="addLocation" value="" />
                         <p:watermark for="addLocation" value="Shelf A" id="addLocationwatermark" />
 
                         <p:outputLabel for="addDescription" value="Description" />
                         <p:inputText id="addDescription" value="#{stockItemDetailController.newStockItem.description}" />
                         <p:watermark for="addDescription" value="Item Description" id="addDescriptionwatermark" />
+                        <h:panelGroup />
 
                         <p:outputLabel for="number" value="Count" />
                         <p:inputText id="number" value="#{stockItemDetailController.number}" />
                         <h:panelGroup />
                         
+                        <h:panelGroup />
                         <h:panelGroup />                        
                         <p:slider for="number" />
 	                </h:panelGrid>
@@ -135,39 +140,62 @@
                     
                 <p:outputPanel id="stockItemAdd">
                 
-                	<h:panelGrid id="addStockGrid" columns="3">         				
-           				<p:outputLabel for="addItemName" value="Labitem" />
+                	<h:panelGrid id="addStockGrid" columns="4">         				
+           				<p:outputLabel value="Labitem" />
                         <p:inputText id="addItemName" value="#{labItemController.newLabItem.itemName}"  required="true" requiredMessage="Lab Item Name required."/>
+                        <p:outputLabel for="addItemName" value="" />
                         <p:watermark for="addItemName" value="New Labitem" id="addItemNamewatermark" />
                         
-                        <p:outputLabel for="addMaxReservationTime" value="Max Reservation Time" />
-                        <p:inputNumber id="addMaxReservationTime" value="#{labItemController.days}" mask="999" 
-                        				required="true" requiredMessage="Max Reservation Time required."
-                        				minValue="0" maxValue="365" symbol=" Tage" symbolPosition="s" decimalPlaces="0"/>
-                        <p:outputLabel for="addItemName" value="" />
+                        
+	                    <p:outputLabel value="Max Reservation Time" />
+		                <p:inputNumber id="maxDays" value="#{labItemController.days}" mask="999" 
+		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
+		                        				minValue="0" maxValue="365" symbol=" Days" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxDays" value="" />
+		                <h:panelGroup />
+		                
+		                <h:panelGroup />
+		                <p:inputNumber id="maxHours" value="#{labItemController.hours}" mask="99" 
+		                        				required="true" requiredMessage="Max Reservation Time (Hours) required." converterMessage="Max Reservation Time (Hours) required."
+		                        				minValue="0" maxValue="23" symbol=" Hours" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxHours" value="" />
+		                <h:panelGroup />
+		                
+		                <h:panelGroup />
+		                <p:inputNumber id="maxMinutes" value="#{labItemController.minutes}" mask="99" 
+		                        				required="true" requiredMessage="Max Reservation Time (Minutes) required." converterMessage="Max Reservation Time (Minutes) required."
+		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxMinutes" value="" />
+						<h:panelGroup />
            				
-                        <p:outputLabel for="addLab" value="Lab Name" />
+                        <p:outputLabel value="Lab Name" />
                         <p:inputText id="addLab" value="#{stockItemDetailController.newStockItem.labName}" required="true" requiredMessage="Lab Name required."/>
+                        <p:outputLabel for="addLab" value="" />
                         <p:watermark for="addLab" value="Lab 1" id="addLabwatermark" />
 
-                        <p:outputLabel for="addLocation" value="Location" />
+                        <p:outputLabel value="Location" />
                         <p:inputText id="addLocation" value="#{stockItemDetailController.newStockItem.location}" required="true" requiredMessage="Location required."/>
+                        <p:outputLabel for="addLocation" value="" />
                         <p:watermark for="addLocation" value="Shelf A" id="addLocationwatermark" />
 
-                        <p:outputLabel for="addDescription" value="Description:" />
+                        <p:outputLabel value="Description" />
                         <p:inputText id="addDescription" value="#{stockItemDetailController.newStockItem.description}" />
+                        <p:outputLabel for="addDescription" value="" />
                         <p:watermark for="addDescription" value="Item Description" id="addDescriptionwatermark" />
-
+                        
                         <p:outputLabel for="number" value="Count" />
                         <p:inputText id="number" value="#{stockItemDetailController.number}" />
+                        <h:panelGroup />
                         <h:panelGroup />
                         
                         <h:panelGroup />                        
                         <p:slider for="number"/>
                         <h:panelGroup />
+                        <h:panelGroup />
 
-                        <p:outputLabel for="addManual" value="Manuals" />
-                        <p:inputText id="addManual" value="#{labItemController.newLabItem.manuel}" />                       
+                        <p:outputLabel value="Manuals" />
+                        <p:inputText id="addManual" value="#{labItemController.newLabItem.manuel}" />       
+                        <p:outputLabel for="addManual" value="" />                
 
 	                </h:panelGrid>
 	                
