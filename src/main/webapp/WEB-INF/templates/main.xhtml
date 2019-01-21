@@ -37,9 +37,14 @@
 		                    <p:submenu label="User Actions">
 			                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}"/>
 			                    <p:menuitem value="Logout" url="/logout" rendered="#{sessionInfoBean.loggedIn}"/>
+
 			                </p:submenu>
 		                </p:menu>
+
 	                </center>
+	                <div id="footer" style="margin-left: 30px;margin-top: 5px;float: left">
+	                	<ui:include src="/WEB-INF/includes/footer.xhtml" />
+	            	</div>
 	            </h:form>
             </div>
             <div class="content">         
@@ -52,9 +57,7 @@
 	                <ui:insert name="content">Content</ui:insert>
 	            </div>
 	
-	            <div id="footer" style="margin-top: 10px;">
-	                <ui:include src="/WEB-INF/includes/footer.xhtml" />
-	            </div>
+
             </div>
 
         </div>

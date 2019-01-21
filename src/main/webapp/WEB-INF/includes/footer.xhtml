@@ -7,8 +7,11 @@
         <ui:composition>
 
             <div style="float: right;">
-                <ui:fragment rendered="#{sessionInfoBean.loggedIn}">
-                    Logged in as #{sessionInfoBean.currentUserName} [#{sessionInfoBean.currentUserRoles}]
+            	<h:outputText value="Session Info:" style="font-weight: 200%;"/>
+            	<br/>
+                <ui:fragment rendered="#{sessionInfoBean.loggedIn}" >
+                    Username: #{sessionInfoBean.currentUserName} <br/>
+                    Userroles: [#{sessionInfoBean.currentUserRoles}]
                 </ui:fragment>
                 <ui:fragment rendered="#{!sessionInfoBean.loggedIn}">
                     Not logged in
