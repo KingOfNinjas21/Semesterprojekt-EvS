@@ -119,11 +119,7 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-        	<groupId>org.primefaces.themes</groupId>
-        	<artifactId>midnight</artifactId>
-        	<version>1.0.10</version>
-        </dependency>
+
 
         <!-- MAIL DEPENDENCIES -->
         <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
