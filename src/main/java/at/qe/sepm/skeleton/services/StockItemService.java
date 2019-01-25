@@ -1,17 +1,16 @@
 package at.qe.sepm.skeleton.services;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.repositories.StockRepository;
 
-@Component
+@Service
 @Scope("application")
 public class StockItemService
 {
@@ -28,11 +27,6 @@ public class StockItemService
 	public List<StockItem> loadAll()
 	{
 		return stockRepository.findAll();
-	}
-
-	public StockItem loadByName(long id)
-	{
-		return stockRepository.findFirstByStockItemId(id);
 	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -57,11 +51,5 @@ public class StockItemService
 		stockRepository.delete(stockItem);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public Collection<StockItem> getAllStockItems()
-	{
-
-		return stockRepository.findAll();
-	}
 
 }

@@ -1,5 +1,6 @@
-package at.qe.sepm.skeleton.utils;
+package at.qe.sepm.skeleton.ui.view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,10 @@ import at.qe.sepm.skeleton.repositories.StockRepository;
 @ManagedBean(name = "stockItemView")
 @Scope("view")
 @Controller
-public class StockItemView
+public class StockItemView implements Serializable 
 {
+
+	private static final long serialVersionUID = -6659257695533986758L;
 
 	@Autowired
 	private StockRepository stockRepository;

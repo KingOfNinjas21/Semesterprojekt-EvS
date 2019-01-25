@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.repositories.ReservationRepository;
@@ -20,7 +20,7 @@ import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
  * @author Candir Salih
  */
 
-@Component
+@Service
 @Scope("application")
 public class ReservationService {
 	
@@ -84,7 +84,7 @@ public class ReservationService {
      * @return
      */
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
-	public Collection<Reservation> getAllReservations() {
+	public Collection<Reservation> loadAll() {
 
         if (!sessionInfo.isAdmin()) {
             return reservationRepository.findByUser(sessionInfo.getCurrentUser());

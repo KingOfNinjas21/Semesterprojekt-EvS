@@ -1,5 +1,6 @@
-package at.qe.sepm.skeleton.utils;
+package at.qe.sepm.skeleton.ui.view;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,9 +24,11 @@ import org.springframework.stereotype.Controller;
 @ManagedBean
 @Controller
 @Scope("view")
-public class CalendarView {
+public class CalendarView implements Serializable {
     
-    private Date beginDate;
+	private static final long serialVersionUID = 2058548888863786507L;
+	
+	private Date beginDate;
     private Date endDate;
 
     public Date getOpeningHour() {

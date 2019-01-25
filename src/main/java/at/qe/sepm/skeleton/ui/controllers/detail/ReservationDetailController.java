@@ -1,5 +1,6 @@
-package at.qe.sepm.skeleton.ui.controllers;
+package at.qe.sepm.skeleton.ui.controllers.detail;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,9 +21,9 @@ import at.qe.sepm.skeleton.services.HolidayService;
 import at.qe.sepm.skeleton.services.OpeningHourService;
 import at.qe.sepm.skeleton.services.ReservationService;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
-import at.qe.sepm.skeleton.utils.CalendarView;
+import at.qe.sepm.skeleton.ui.view.CalendarView;
+import at.qe.sepm.skeleton.ui.view.StockItemView;
 import at.qe.sepm.skeleton.utils.ErrorMessage;
-import at.qe.sepm.skeleton.utils.StockItemView;
 
 /**
  * Controller for the reservation detail view.
@@ -32,8 +33,10 @@ import at.qe.sepm.skeleton.utils.StockItemView;
 
 @Component
 @Scope("view")
-public class ReservationDetailController
+public class ReservationDetailController implements Serializable 
 {
+
+	private static final long serialVersionUID = -5879319392373733435L;
 
 	@Autowired
 	private ReservationService reservationService;

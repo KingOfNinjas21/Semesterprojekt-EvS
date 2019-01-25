@@ -6,9 +6,12 @@ import at.qe.sepm.skeleton.model.User;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import org.springframework.stereotype.Service;
+
 import java.util.Properties;
 
-
+@Service
 public class EmailService {
 
     private static final String senderEmail = "sepmsender@gmail.com";

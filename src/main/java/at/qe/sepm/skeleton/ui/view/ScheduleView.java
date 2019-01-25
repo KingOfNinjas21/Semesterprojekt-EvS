@@ -1,4 +1,4 @@
-package at.qe.sepm.skeleton.utils;
+package at.qe.sepm.skeleton.ui.view;
 
 
 import at.qe.sepm.skeleton.model.Reservation;
@@ -81,7 +81,8 @@ public class ScheduleView implements Serializable {
         return lazyEventModel;
     }
  
-    private Calendar today() {
+    @SuppressWarnings("unused")
+	private Calendar today() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
  

@@ -36,10 +36,10 @@
             	
             	<p:column style="width:100px;text-align: center">
 					<p:commandButton update=":labItemEditForm:labItemEditDialog" oncomplete="PF('labItemEditDialog').show()" icon="ui-icon-pencil" title="Edit">
-					    <f:setPropertyActionListener value="#{labItem}" target="#{labItemController.labItem}" />
+					    <f:setPropertyActionListener value="#{labItem}" target="#{labItemDetailController.labItem}" />
 					</p:commandButton>
-                    <p:commandButton action="#{labItemController.doDeleteLabItem()}" icon="ui-icon-trash" title="Delete" update=":labItemCreationForm:labItemTable">
-                        <f:setPropertyActionListener value="#{labItem}" target="#{labItemController.labItem}" />
+                    <p:commandButton action="#{labItemDetailController.doDeleteLabItem()}" icon="ui-icon-trash" title="Delete" update=":labItemCreationForm:labItemTable">
+                        <f:setPropertyActionListener value="#{labItem}" target="#{labItemDetailController.labItem}" />
                         <p:confirm header="Confirmation" message="Are you sure that you want to delete this Labitem? This will delete every Stockitem connected to this Labitem as well. You cannot undo this operation." icon="ui-icon-blank" />
                     </p:commandButton>
                 </p:column>
@@ -48,40 +48,40 @@
         
         <h:form id="labItemEditForm">
             <p:dialog header="Edit Items" id="labItemEditDialog" dynamic="true" widgetVar="labItemEditDialog" modal="true" focus="manual" showEffect="fade" hideEffect="fade" resizable="false" >   
-	            <p:outputPanel id="labItemData" rendered="#{not empty labItemController.labItem}">
+	            <p:outputPanel id="labItemData" rendered="#{not empty labItemDetailController.labItem}">
 	
 	               <h:panelGrid columns="3">
 	                    <p:outputLabel value="Item Name" />
-	                    <p:inputText id="itemName" value="#{labItemController.labItem.itemName}" disabled="true"  required="true" requiredMessage="Item Name required."/>
+	                    <p:inputText id="itemName" value="#{labItemDetailController.labItem.itemName}" disabled="true"  required="true" requiredMessage="Item Name required."/>
 	                    <p:outputLabel for="itemName" value="" />
 						
 	                    <p:outputLabel value="Max Reservation Time" />
-		                <p:inputNumber id="maxDays" value="#{labItemController.labItem.maxReservationTime.getDays()}" mask="999" 
+		                <p:inputNumber id="maxDays" value="#{labItemDetailController.labItem.maxReservationTime.getDays()}" mask="999" 
 		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
 		                        				minValue="0" maxValue="365" symbol=" Days" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxDays" value="" />
 		                <h:panelGroup />
-		                <p:inputNumber id="maxHours" value="#{labItemController.labItem.maxReservationTime.getHours()}" mask="99" 
+		                <p:inputNumber id="maxHours" value="#{labItemDetailController.labItem.maxReservationTime.getHours()}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Hours) required." converterMessage="Max Reservation Time (Hours) required."
 		                        				minValue="0" maxValue="23" symbol=" Hours" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxHours" value="" />
 		                <h:panelGroup />
 		                
-		                <p:inputNumber id="maxMinutes" value="#{labItemController.labItem.maxReservationTime.getMinutes()}" mask="99" 
+		                <p:inputNumber id="maxMinutes" value="#{labItemDetailController.labItem.maxReservationTime.getMinutes()}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Minutes) required." converterMessage="Max Reservation Time (Minutes) required."
 		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxMinutes" value="" />
 		                    
 		                
 	                    <p:outputLabel for="manual" value="Manuals" />
-	                    <p:inputText id="manual" value="#{labItemController.labItem.manuel}" />
+	                    <p:inputText id="manual" value="#{labItemDetailController.labItem.manuel}" />
 	
 		            </h:panelGrid>
 					<p:separator />
 
 	   				<h:panelGrid columns="3">
-	                        <p:commandButton value="Save" action="#{labItemController.doSaveLabItem()}" oncomplete="if (!args.validationFailed) PF('labItemEditDialog').hide()" update=":labItemCreationForm:labItemTable"/>
-					        <p:commandButton value="Reload" action="#{labItemController.doReloadLabItem()}" update="labItemData"/>
+	                        <p:commandButton value="Save" action="#{labItemDetailController.doSaveLabItem()}" oncomplete="if (!args.validationFailed) PF('labItemEditDialog').hide()" update=":labItemCreationForm:labItemTable"/>
+					        <p:commandButton value="Reload" action="#{labItemDetailController.doReloadLabItem()}" update="labItemData"/>
 					        <p:commandButton value="Abort" onclick="PF('labItemEditDialog').hide()"/>
 					</h:panelGrid>
 					
@@ -98,24 +98,24 @@
                 
                 	<h:panelGrid id="addGrid" columns="4">
                         <p:outputLabel value="Item Name" />
-                        <p:inputText id="addItemName" value="#{labItemController.newLabItem.itemName}" disabled="false" required="true" requiredMessage="Item Name required."/>
+                        <p:inputText id="addItemName" value="#{labItemDetailController.newLabItem.itemName}" disabled="false" required="true" requiredMessage="Item Name required."/>
                         <p:outputLabel for="addItemName" value="" />
                         <p:watermark for="addItemName" value="New Item" id="additemnamewatermark" />
                         
                         <p:outputLabel value="Max Reservation Time" />
-		                <p:inputNumber id="maxDays" value="#{labItemController.days}" mask="999" 
+		                <p:inputNumber id="maxDays" value="#{labItemDetailController.days}" mask="999" 
 		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
 		                        				minValue="0" maxValue="365" symbol=" Days" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxDays" value="" />
 		                <h:panelGroup />
 		                <h:panelGroup />
-		                <p:inputNumber id="maxHours" value="#{labItemController.hours}" mask="99" 
+		                <p:inputNumber id="maxHours" value="#{labItemDetailController.hours}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Hours) required." converterMessage="Max Reservation Time (Hours) required."
 		                        				minValue="0" maxValue="23" symbol=" Hours" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxHours" value="" />
 		                <h:panelGroup />
 		                <h:panelGroup />
-		                <p:inputNumber id="maxMinutes" value="#{labItemController.minutes}" mask="99" 
+		                <p:inputNumber id="maxMinutes" value="#{labItemDetailController.minutes}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Minutes) required." converterMessage="Max Reservation Time (Minutes) required."
 		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxMinutes" value="" />
@@ -130,7 +130,7 @@
 					<p:separator />
 					
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save" action="#{labItemController.doAddLabItem()}" oncomplete="if (!args.validationFailed) PF('labItemAddDialog').hide()" update="addGrid :labItemCreationForm:labItemTable"/>
+                        <p:commandButton value="Save" action="#{labItemDetailController.doAddLabItem()}" oncomplete="if (!args.validationFailed) PF('labItemAddDialog').hide()" update="addGrid :labItemCreationForm:labItemTable"/>
                         <p:commandButton value="Abort" onclick="PF('labItemAddDialog').hide()"/>
                     </h:panelGrid>
                     <p:messages id="addMessages" closable="true" >

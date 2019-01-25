@@ -1,5 +1,6 @@
-package at.qe.sepm.skeleton.utils;
+package at.qe.sepm.skeleton.ui.view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import javax.faces.bean.ManagedBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.repositories.LabItemRepository;
@@ -20,9 +20,10 @@ import at.qe.sepm.skeleton.repositories.LabItemRepository;
  */
 @ManagedBean(name = "labItemView")
 @Scope("view")
-@Controller
-public class LabItemView
+public class LabItemView implements Serializable 
 {
+
+	private static final long serialVersionUID = -2990342781351510303L;
 
 	@Autowired
 	private LabItemRepository labItemRepository;

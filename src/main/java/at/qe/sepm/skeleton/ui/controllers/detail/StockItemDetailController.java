@@ -1,4 +1,6 @@
-package at.qe.sepm.skeleton.ui.controllers;
+package at.qe.sepm.skeleton.ui.controllers.detail;
+
+import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 
@@ -13,13 +15,16 @@ import at.qe.sepm.skeleton.services.StockItemService;
 
 @Component
 @Scope("view")
-public class StockItemDetailController
+public class StockItemDetailController implements Serializable 
 {
+	
+	private static final long serialVersionUID = -2087986367281042330L;
+
 	@Autowired
 	private StockItemService stockItemService;
 
 	@Autowired
-	private LabItemController labController;
+	private LabItemDetailController labController;
 
 	private StockItem stockItem;
 	private StockItem newStockItem;

@@ -5,7 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import at.qe.sepm.skeleton.model.AuditLog;
 import at.qe.sepm.skeleton.model.User;
@@ -17,7 +17,7 @@ import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
  * Service for logging.
  * @author Candir Salih
  */
-@Component
+@Service
 @Scope("application")
 public class AuditLogService {
 	

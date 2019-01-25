@@ -1,5 +1,6 @@
-package at.qe.sepm.skeleton.utils;
+package at.qe.sepm.skeleton.ui.view;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +22,10 @@ import at.qe.sepm.skeleton.model.UserRole;
 @ManagedBean(name = "userRolesView")
 @Scope("view")
 @Controller
-public class UserRolesView {
-    private UserRole[] selected;
+public class UserRolesView implements Serializable {
+	
+	private static final long serialVersionUID = 8258865753603802548L;
+	private UserRole[] selected;
 
 
 	public UserRole[] getRoles() {

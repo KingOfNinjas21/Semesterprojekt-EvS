@@ -1,4 +1,6 @@
-package at.qe.sepm.skeleton.ui.controllers;
+package at.qe.sepm.skeleton.ui.controllers.detail;
+
+import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 
@@ -14,8 +16,11 @@ import at.qe.sepm.skeleton.utils.ErrorMessage;
 
 @Component
 @Scope("view")
-public class LabItemController
+public class LabItemDetailController implements Serializable 
 {
+
+	private static final long serialVersionUID = 152811281487490741L;
+
 	@Autowired
 	private LabItemService labItemService;
 	

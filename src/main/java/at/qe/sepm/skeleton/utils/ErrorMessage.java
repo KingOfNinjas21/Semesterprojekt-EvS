@@ -1,5 +1,7 @@
 package at.qe.sepm.skeleton.utils;
 
+import java.io.Serializable;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -8,7 +10,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope("view")
-public class ErrorMessage {
+public class ErrorMessage implements Serializable {
+
+	private static final long serialVersionUID = -7029377764414225966L;
 	private String message = "";
 	
 

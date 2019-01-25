@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Service for accessing and manipulating user data.
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  * course "Softwaredevelopment and Project Management" offered by the University
  * of Innsbruck.
  */
-@Component
+@Service
 @Scope("application")
 public class UserService {
 

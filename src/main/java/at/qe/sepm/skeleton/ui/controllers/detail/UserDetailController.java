@@ -1,11 +1,13 @@
-package at.qe.sepm.skeleton.ui.controllers;
+package at.qe.sepm.skeleton.ui.controllers.detail;
 
 import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.services.EmailService;
 import at.qe.sepm.skeleton.services.UserService;
+import at.qe.sepm.skeleton.ui.view.UserRolesView;
 import at.qe.sepm.skeleton.utils.ErrorMessage;
 import at.qe.sepm.skeleton.utils.PasswordGenerator;
-import at.qe.sepm.skeleton.utils.UserRolesView;
+
+import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.mail.internet.AddressException;
@@ -25,9 +27,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("view")
-public class UserDetailController {
+public class UserDetailController implements Serializable {
 
-    @Autowired
+	private static final long serialVersionUID = 1377920198925965329L;
+
+	@Autowired
     private UserService userService;
     
     @Autowired

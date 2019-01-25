@@ -53,7 +53,7 @@
 	                <p:outputPanel id="stockItemData" rendered="#{not empty stockItemDetailController.stockItem}">
 	                	<h:panelGrid columns="2">
 	                        <p:outputLabel for="itemName" value="Item Name" />
-	                        <p:inputText id="itemName" value="#{labItemController.labItem.itemName}" disabled="true" style="width:290px" required="true" requiredMessage="Item Name required."/>
+	                        <p:inputText id="itemName" value="#{labItemDetailController.labItem.itemName}" disabled="true" style="width:290px" required="true" requiredMessage="Item Name required."/>
 	                        
 	                        <p:outputLabel for="lab" value="Lab Name" />
 	                        <p:inputText id="lab" value="#{stockItemDetailController.stockItem.labName}" style="width:290px" required="true" requiredMessage="Lab Name required."/>
@@ -89,7 +89,7 @@
                 
                 	<h:panelGrid id="addStockGrid" columns="4">
                        <p:outputLabel value="Labitem" />
-				        <p:selectOneMenu id="addItemName" value="#{labItemController.newLabItem}" filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Lab Item required.">
+				        <p:selectOneMenu id="addItemName" value="#{labItemDetailController.newLabItem}" filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Lab Item required.">
                				<f:selectItem itemLabel="Select Labitem" itemValue="" noSelectionOption="false" />
                 			<f:selectItems value="#{labItemView.items}" var="labItem" itemValue="#{labItem}" itemLabel="#{labItem.itemName}"/> 
                 			<f:converter converterId="customConverter"/>
@@ -142,27 +142,27 @@
                 
                 	<h:panelGrid id="addStockGrid" columns="4">         				
            				<p:outputLabel value="Labitem" />
-                        <p:inputText id="addItemName" value="#{labItemController.newLabItem.itemName}"  required="true" requiredMessage="Lab Item Name required."/>
+                        <p:inputText id="addItemName" value="#{labItemDetailController.newLabItem.itemName}"  required="true" requiredMessage="Lab Item Name required."/>
                         <p:outputLabel for="addItemName" value="" />
                         <p:watermark for="addItemName" value="New Labitem" id="addItemNamewatermark" />
                         
                         
 	                    <p:outputLabel value="Max Reservation Time" />
-		                <p:inputNumber id="maxDays" value="#{labItemController.days}" mask="999" 
+		                <p:inputNumber id="maxDays" value="#{labItemDetailController.days}" mask="999" 
 		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
 		                        				minValue="0" maxValue="365" symbol=" Days" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxDays" value="" />
 		                <h:panelGroup />
 		                
 		                <h:panelGroup />
-		                <p:inputNumber id="maxHours" value="#{labItemController.hours}" mask="99" 
+		                <p:inputNumber id="maxHours" value="#{labItemDetailController.hours}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Hours) required." converterMessage="Max Reservation Time (Hours) required."
 		                        				minValue="0" maxValue="23" symbol=" Hours" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxHours" value="" />
 		                <h:panelGroup />
 		                
 		                <h:panelGroup />
-		                <p:inputNumber id="maxMinutes" value="#{labItemController.minutes}" mask="99" 
+		                <p:inputNumber id="maxMinutes" value="#{labItemDetailController.minutes}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Minutes) required." converterMessage="Max Reservation Time (Minutes) required."
 		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxMinutes" value="" />
@@ -194,7 +194,7 @@
                         <h:panelGroup />
 
                         <p:outputLabel value="Manuals" />
-                        <p:inputText id="addManual" value="#{labItemController.newLabItem.manuel}" />       
+                        <p:inputText id="addManual" value="#{labItemDetailController.newLabItem.manuel}" />       
                         <p:outputLabel for="addManual" value="" />                
 
 	                </h:panelGrid>

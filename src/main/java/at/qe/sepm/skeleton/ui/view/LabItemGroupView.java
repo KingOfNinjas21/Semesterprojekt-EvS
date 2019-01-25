@@ -1,5 +1,6 @@
-package at.qe.sepm.skeleton.utils;
+package at.qe.sepm.skeleton.ui.view;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,8 +22,10 @@ import at.qe.sepm.skeleton.repositories.LabItemGroupRepository;
 @ManagedBean(name = "labItemGroupView")
 @Scope("view")
 @Controller
-public class LabItemGroupView
+public class LabItemGroupView implements Serializable 
 {
+
+	private static final long serialVersionUID = -6641200259516820244L;
 
 	@Autowired
 	private LabItemGroupRepository labItemGroupRepository;

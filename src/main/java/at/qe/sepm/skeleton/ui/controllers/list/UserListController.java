@@ -1,7 +1,9 @@
-package at.qe.sepm.skeleton.ui.controllers;
+package at.qe.sepm.skeleton.ui.controllers.list;
 
 import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.services.UserService;
+
+import java.io.Serializable;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -16,9 +18,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("view")
-public class UserListController {
+public class UserListController implements Serializable {
 
-    @Autowired
+	private static final long serialVersionUID = -8157564173824649895L;
+	
+	@Autowired
     private UserService userService;
 
     /**

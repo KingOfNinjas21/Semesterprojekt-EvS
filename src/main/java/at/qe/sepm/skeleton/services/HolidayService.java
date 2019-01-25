@@ -3,19 +3,18 @@ package at.qe.sepm.skeleton.services;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import at.qe.sepm.skeleton.model.Holiday;
 import at.qe.sepm.skeleton.repositories.HolidayRepository;
 
-@Component
+@Service
 @Scope("application")
 public class HolidayService
 {
@@ -56,14 +55,8 @@ public class HolidayService
 
 		holidayRepository.delete(Holiday);
 	}
-
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public Collection<Holiday> getAllHolidays()
-	{
-
-		return holidayRepository.findAll();
-	}
-
+	
+	
 	public boolean isHoliday(Date date) throws ParseException
 	{
 		try
@@ -79,7 +72,6 @@ public class HolidayService
 
 		for (Holiday holiday : holidayRepository.findAll())
 		{
-
 			if (date.equals(holiday.getDate()))
 			{
 				return true;

@@ -1,13 +1,12 @@
 package at.qe.sepm.skeleton.services;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.repositories.LabItemRepository;
@@ -18,7 +17,7 @@ import at.qe.sepm.skeleton.repositories.LabItemRepository;
  * @author Candir Salih
  */
 
-@Component
+@Service
 @Scope("application")
 public class LabItemService
 {
@@ -54,8 +53,10 @@ public class LabItemService
 		}
 
 		temp = labItemRepository.findFirstByItemName(name);
+		
 		if (temp == null)
 			return labItemRepository.save(item);
+		
 		return temp;
 
 	}
@@ -77,12 +78,6 @@ public class LabItemService
 	{
 
 		labItemRepository.delete(item);
-	}
-
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public Collection<LabItem> getAllLabItems()
-	{
-		return labItemRepository.findAll();
 	}
 
 }

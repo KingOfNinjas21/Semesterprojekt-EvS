@@ -14,7 +14,7 @@
   				<p:commandButton value="New Reservation" update=":reservationAddForm:reservationAddDialog" oncomplete="PF('reservationAddDialog').show()" icon="ui-icon-plusthick" title="New Reservation" >
                   </p:commandButton>
             </h:panelGrid>        
-            <p:dataTable id="reservationTable" var="reservation" value="#{reservationContoller.reservations}" resizableColumns="true" resizeMode="expand" >
+            <p:dataTable id="reservationTable" var="reservation" value="#{reservationListContoller.reservations}" resizableColumns="true" resizeMode="expand" >
                 <p:column headerText="Labitem">
                     <h:outputText value="#{reservation.item.labItem.itemName}"/>
                 </p:column>

@@ -4,19 +4,18 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import at.qe.sepm.skeleton.model.OpeningHour;
 import at.qe.sepm.skeleton.repositories.OpeningHourRepository;
 
-@Component
+@Service
 @Scope("application")
 public class OpeningHourService
 {
@@ -63,12 +62,6 @@ public class OpeningHourService
 		openingHourRepository.delete(OpeningHour);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
-	public Collection<OpeningHour> getAllOpeningHours()
-	{
-
-		return openingHourRepository.findAll();
-	}
 
 	public boolean withinOpeningHours(Date date) throws ParseException
 	{

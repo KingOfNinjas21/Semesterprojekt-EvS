@@ -5,7 +5,8 @@ import at.qe.sepm.skeleton.repositories.LabItemGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
 import java.util.Collection;
@@ -15,7 +16,7 @@ import java.util.Collection;
  * @author fbn
  */
 
-@Component
+@Service
 @Scope("application")
 public class LabItemGroupService {
 	@Autowired
