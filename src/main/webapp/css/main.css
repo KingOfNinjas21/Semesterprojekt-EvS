@@ -127,6 +127,12 @@ body {
     margin-bottom:50px;
 }
 
+.ui-tooltip {
+	position:absolute;
+	    display:block;
+    position:fixed;
+    overflow:hidden;
+}
 /*
 #footer {
     position: fixed;
