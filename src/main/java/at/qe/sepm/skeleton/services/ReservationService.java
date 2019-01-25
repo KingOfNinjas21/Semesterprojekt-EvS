@@ -84,7 +84,7 @@ public class ReservationService {
      *
      * @return
      */
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
 	public Collection<Reservation> getAllReservations() {
 
         if (!sessionInfo.isAdmin()) {
