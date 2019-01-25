@@ -94,7 +94,6 @@ public class ReservationDetailController
 		Reservation entity = new Reservation();
 		Date begin = calendarView.getBeginDate();
 		Date end = calendarView.getEndDate();
-		boolean valid = true;
 
 		List<StockItem> items = stockItemView.getSelectedItems();
 
@@ -104,96 +103,75 @@ public class ReservationDetailController
 		{
 			errorMessage.setMessage("Begin Date is holiday.");
 			errorMessage.pushMessage();
-			valid = false;
 		}
 
 		if (holidayService.isHoliday(end))
 		{
 			errorMessage.setMessage("End Date is holiday.");
 			errorMessage.pushMessage();
-			valid = false;
 		}
 
 		if (!openingHourService.withinOpeningHours(begin))
 		{
 			errorMessage.setMessage("Begin Date not within opening hours.");
 			errorMessage.pushMessage();
-			valid = false;
 		}
 
 		if (!openingHourService.withinOpeningHours(end))
 		{
-
 			errorMessage.setMessage("End Date not within opening hours.");
 			errorMessage.pushMessage();
-			valid = false;
-
 		}
 
 		if (items == null)
 		{
 			errorMessage.setMessage("Could not load items.");
 			errorMessage.pushMessage();
-			valid = false;
 		}
 
 		if (begin == null)
 		{
-
 			errorMessage.setMessage("Invalid Begin Date.");
 			errorMessage.pushMessage();
-			valid = false;
 		}
 
 		if (end == null)
 		{
-
 			errorMessage.setMessage("Invalid End Date.");
 			errorMessage.pushMessage();
-			valid = false;
 		}
 
 		if (begin.after(end))
 		{
-
 			errorMessage.setMessage("Begin Date after End Date.");
 			errorMessage.pushMessage();
-			valid = false;
 		}
 		
-		if(!valid)
+		if(errorMessage.hasError()) {
 			return;
-
-		// TODO: Max. Reservierungsdauer nicht �berschritten
-		// if(begin+maxresdauer > end)
-		// TODO: Zustand �berpr�fen und richtig setzen
+		}
+			
 
 		for (StockItem item : items)
 		{
 			if (!isAvailable(item, begin, end))
 			{
-				// TODO: Error Msg,
-				errorMessage.setMessage("Item: " + item.getLabItem().getItemName()
-						+ " cannot be reserved at this time.");
+				errorMessage.setMessage(String.format("Item: %s cannot be reserved at this time.",
+													item.getLabItem().getItemName()));
 				errorMessage.pushMessage();
-				valid = false;
+				return;
 			}
-			if(!valid) return;
-		}
-		
-		for (StockItem item : items)
-		{
+			
 			log.debug("Saving: " + item);
 
 			entity.setItem(item);
 			entity.setReservationDate(begin);
 			entity.setReturnableDate(end);
 			entity.setIsReturned(false);
-
+			
 			reservation = reservationService.save(entity);
 			item.addReservation(reservation);
 		}
-
 
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR_OF_DAY, 8);
