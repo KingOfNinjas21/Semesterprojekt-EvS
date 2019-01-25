@@ -32,9 +32,14 @@ public class ErrorMessage {
 	{
 		context = FacesContext.getCurrentInstance();
 	}
+	
     public void pushMessage() {
         
     	context.validationFailed();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + message, "" ) );
+    }
+    
+    public boolean hasError() {
+    	return context.isValidationFailed();
     }
 }
