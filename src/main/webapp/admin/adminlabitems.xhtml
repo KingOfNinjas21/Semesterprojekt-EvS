@@ -23,7 +23,7 @@
                 </p:column>
                 
                 <p:column headerText="Max Reservation Time">
-                    <h:outputText value="#{labItem.maxReservationTime}" />
+                    <h:outputText value="#{labItem.maxReservationTimeStr}" />
                 </p:column>
                 
                 <p:column headerText="Manuals">
@@ -56,18 +56,18 @@
 	                    <p:outputLabel for="itemName" value="" />
 						
 	                    <p:outputLabel value="Max Reservation Time" />
-		                <p:inputNumber id="maxDays" value="#{labItemController.days}" mask="999" 
+		                <p:inputNumber id="maxDays" value="#{labItemController.labItem.maxReservationTime.getDays()}" mask="999" 
 		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
 		                        				minValue="0" maxValue="365" symbol=" Days" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxDays" value="" />
 		                <h:panelGroup />
-		                <p:inputNumber id="maxHours" value="#{labItemController.hours}" mask="99" 
+		                <p:inputNumber id="maxHours" value="#{labItemController.labItem.maxReservationTime.getHours()}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Hours) required." converterMessage="Max Reservation Time (Hours) required."
 		                        				minValue="0" maxValue="23" symbol=" Hours" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxHours" value="" />
 		                <h:panelGroup />
 		                
-		                <p:inputNumber id="maxMinutes" value="#{labItemController.minutes}" mask="99" 
+		                <p:inputNumber id="maxMinutes" value="#{labItemController.labItem.maxReservationTime.getMinutes()}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Minutes) required." converterMessage="Max Reservation Time (Minutes) required."
 		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxMinutes" value="" />
