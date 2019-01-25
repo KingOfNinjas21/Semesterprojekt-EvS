@@ -1,6 +1,7 @@
 package at.qe.sepm.skeleton.model;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -143,8 +144,7 @@ public class OpeningHour implements Persistable<Long>
 	@Override
 	public boolean isNew()
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return (openingHour == null) || (closingHour == null);
 	}
 
 	/*
@@ -155,15 +155,7 @@ public class OpeningHour implements Persistable<Long>
 	@Override
 	public int hashCode()
 	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((breakEnd == null) ? 0 : breakEnd.hashCode());
-		result = prime * result + ((breakStart == null) ? 0 : breakStart.hashCode());
-		result = prime * result + ((closingHour == null) ? 0 : closingHour.hashCode());
-		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((openingHour == null) ? 0 : openingHour.hashCode());
-		result = prime * result + ((weekday == null) ? 0 : weekday.hashCode());
-		return result;
+		return (getId() != null) ? (getClass().getSimpleName().hashCode() + getId().hashCode()) : super.hashCode();
 	}
 
 	/*
@@ -174,46 +166,63 @@ public class OpeningHour implements Persistable<Long>
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (this == obj)
-			return true;
 		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OpeningHour other = (OpeningHour) obj;
-		if (breakEnd == null)
 		{
-			if (other.breakEnd != null)
-				return false;
-		} else if (!breakEnd.equals(other.breakEnd))
 			return false;
-		if (breakStart == null)
+		}
+		if (!(obj instanceof OpeningHour))
 		{
-			if (other.breakStart != null)
-				return false;
-		} else if (!breakStart.equals(other.breakStart))
 			return false;
-		if (closingHour == null)
+		}
+		final OpeningHour other = (OpeningHour) obj;
+		if (!Objects.equals(this.id, other.id))
 		{
-			if (other.closingHour != null)
-				return false;
-		} else if (!closingHour.equals(other.closingHour))
 			return false;
-		if (id != other.id)
-			return false;
-		if (openingHour == null)
-		{
-			if (other.openingHour != null)
-				return false;
-		} else if (!openingHour.equals(other.openingHour))
-			return false;
-		if (weekday == null)
-		{
-			if (other.weekday != null)
-				return false;
-		} else if (!weekday.equals(other.weekday))
-			return false;
+		}
 		return true;
+		
+//		Wft :'D
+		
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		OpeningHour other = (OpeningHour) obj;
+//		if (breakEnd == null)
+//		{
+//			if (other.breakEnd != null)
+//				return false;
+//		} else if (!breakEnd.equals(other.breakEnd))
+//			return false;
+//		if (breakStart == null)
+//		{
+//			if (other.breakStart != null)
+//				return false;
+//		} else if (!breakStart.equals(other.breakStart))
+//			return false;
+//		if (closingHour == null)
+//		{
+//			if (other.closingHour != null)
+//				return false;
+//		} else if (!closingHour.equals(other.closingHour))
+//			return false;
+//		if (id != other.id)
+//			return false;
+//		if (openingHour == null)
+//		{
+//			if (other.openingHour != null)
+//				return false;
+//		} else if (!openingHour.equals(other.openingHour))
+//			return false;
+//		if (weekday == null)
+//		{
+//			if (other.weekday != null)
+//				return false;
+//		} else if (!weekday.equals(other.weekday))
+//			return false;
+//		return true;
 	}
 
 	/*
