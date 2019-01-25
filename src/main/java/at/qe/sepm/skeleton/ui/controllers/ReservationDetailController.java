@@ -96,8 +96,6 @@ public class ReservationDetailController
 		Date end = calendarView.getEndDate();
 
 		List<StockItem> items = stockItemView.getSelectedItems();
-
-		errorMessage.getFacesContext();
 		
 		if (holidayService.isHoliday(begin))
 		{

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.services.LabItemService;
+import at.qe.sepm.skeleton.utils.ErrorMessage;
 
 @Component
 @Scope("view")
@@ -17,6 +18,9 @@ public class LabItemController
 {
 	@Autowired
 	private LabItemService labItemService;
+	
+	@Autowired
+	private ErrorMessage errorMessage;
 
 	private LabItem labItem;
 	private LabItem newLabItem;
@@ -117,12 +121,22 @@ public class LabItemController
 	{
 		if ((newLabItem.getItemName() == null) || (newLabItem.getItemName().length() <= 3))
 		{
-			// TODO: return message
+			errorMessage.setMessage("Gerätename ungültig");
+			errorMessage.pushMessage();
 			return;
 		}
 		
 		
-		if (days + hours + minutes <= 0) {
+		if (newLabItem.getMaxReservationTime() == null ) {
+			if (days + hours + minutes <= 0) {
+				errorMessage.setMessage("Bitte max Ausleihfrist angeben");
+				errorMessage.pushMessage();
+				return;
+			}
+		}
+		
+		
+		if (errorMessage.hasError()) {
 			return;
 		}
 		

@@ -9,13 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("view")
 public class ErrorMessage {
-
-	
 	private String message = "";
-	FacesContext context;
 	
 
-	
 	public String getMessage() {
 		return message;
 	}
@@ -28,18 +24,15 @@ public class ErrorMessage {
 		message = "";
 	}
      
-	public void getFacesContext()
-	{
-		context = FacesContext.getCurrentInstance();
-	}
 	
     public void pushMessage() {
-        
+    	FacesContext context = FacesContext.getCurrentInstance();
     	context.validationFailed();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + message, "" ) );
     }
     
     public boolean hasError() {
+    	FacesContext context = FacesContext.getCurrentInstance();
     	return context.isValidationFailed();
     }
 }

@@ -93,6 +93,10 @@ public class LabItem implements Persistable<Long>
 
 	public Period getMaxReservationTime()
 	{
+		if (days + hours + minutes <= 0)
+			return null;
+		
+		
 		Period p = new Period().withDays(days)
 				.withHours(hours)
 				.withMinutes(minutes);
