@@ -82,7 +82,7 @@ public class LabItemGroup implements Persistable<Long> {
 
     @Override
     public boolean isNew() {
-        return false;
+        return (groupName == null);
     }
 }
 
