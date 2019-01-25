@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.context.FacesContext;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,7 +161,8 @@ public class ReservationDetailController
 			valid = false;
 		}
 		
-		if(!valid) return;
+		if(!valid)
+			return;
 
 		// TODO: Max. Reservierungsdauer nicht �berschritten
 		// if(begin+maxresdauer > end)
@@ -214,7 +213,9 @@ public class ReservationDetailController
 	 */
 	public boolean getRemoveDisabled()
 	{
-
+		if (reservation == null)
+			return true;
+ 
 		if (sessionInfo.isStudent())
 		{
 			Date begin = reservation.getReservationDate();
