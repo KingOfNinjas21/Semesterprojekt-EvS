@@ -103,7 +103,7 @@
 					        <p:outputLabel for="items" value="" />
 	                        
 	                        <p:outputLabel value="Begin" />
-	                        <p:calendar id="beginDate" binding="#{beginDate}" value="#{calendarView.beginDate}" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="Begin Date required.">
+	                        <p:calendar id="beginDate" binding="#{beginDate}" value="#{calendarView.beginDate}" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="Begin Date required." mindate="#{calendarView.getToday()}">
 	                        	<p:ajax event="dateSelect" update="endDate" />
 	                        </p:calendar>
 	                        <p:outputLabel for="beginDate" value="" />

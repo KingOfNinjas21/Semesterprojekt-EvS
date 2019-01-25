@@ -80,14 +80,6 @@ public class ScheduleView implements Serializable {
     public ScheduleModel getLazyEventModel() {
         return lazyEventModel;
     }
- 
-    @SuppressWarnings("unused")
-	private Calendar today() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
- 
-        return calendar;
-    }
    
     public ScheduleEvent getEvent() {
         return event;

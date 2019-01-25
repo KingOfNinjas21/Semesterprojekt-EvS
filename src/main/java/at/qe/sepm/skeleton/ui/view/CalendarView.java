@@ -82,4 +82,10 @@ public class CalendarView implements Serializable {
     public void setEndDate(Date date) {
         this.endDate = date;
     }
+    
+	public Date getToday() {
+        Calendar calendar = Calendar.getInstance();
+ 
+        return calendar.getTime();
+    }
 }
