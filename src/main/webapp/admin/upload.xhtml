@@ -18,10 +18,6 @@
     		<p:commandButton value="Submit" ajax="false" action="#{fileUploadView.upload}" disabled="false" />
     </h:form>
     
-   
- 
- 
- 
   
   <h:form>   
 
@@ -43,10 +39,11 @@
 
 
 
+		<p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s" actionListener="#{fileDownloadView.fileDownload()}">
+			<p:fileDownload value="#{fileDownloadView.file}" />
+		</p:commandButton> 
 
-      <p:commandButton value="Download" ajax="false"  icon="pi pi-arrow-down" action="#{fileDownloadView.fileDownload()}">
-          <p:fileDownload value="#{fileDownloadView.file}" />
-      </p:commandButton>      
+
   </h:form>
     </ui:define>
 </ui:composition>

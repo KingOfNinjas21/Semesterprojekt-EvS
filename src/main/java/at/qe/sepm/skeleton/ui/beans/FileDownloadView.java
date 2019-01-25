@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 
 import at.qe.sepm.skeleton.model.Manual;
 import at.qe.sepm.skeleton.services.ManualService;
+import at.qe.sepm.skeleton.utils.ErrorMessage;
 
 @ManagedBean
 @Scope("request")
@@ -24,6 +25,9 @@ public class FileDownloadView
 
 	@Autowired
 	private ManualService m;
+	
+	@Autowired
+	ErrorMessage errorMessage;
 
 	@PostConstruct
 	private void init()
@@ -31,13 +35,17 @@ public class FileDownloadView
 		manual = new Manual();
 	}
 
-	public StreamedContent fileDownload()
+	public void fileDownload()
 	{
 		manual = m.loadManual(1);
+		
+		if (manual == null) {
+			errorMessage.setMessage("Keine Datei gefunden!");
+			errorMessage.pushMessage();
+		}
+		
 		InputStream stream = new ByteArrayInputStream(manual.getData());
 		file = new DefaultStreamedContent(stream, manual.getType(), manual.getManualName());
-		return file;
-
 	}
 
 	public StreamedContent getFile()
