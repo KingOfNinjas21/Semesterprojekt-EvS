@@ -121,7 +121,7 @@ public class LabItemController
 	{
 		if ((newLabItem.getItemName() == null) || (newLabItem.getItemName().length() <= 3))
 		{
-			errorMessage.setMessage("Gerätename ungültig");
+			errorMessage.setMessage("Item Name invalid.");
 			errorMessage.pushMessage();
 			return;
 		}
@@ -129,7 +129,7 @@ public class LabItemController
 		
 		if (newLabItem.getMaxReservationTime() == null ) {
 			if (days + hours + minutes <= 0) {
-				errorMessage.setMessage("Bitte max Ausleihfrist angeben");
+				errorMessage.setMessage("Max Reservation Time invalid.");
 				errorMessage.pushMessage();
 				return;
 			}
