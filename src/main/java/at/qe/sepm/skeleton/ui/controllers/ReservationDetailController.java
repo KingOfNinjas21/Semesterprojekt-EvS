@@ -5,10 +5,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
@@ -61,7 +64,7 @@ public class ReservationDetailController
 	 */
 	public void doReloadModel()
 	{
-		reservation = reservationService.loadReservation(reservation.getReservedId());
+		reservation = reservationService.loadReservation(reservation);
 	}
 
 	/**
@@ -78,7 +81,13 @@ public class ReservationDetailController
 	 */
 	public void doDeleteModel()
 	{
-		reservationService.remove(reservation);
+		try {
+			reservationService.remove(reservation);
+		} catch (AccessDeniedException e) {
+			errorMessage.setMessage(e.getMessage());
+			return;
+		}
+		
 		reservation = null;
 	}
 
@@ -180,6 +189,38 @@ public class ReservationDetailController
 		calendarView.setEndDate(beginDate);
 		stockItemView.setSelectedItems(null);
 	}
+	
+	
+	
+	private boolean isAvailable(StockItem item, Date from, Date to)
+	{
+		DateTime dt = new DateTime(from);
+		Period period = item.getLabItem().getMaxReservationTime();
+		
+		if (period == null) {
+			throw new NullPointerException("getMaxReservationTime is null");
+		}
+		
+		if (dt.plus(period).isBefore(to.getTime()) ) {
+			return false;
+		}
+
+		for (Reservation reservstion : item.getReservations()) {
+
+			if (reservstion.getIsReturned()) {
+				continue;
+			}
+			if (from.before(reservstion.getReservationDate()) && to.before(reservstion.getReservationDate())) {
+				continue;
+			}
+			if (from.after(reservstion.getReturnableDate()) && to.after(reservstion.getReturnableDate())) {
+				continue;
+			}
+			return false;
+		}
+
+		return true;
+	}
 
 	/**
 	 * CommandButton is enabled when user is Admin or a Student with a reservation
@@ -246,31 +287,5 @@ public class ReservationDetailController
 	public void setStockItemView(StockItemView labItemView)
 	{
 		this.stockItemView = labItemView;
-	}
-
-	public boolean isAvailable(StockItem item, Date from, Date to)
-	{
-
-		for (Reservation reservstion : item.getReservations())
-		{
-
-			if (reservstion.getIsReturned())
-			{
-				continue;
-			}
-			if (from.before(reservstion.getReservationDate()) && to.before(reservstion.getReservationDate()))
-			{
-
-				continue;
-			}
-			if (from.after(reservstion.getReturnableDate()) && to.after(reservstion.getReturnableDate()))
-			{
-
-				continue;
-			}
-			return false;
-		}
-
-		return true;
 	}
 }

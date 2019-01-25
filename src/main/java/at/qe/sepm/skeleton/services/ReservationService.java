@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +20,6 @@ import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
  * @author Candir Salih
  */
 
-// TODO: Berechtigungen f�r Student und Employee hinzuf�gen/�berpr�fen
 @Component
 @Scope("application")
 public class ReservationService {
@@ -38,7 +38,7 @@ public class ReservationService {
      * @param reservation to save
      * @return the updated reservation
      */
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
     public Reservation save(Reservation reserved) {
         if (reserved.isNew()) {
             reserved.setCreateDate(new Date());
@@ -57,25 +57,24 @@ public class ReservationService {
     public void remove(Reservation entity) {
     	
     	// Only when is Student
-    	if (sessionInfo.isStudent()) {
+    	if (sessionInfo.isStudent() || sessionInfo.isEmployee()) {
 	    	if (!entity.getReservationDate().after(new Date())) {
-	    		// TODO: return message
-	    		return;
+	    		throw new AccessDeniedException("Can't delete this reservation. Only reservations in future are deletable");
 	    	}
     	}    	  	
     	
-    	// TODO: Log with AuditLogService
     	reservationRepository.delete(entity);
     }
     
     /**
      * Loads a single reservation identified by its id.
      *
-     * @param id to search for
+     * @param reservation to search for
      * @return the reservation with the given id
      */
-    @PreAuthorize("hasAuthority('ADMIN') or principal.username eq #username")
-    public Reservation loadReservation(long id) {
+    @PreAuthorize("hasAuthority('ADMIN') or principal.username eq #reservation.user.username")
+    public Reservation loadReservation(Reservation reservation) {
+    	long id = reservation.getReservedId();
         return reservationRepository.findFirstByReservedId(id);
     }
     
