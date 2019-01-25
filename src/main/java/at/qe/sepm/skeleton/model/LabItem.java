@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.joda.time.Period;
 import org.springframework.data.domain.Persistable;
 
@@ -39,18 +41,17 @@ public class LabItem implements Persistable<Long>
 	@Column(nullable = false, unique = true)
 	private String itemName;
 
-//	@Column(nullable = false)
-//	@Type(type="org.joda.time.contrib.hibernate.PersistentPeriod")
-//	private Period maxReservationTime;
-	
+	// @Column(nullable = false)
+	// @Type(type="org.joda.time.contrib.hibernate.PersistentPeriod")
+	// private Period maxReservationTime;
+
 	@Column(nullable = true)
 	private int days;
 	@Column(nullable = true)
 	private int hours;
 	@Column(nullable = true)
 	private int minutes;
-	
-	
+
 	// TODO: List of Manuels
 	private String manuel;
 
@@ -60,6 +61,27 @@ public class LabItem implements Persistable<Long>
 
 	@OneToMany(mappedBy = "labItem")
 	private List<StockItem> stockItems;
+
+	@OneToMany(mappedBy = "labItem1")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Manual> manuals;
+
+	/**
+	 * @return the manuals
+	 */
+	public List<Manual> getManuals()
+	{
+		return manuals;
+	}
+
+	/**
+	 * @param manuals
+	 *            the manuals to set
+	 */
+	public void setManuals(List<Manual> manuals)
+	{
+		this.manuals = manuals;
+	}
 
 	public long getItemId()
 	{
@@ -96,15 +118,15 @@ public class LabItem implements Persistable<Long>
 		// TODO: to string?
 		Period p = new Period(days, hours, minutes, 0);
 		return p;
-//		return maxReservationTime;
+		// return maxReservationTime;
 	}
 
 	public void setMaxReservationTime(Period maxReservationTime)
 	{
 		this.days = maxReservationTime.getDays();
-		this.hours= maxReservationTime.getHours();
+		this.hours = maxReservationTime.getHours();
 		this.minutes = maxReservationTime.getMinutes();
-//		this.maxReservationTime = maxReservationTime;
+		// this.maxReservationTime = maxReservationTime;
 	}
 
 	public Date getCreateDate()
