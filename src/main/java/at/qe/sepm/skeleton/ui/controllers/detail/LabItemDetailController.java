@@ -126,16 +126,14 @@ public class LabItemDetailController implements Serializable
 	{
 		if ((newLabItem.getItemName() == null) || (newLabItem.getItemName().length() <= 3))
 		{
-			errorMessage.setMessage("Item Name invalid.");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("Item Name invalid.");
 			return;
 		}
 		
 		
 		if (newLabItem.getMaxReservationTime() == null ) {
 			if (days + hours + minutes <= 0) {
-				errorMessage.setMessage("Max Reservation Time invalid.");
-				errorMessage.pushMessage();
+				errorMessage.pushMessage("Max Reservation Time invalid.");
 				return;
 			}
 		}

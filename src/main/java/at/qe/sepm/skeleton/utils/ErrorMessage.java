@@ -20,20 +20,21 @@ public class ErrorMessage implements Serializable {
 		return message;
 	}
 	
-	public void setMessage(String message) {
-		this.message = message;
-	}
+//	public void setMessage(String message) {
+//		this.message = message;
+//	}
 	
 	public void reset() {
 		message = "";
 	}
-     
 	
-    public void pushMessage() {
+	
+    public void pushMessage(String msg) {
     	FacesContext context = FacesContext.getCurrentInstance();
     	context.validationFailed();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + message, "" ) );
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + msg, "" ) );
     }
+	
     
     public boolean hasError() {
     	FacesContext context = FacesContext.getCurrentInstance();

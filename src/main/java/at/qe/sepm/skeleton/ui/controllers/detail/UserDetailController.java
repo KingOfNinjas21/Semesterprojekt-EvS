@@ -124,18 +124,18 @@ public class UserDetailController implements Serializable {
     public void doAddUser() {
     	
     	if (newUser.getUsername().length() <= 3) {
-    		errorMessage.setMessage("Ungültiger Benutzername!");
+    		errorMessage.pushMessage("Username not valid");
     		return;
     	}
     	
     	
     	if (newUser.getFirstName() == "") {
-    		errorMessage.setMessage("Ungültiger Vorname!");
+    		errorMessage.pushMessage("Firstname not valid");
     		return;
     	}
     	
     	if (newUser.getLastName() == "") {
-    		errorMessage.setMessage("Ungültiger Nachname!");
+    		errorMessage.pushMessage("Lastname not valid");
     		return;
     	}
     	
@@ -144,13 +144,13 @@ public class UserDetailController implements Serializable {
 			InternetAddress emailAddr = new InternetAddress(email);
 			emailAddr.validate();
 		} catch (AddressException ex) {
-			errorMessage.setMessage("Ungültige Email!");
+			errorMessage.pushMessage("Email not validl!");
 			return;
 		}
     	
 		newUser.setRoles(userRoleView.getSelectedSet());
     	if (newUser.getRoles() == null) {
-    		errorMessage.setMessage("Keine Rollen ausgewählt!");
+    		errorMessage.pushMessage("No user authorization selected");
     		return;
     	}
     

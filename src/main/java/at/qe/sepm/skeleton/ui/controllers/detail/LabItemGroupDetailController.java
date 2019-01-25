@@ -101,8 +101,7 @@ public class LabItemGroupDetailController implements Serializable
 
 		if ((newLabItemGroup.getGroupName() == null) || (newLabItemGroup.getGroupName().length() <= 3))
 		{
-			errorMessage.setMessage("Group name not valid");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("Group name not valid");
 			return;
 		}
 

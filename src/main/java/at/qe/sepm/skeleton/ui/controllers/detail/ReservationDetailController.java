@@ -87,7 +87,7 @@ public class ReservationDetailController implements Serializable
 		try {
 			reservationService.remove(reservation);
 		} catch (AccessDeniedException e) {
-			errorMessage.setMessage(e.getMessage());
+			errorMessage.pushMessage(e.getMessage());
 			return;
 		}
 		
@@ -111,50 +111,42 @@ public class ReservationDetailController implements Serializable
 		
 		if (holidayService.isHoliday(begin))
 		{
-			errorMessage.setMessage("Begin Date is holiday.");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("Begin Date is holiday.");
 		}
 
 		if (holidayService.isHoliday(end))
 		{
-			errorMessage.setMessage("End Date is holiday.");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("End Date is holiday.");
 		}
 
 		if (!openingHourService.withinOpeningHours(begin))
 		{
-			errorMessage.setMessage("Begin Date not within opening hours.");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("Begin Date not within opening hours.");
 		}
 
 		if (!openingHourService.withinOpeningHours(end))
 		{
-			errorMessage.setMessage("End Date not within opening hours.");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("End Date not within opening hours.");
 		}
 
 		if (items == null)
 		{
-			errorMessage.setMessage("Could not load items.");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("Could not load items.");
 		}
 
 		if (begin == null)
 		{
-			errorMessage.setMessage("Invalid Begin Date.");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("Invalid Begin Date.");
 		}
 
 		if (end == null)
 		{
-			errorMessage.setMessage("Invalid End Date.");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("Invalid End Date.");
 		}
 
 		if (begin.after(end))
 		{
-			errorMessage.setMessage("Begin Date after End Date.");
-			errorMessage.pushMessage();
+			errorMessage.pushMessage("Begin Date after End Date.");
 		}
 		
 		if(errorMessage.hasError()) {
@@ -166,9 +158,7 @@ public class ReservationDetailController implements Serializable
 		{
 			if (!isAvailable(item, begin, end))
 			{
-				errorMessage.setMessage(String.format("Item: %s cannot be reserved at this time.",
-													item.getLabItem().getItemName()));
-				errorMessage.pushMessage();
+
 				return;
 			}
 			
@@ -205,6 +195,7 @@ public class ReservationDetailController implements Serializable
 		}
 		
 		if (dt.plus(period).isBefore(to.getTime()) ) {
+			errorMessage.pushMessage("Max reservation time exceeded");
 			return false;
 		}
 
@@ -219,6 +210,8 @@ public class ReservationDetailController implements Serializable
 			if (from.after(reservstion.getReturnableDate()) && to.after(reservstion.getReturnableDate())) {
 				continue;
 			}
+			errorMessage.pushMessage(String.format("Item: %s cannot be reserved at this time.",
+					item.getLabItem().getItemName()));
 			return false;
 		}
 
