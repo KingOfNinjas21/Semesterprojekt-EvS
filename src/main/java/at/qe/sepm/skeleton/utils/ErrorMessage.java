@@ -1,5 +1,8 @@
 package at.qe.sepm.skeleton.utils;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -8,29 +11,30 @@ import org.springframework.stereotype.Component;
 public class ErrorMessage {
 
 	
-	private boolean enabled = false;
 	private String message = "";
+	FacesContext context;
 	
-	
-	public boolean getEnabled() {
-		return enabled;
-	}
-	
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+
 	
 	public String getMessage() {
 		return message;
 	}
 	
 	public void setMessage(String message) {
-		enabled = true;
 		this.message = message;
 	}
 	
 	public void reset() {
-		enabled = false;
 		message = "";
 	}
+     
+	public void getFacesContext()
+	{
+		context = FacesContext.getCurrentInstance();
+	}
+    public void pushMessage() {
+        
+    	context.validationFailed();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: " + message, "" ) );
+    }
 }

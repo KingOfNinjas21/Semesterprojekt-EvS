@@ -72,6 +72,7 @@
 		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxMinutes" value="" />
 		                    
+		                
 	                    <p:outputLabel for="manual" value="Manuals" />
 	                    <p:inputText id="manual" value="#{labItemController.labItem.manuel}" />
 	
@@ -93,7 +94,6 @@
         
         <h:form id="labItemAddForm">
             <p:dialog header="New Lab Item" id="labItemAddDialog" dynamic="true" widgetVar="labItemAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-                    
                 <p:outputPanel id="labItemAdd">
                 
                 	<h:panelGrid id="addGrid" columns="4">
@@ -120,11 +120,12 @@
 		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxMinutes" value="" />
 		                <h:panelGroup />
+					</h:panelGrid>
+					<p:separator />
+                        <p:outputLabel for="addManual" value="" />
+                        <p:fileUpload id="addManual" label="Manuals" multiple="true" uploadLabel="Upload..." update=":messages" value="#{fileUploadView.file}" mode="advanced" skinSimple="false"/>                     
 
-                        <p:outputLabel for="addManual" value="Manuals" />
-                        <p:inputText id="addManual" value="#{labItemController.newLabItem.manuel}" />                       
-
-	                </h:panelGrid>
+	                
 	                
 					<p:separator />
 					

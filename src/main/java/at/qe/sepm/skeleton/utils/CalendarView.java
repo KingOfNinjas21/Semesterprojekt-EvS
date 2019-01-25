@@ -40,8 +40,13 @@ public class CalendarView {
     
     @PostConstruct
     public void init() {
-    	beginDate = new Date();
-    	endDate = new Date();
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 8);
+		cal.set(Calendar.MINUTE, 0);
+		
+    	beginDate = cal.getTime();
+    	endDate = cal.getTime();
+    	
     	openingHour = new Date();
     	closingHour = new Date();
 

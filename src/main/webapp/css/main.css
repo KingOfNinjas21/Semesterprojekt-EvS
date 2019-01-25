@@ -31,6 +31,17 @@
     box-shadow: none;
 
 }
+
+.fc-center
+{
+	
+}
+
+/*schedule*/
+.fc-view-container
+{
+	
+}
  
 /*sidebar active links*/
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {

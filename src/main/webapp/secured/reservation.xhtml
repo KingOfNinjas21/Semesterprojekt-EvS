@@ -80,13 +80,13 @@
         </h:form>
         
         <h:form id="reservationAddForm">
-            <p:dialog header="Add Reservation" id="reservationAddDialog" dynamic="true" widgetVar="reservationAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="items" postition="left top">
+            <p:dialog header="Add Reservation" id="reservationAddDialog" dynamic="true" widgetVar="reservationAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="items" position="center top">
                 <p:outputPanel id="reservationAdd">
 			    	
                 	<h:panelGrid id="addGridLeftRight" columns="3" >
                 		<h:panelGrid id="addGrid" columns="3" style="valign:top">
-	                        <p:outputLabel value="Items: "/>
-					        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Select at least one item.">
+	                        <p:outputLabel value="Items"/>
+					        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="true" requiredMessage="Select at least one item.">
 									<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
 					        	 <f:converter converterId="customConverter"/>
 					        </p:selectCheckboxMenu>
@@ -99,21 +99,24 @@
 	                        <p:outputLabel for="beginDate" value="" />
 	                        
 	                        
-	                        <p:outputLabel  value="End: " />
+	                        <p:outputLabel  value="End" />
 	                        <p:calendar id="endDate" binding="#{endDate}" value="#{calendarView.endDate}" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="End Date required." mindate="#{calendarView.beginDate}">
 	                        	<p:ajax event="dateSelect" update="beginDate" />
 	                        </p:calendar>
 	                        <p:outputLabel for="endDate" value="" />
-	                        <p:commandButton value="Add" action="#{reservationDetailController.doAddModel()}" oncomplete="if (!args.validationFailed) PF('reservationAddDialog').hide()" update="addGrid :reservationForm:reservationTable"/>
-	                        <h:panelGrid columns="3">	
-	                        	<p:commandButton value="Abort" onclick="PF('reservationAddDialog').hide()"/>
-	                        	<p:commandButton value="Refresh" action="#{scheduleView.loadStockItemViewEvents()}" oncomplete="" update="addGrid"/>
+	                        <h:panelGroup />
+	                        <h:panelGrid columns="2">	
+	                        	<p:commandButton value="Add" style="width:100px" action="#{reservationDetailController.doAddModel()}" oncomplete="if (!args.validationFailed) PF('reservationAddDialog').hide()" update="addMessages, addGrid, :reservationForm:reservationTable"/>
+	                        	<p:commandButton value="Cancel" style="width:100px" onclick="PF('reservationAddDialog').hide()"/>
 	                    	</h:panelGrid>
+	                    	<h:panelGroup />
+	                    	<h:panelGroup />
+	                    	<p:commandButton value="Refresh Calendar" action="#{scheduleView.loadStockItemViewEvents()}" oncomplete="" update="addGrid"/>
 		            	</h:panelGrid>
 						<!-- //TODO: Wochen- und Monatsübersicht der Reservierungen pro Laborgerät einzusehen -->
 						<h:panelGrid columns="1">
-							<h:panelGrid columns="2" style="font-size:smaller">
-								<p:panel header="Reservations Calendar" style="width: 400px">	
+							<h:panelGrid columns="2">
+								<p:panel header="Reservations Calendar" style="width: 600px">	
 									<p:schedule id="reservationSchedule" title="Reservation Calendar" widgetVar="reservationSchedule" value="#{scheduleView.lazyEventModel}" draggable="false" resizeable="false" slotDuration="60" tooltip="true">
 										<p:autoUpdate />
 									</p:schedule>
@@ -123,8 +126,7 @@
 						
 
 	                </h:panelGrid>
-                    <p:messages id="addMessages" closable="true" >
-						<p:autoUpdate />
+                    <p:messages id="addMessages" closable="true">
 					</p:messages>
                 </p:outputPanel>
             </p:dialog>      

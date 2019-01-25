@@ -12,7 +12,7 @@
         	<h:panelGrid columns="2">
   				<p:commandButton value="Add Stock Item" update=":stockItemAddForm:stockItemAddDialog" oncomplete="PF('stockItemAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
   				</p:commandButton>
-  				<p:commandButton value="New Stock Item" update=":stockItemAddForm:stockItemAddDialog" oncomplete="PF('stockItemNewDialog').show()" icon="ui-icon-plusthick" title="New Item">
+  				<p:commandButton value="New Stock Item" update=":stockItemNewForm:stockItemNewDialog" oncomplete="PF('stockItemNewDialog').show()" icon="ui-icon-plusthick" title="New Item">
   				</p:commandButton>
             </h:panelGrid> 
             
@@ -83,13 +83,13 @@
  		</h:form>
  		
  		<h:form id="stockItemAddForm">
-            <p:dialog header="New Stock Item" id="stockItemAddDialog" dynamic="true" widgetVar="stockItemAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+            <p:dialog header="New Stock Item" id="stockItemAddDialog" widgetVar="stockItemAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                     
-                <p:outputPanel id="stockItemAdd">
+                <p:outputPanel id="stockItemAdd" widgetVar="stockItemAdd">
                 
                 	<h:panelGrid id="addStockGrid" columns="4">
                        <p:outputLabel value="Labitem" />
-				        <p:selectOneMenu id="addItemName" value="#{labItemController.newLabItem.itemName}" filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Lab Item required.">
+				        <p:selectOneMenu id="addItemName" value="#{labItemController.newLabItem}" filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Lab Item required.">
                				<f:selectItem itemLabel="Select Labitem" itemValue="" noSelectionOption="false" />
                 			<f:selectItems value="#{labItemView.items}" var="labItem" itemValue="#{labItem}" itemLabel="#{labItem.itemName}"/> 
                 			<f:converter converterId="customConverter"/>
@@ -124,7 +124,7 @@
 					<p:separator />
 					
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save" action="#{stockItemDetailController.doAddStockItem()}" oncomplete="if (!args.validationFailed) PF('stockItemAddDialog').hide()" update="addStockGrid :stockItemCreationForm:stockItemTable"/>
+                        <p:commandButton value="Save" action="#{stockItemDetailController.doAddStockItem()}" oncomplete="if (!args.validationFailed) PF('stockItemAddDialog').hide()" update="@widgetVar(stockItemAdd), :stockItemCreationForm:stockItemTable"/>
                         <p:commandButton value="Abort" onclick="PF('stockItemAddDialog').hide()"/>
                     </h:panelGrid>
                     
@@ -138,7 +138,7 @@
         <h:form id="stockItemNewForm">
             <p:dialog header="New Stock Item" id="stockItemNewDialog" dynamic="true" widgetVar="stockItemNewDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
                     
-                <p:outputPanel id="stockItemAdd">
+                <p:outputPanel id="stockItemNew" widgetVar="stockItemNew">
                 
                 	<h:panelGrid id="addStockGrid" columns="4">         				
            				<p:outputLabel value="Labitem" />
@@ -202,7 +202,7 @@
 					<p:separator />
 					
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save" action="#{stockItemDetailController.doAddStockItem()}" oncomplete="if (!args.validationFailed) PF('stockItemNewDialog').hide()" update="addStockGrid :stockItemCreationForm:stockItemTable"/>
+                        <p:commandButton value="Save" action="#{stockItemDetailController.doAddStockItem()}" oncomplete="if (!args.validationFailed) PF('stockItemNewDialog').hide()" update="@widgetVar(stockItemNew), :stockItemCreationForm:stockItemTable"/>
                         <p:commandButton value="Abort" onclick="PF('stockItemAddDialog').hide()"/>
                     </h:panelGrid>
                     

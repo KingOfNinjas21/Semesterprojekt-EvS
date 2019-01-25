@@ -1,8 +1,11 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.faces.context.FacesContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,61 +96,74 @@ public class ReservationDetailController
 		Reservation entity = new Reservation();
 		Date begin = calendarView.getBeginDate();
 		Date end = calendarView.getEndDate();
+		boolean valid = true;
 
 		List<StockItem> items = stockItemView.getSelectedItems();
 
+		errorMessage.getFacesContext();
+		
 		if (holidayService.isHoliday(begin))
 		{
-			errorMessage.setMessage("Begin liegt an einem Feiertag");
-			return;
+			errorMessage.setMessage("Begin Date is holiday.");
+			errorMessage.pushMessage();
+			valid = false;
 		}
 
 		if (holidayService.isHoliday(end))
 		{
-			errorMessage.setMessage("Ende liegt an einem Feiertag");
-			return;
+			errorMessage.setMessage("End Date is holiday.");
+			errorMessage.pushMessage();
+			valid = false;
 		}
 
 		if (!openingHourService.withinOpeningHours(begin))
 		{
-			errorMessage.setMessage("Begin nicht innerhalb der Öffnungszeiten");
-			return;
+			errorMessage.setMessage("Begin Date not within opening hours.");
+			errorMessage.pushMessage();
+			valid = false;
 		}
 
 		if (!openingHourService.withinOpeningHours(end))
 		{
 
-			errorMessage.setMessage("Ende nicht innerhalb der Öffnungszeiten");
-			return;
+			errorMessage.setMessage("End Date not within opening hours.");
+			errorMessage.pushMessage();
+			valid = false;
 
 		}
 
 		if (items == null)
 		{
-			errorMessage.setMessage("Items konnten nicht geladen werden!");
-			return;
+			errorMessage.setMessage("Could not load items.");
+			errorMessage.pushMessage();
+			valid = false;
 		}
 
 		if (begin == null)
 		{
 
-			errorMessage.setMessage("Ungültige Startzeit!");
-			return;
+			errorMessage.setMessage("Invalid Begin Date.");
+			errorMessage.pushMessage();
+			valid = false;
 		}
 
 		if (end == null)
 		{
 
-			errorMessage.setMessage("Ungültige Endzeit!");
-			return;
+			errorMessage.setMessage("Invalid End Date.");
+			errorMessage.pushMessage();
+			valid = false;
 		}
 
 		if (begin.after(end))
 		{
 
-			errorMessage.setMessage("Startzeit nach Endzeit!");
-			return;
+			errorMessage.setMessage("Begin Date after End Date.");
+			errorMessage.pushMessage();
+			valid = false;
 		}
+		
+		if(!valid) return;
 
 		// TODO: Max. Reservierungsdauer nicht �berschritten
 		// if(begin+maxresdauer > end)
@@ -155,14 +171,20 @@ public class ReservationDetailController
 
 		for (StockItem item : items)
 		{
-			log.debug("Saving: " + item);
 			if (!isAvailable(item, begin, end))
 			{
 				// TODO: Error Msg,
-				errorMessage.setMessage("Das Item: " + item.getLabItem().getItemName()
-						+ " kann in dieser Zeit nicht ausgeliehen werden");
-				continue;
+				errorMessage.setMessage("Item: " + item.getLabItem().getItemName()
+						+ " cannot be reserved at this time.");
+				errorMessage.pushMessage();
+				valid = false;
 			}
+			if(!valid) return;
+		}
+		
+		for (StockItem item : items)
+		{
+			log.debug("Saving: " + item);
 
 			entity.setItem(item);
 			entity.setReservationDate(begin);
@@ -173,8 +195,14 @@ public class ReservationDetailController
 			item.addReservation(reservation);
 		}
 
-		calendarView.setBeginDate(null);
-		calendarView.setEndDate(null);
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 8);
+		cal.set(Calendar.MINUTE, 0);
+		Date beginDate = cal.getTime();
+		
+		calendarView.setBeginDate(beginDate);
+		calendarView.setEndDate(beginDate);
 		stockItemView.setSelectedItems(null);
 	}
 
