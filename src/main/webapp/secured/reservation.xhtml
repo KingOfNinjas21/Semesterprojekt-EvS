@@ -87,7 +87,8 @@
                 		<h:panelGrid id="addGrid" columns="3" style="valign:top">
 	                        <p:outputLabel value="Items"/>
 					        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="true" requiredMessage="Select at least one item.">
-									<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
+								 <f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
+					        	 <p:ajax event="change" update="addGrid"/>
 					        	 <f:converter converterId="customConverter"/>
 					        </p:selectCheckboxMenu>
 					        <p:outputLabel for="items" value="" />
@@ -111,7 +112,7 @@
 	                    	</h:panelGrid>
 	                    	<h:panelGroup />
 	                    	<h:panelGroup />
-	                    	<p:commandButton value="Refresh Calendar" action="#{scheduleView.loadStockItemViewEvents()}" oncomplete="" update="addGrid"/>
+<!-- 	                    	<p:commandButton value="Refresh Calendar" action="#{scheduleView.loadStockItemViewEvents()}" oncomplete="" update="addGrid"/> -->
 		            	</h:panelGrid>
 						<!-- //TODO: Wochen- und Monatsübersicht der Reservierungen pro Laborgerät einzusehen -->
 						<h:panelGrid columns="1">
