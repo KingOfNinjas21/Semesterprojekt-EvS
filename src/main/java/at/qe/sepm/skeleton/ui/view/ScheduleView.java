@@ -17,8 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.primefaces.model.LazyScheduleModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @ManagedBean
 @Scope("view")
@@ -53,7 +55,12 @@ public class ScheduleView implements Serializable {
     
     public void loadStockItemViewEvents()
     {	
-    	for(StockItem stockitem : stockItemView.getSelectedItems())
+    	List<StockItem> selectedItems = new ArrayList<StockItem>();
+    	if(stockItemView.getSelectedItems() != null)
+    	{
+    		selectedItems = stockItemView.getSelectedItems();
+    	}
+    	for(StockItem stockitem : selectedItems)
     	{
     		for(Reservation reservation : stockitem.getReservations())
     		{
