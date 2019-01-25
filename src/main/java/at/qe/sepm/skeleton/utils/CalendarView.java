@@ -67,6 +67,9 @@ public class CalendarView {
  
     public void setBeginDate(Date date) {
         this.beginDate = date;
+        if(endDate.before(beginDate)){
+            endDate = beginDate;
+        }
     }
  
     public Date getEndDate() {
