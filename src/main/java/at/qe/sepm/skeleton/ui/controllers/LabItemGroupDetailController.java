@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.LabItemGroup;
 import at.qe.sepm.skeleton.services.LabItemGroupService;
+import at.qe.sepm.skeleton.utils.ErrorMessage;
 
 @Component
 @Scope("view")
@@ -19,6 +20,9 @@ public class LabItemGroupDetailController
 {
 	@Autowired
 	private LabItemGroupService LabItemGroupService;
+	
+	@Autowired
+	private ErrorMessage errorMessage;
 
 	private LabItemGroup labItemGroup;
 	private LabItemGroup newLabItemGroup;
@@ -93,11 +97,12 @@ public class LabItemGroupDetailController
 
 		if ((newLabItemGroup.getGroupName() == null) || (newLabItemGroup.getGroupName().length() <= 3))
 		{
-			// TODO: return message
+			errorMessage.setMessage("Group name not valid");
+			errorMessage.pushMessage();
 			return;
 		}
 
-		this.LabItemGroupService.saveLabItemGroup(newLabItemGroup);
+		LabItemGroupService.saveLabItemGroup(newLabItemGroup);
 		newLabItemGroup = new LabItemGroup();
 	}
 

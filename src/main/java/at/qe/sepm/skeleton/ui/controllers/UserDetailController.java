@@ -1,6 +1,7 @@
 package at.qe.sepm.skeleton.ui.controllers;
 
 import at.qe.sepm.skeleton.model.User;
+import at.qe.sepm.skeleton.services.EmailService;
 import at.qe.sepm.skeleton.services.UserService;
 import at.qe.sepm.skeleton.utils.ErrorMessage;
 import at.qe.sepm.skeleton.utils.PasswordGenerator;
@@ -34,6 +35,9 @@ public class UserDetailController {
     
     @Autowired
     private ErrorMessage errorMessage;
+    
+    @Autowired
+    private EmailService emailService;
 
     /**
      * Attribute to cache the currently displayed user
@@ -145,10 +149,8 @@ public class UserDetailController {
     		errorMessage.setMessage("Keine Rollen ausgewählt!");
     		return;
     	}
+    
     	
-
-    	
-    	// TODO: send password via email
     	String pass = PasswordGenerator.getRandomPassword(5);
     	String hashedPass = PasswordGenerator.hashPassword(pass);
     	
@@ -156,7 +158,10 @@ public class UserDetailController {
     	newUser.setEnabled(true);
     	
     	
-    	userService.saveUser(newUser);
+    	if (userService.saveUser(newUser) != null) {
+    		emailService.sendPassword(pass);
+    	}
+    	
     	newUser = new User();
     	errorMessage.reset();
     }

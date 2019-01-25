@@ -73,8 +73,8 @@ public class EmailService {
         System.out.println("Done");
     }
 
-    public static void main(String[] args) throws MessagingException {
-        String email = "wechselbergerf@hotmail.com";
-        reservationExpiredNotification(email);
-    }
+	public void sendPassword(String pass) {
+		// TODO send password via email
+		
+	}
 }

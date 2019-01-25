@@ -18,7 +18,6 @@ import at.qe.sepm.skeleton.repositories.LabItemRepository;
  * @author Candir Salih
  */
 
-// TODO: ggf. Berechtigungen f�r hinzuf�gen/�berpr�fen
 @Component
 @Scope("application")
 public class LabItemService
