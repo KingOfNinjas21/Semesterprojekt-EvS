@@ -152,16 +152,17 @@ public class ReservationDetailController implements Serializable
 		if(errorMessage.hasError()) {
 			return;
 		}
-			
-
+	
 		for (StockItem item : items)
 		{
 			if (!isAvailable(item, begin, end))
 			{
-
 				return;
 			}
-			
+		}
+
+		for (StockItem item : items)
+		{			
 			log.debug("Saving: " + item);
 
 			entity.setItem(item);
