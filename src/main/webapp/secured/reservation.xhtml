@@ -155,7 +155,16 @@
                 	<h:panelGrid id="addGridLeftRight" columns="3" >
 	                	<h:panelGrid id="addGridUpper">
 	                		<h:panelGrid id="addGrid" columns="3" style="valign:top">
-		                        <p:outputLabel value="Items"/>
+
+								<p:outputLabel value="Groups"/>
+								<p:selectCheckboxMenu id="itemGroups" value="#{stockItemView.selectedItemGroups}" label="Gruppen" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="false" requiredMessage="Select at least one item.">
+									<f:selectItems value="#{stockItemView.itemGroups}" var="itemGroups" itemValue="#{itemGroups}" itemLabel="#{itemGroups.groupName}" noSelectionOption="false"/>
+									<p:ajax event="change" update="reservationSchedule"/>
+									<f:converter converterId="customConverter"/>
+								</p:selectCheckboxMenu>
+								<p:outputLabel for="itemGroups" value="" />
+
+								<p:outputLabel value="Items"/>
 						        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="true" requiredMessage="Select at least one item.">
 									 <f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
 						        	 <p:ajax event="change" update="reservationSchedule"/>
