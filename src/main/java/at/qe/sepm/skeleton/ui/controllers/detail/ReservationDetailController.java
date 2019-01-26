@@ -76,7 +76,13 @@ public class ReservationDetailController implements Serializable
 	 */
 	public void doSaveModel()
 	{
-
+		if (reservation.getReservationDate().before(new Date())) {
+			if (reservation.getIsReturned() == true) {
+				errorMessage.pushMessage("Item isn't borrowed");
+				return;
+			}
+		}
+		
 		reservation = reservationService.save(reservation);
 	}
 
