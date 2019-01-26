@@ -9,10 +9,12 @@
                 
     <ui:define name ="content">
         <h:form id="itemGroupForm">
-        	<h:panelGrid>
-  				<p:commandButton value="New Group" update=":itemGroupAddForm:itemGroupAddDialog" oncomplete="PF('itemGroupAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
-  				</p:commandButton>
-            </h:panelGrid> 
+	        <p:panel header="#{sessionInfoBean.hasRole('ADMIN') ? 'Administration / Groups' : 'Reservations / Groups'}">	
+	        	<h:panelGrid>
+	  				<p:commandButton value="New Group" update=":itemGroupAddForm:itemGroupAddDialog" oncomplete="PF('itemGroupAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
+	  				</p:commandButton>
+	            </h:panelGrid> 
+            </p:panel>
             
             
             <p:dataTable id="itemGroupTable" var="itemGroup" value="#{itemGroupListController.getAllItemGroups()}" resizableColumns="true" >

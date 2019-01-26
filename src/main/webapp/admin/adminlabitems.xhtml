@@ -9,9 +9,11 @@
                 
     <ui:define name ="content">
         <h:form id="labItemCreationForm">
-        	<h:panelGrid>
-  				<p:commandButton value="New Lab Item" update=":labItemAddForm:labItemAddDialog" oncomplete="PF('labItemAddDialog').show()" icon="ui-icon-plusthick" title="New Item"/>
-            </h:panelGrid> 
+	        <p:panel header="Administration / Lab Items">	
+	        	<h:panelGrid>
+	  				<p:commandButton value="New Lab Item" update=":labItemAddForm:labItemAddDialog" oncomplete="PF('labItemAddDialog').show()" icon="ui-icon-plusthick" title="New Item"/>
+	            </h:panelGrid> 
+            </p:panel>
             
             <p:dataTable id="labItemTable" var="labItem" value="#{labItemListController.getLabItems()}" resizableColumns="true" >
                 <p:column headerText="Id" style="width:30px;text-align: center">
