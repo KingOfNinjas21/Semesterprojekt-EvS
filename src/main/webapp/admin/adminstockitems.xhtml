@@ -9,12 +9,14 @@
                 
     <ui:define name ="content">
         <h:form id="stockItemCreationForm">
-        	<h:panelGrid columns="2">
-  				<p:commandButton value="Add Stock Item" update=":stockItemAddForm:stockItemAddDialog" oncomplete="PF('stockItemAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
-  				</p:commandButton>
-  				<p:commandButton value="New Stock Item" update=":stockItemNewForm:stockItemNewDialog" oncomplete="PF('stockItemNewDialog').show()" icon="ui-icon-plusthick" title="New Item">
-  				</p:commandButton>
-            </h:panelGrid> 
+	        <p:panel header="Administration / Stock Items">	
+	        	<h:panelGrid columns="2">
+	  				<p:commandButton value="Add Stock Item" update=":stockItemAddForm:stockItemAddDialog" oncomplete="PF('stockItemAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
+	  				</p:commandButton>
+	  				<p:commandButton value="New Stock Item" update=":stockItemNewForm:stockItemNewDialog" oncomplete="PF('stockItemNewDialog').show()" icon="ui-icon-plusthick" title="New Item">
+	  				</p:commandButton>
+	            </h:panelGrid> 
+            </p:panel>
             
             
             <p:dataTable id="stockItemTable" var="stockItem" value="#{stockItemListController.getStockItems()}" resizableColumns="true" >

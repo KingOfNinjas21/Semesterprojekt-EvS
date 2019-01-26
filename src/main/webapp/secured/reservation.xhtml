@@ -9,15 +9,16 @@
                 
     <ui:define name ="content">
         <h:form id="reservationForm">
-    
-        	<h:panelGrid>
-  				<p:commandButton value="New Reservation" update=":reservationAddForm:reservationAddDialog" oncomplete="PF('reservationAddDialog').show()" icon="ui-icon-plusthick" title="New Reservation" >
-                  </p:commandButton>
-                <p:selectBooleanCheckbox value="#{reservationView.onlyShowActive}" itemLabel="Show Only Active Reservations" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
-            		<p:ajax update="reservationForm"/>
-        		</p:selectBooleanCheckbox>
-            </h:panelGrid>
-            <p:dataTable id="reservationTable" var="reservation" value="#{reservationListContoller.reservations}" resizableColumns="true" resizeMode="expand" rendered="#{!sessionInfoBean.hasRole('ADMIN') or !reservationView.onlyShowActive}">
+	        <p:panel header="#{sessionInfoBean.hasRole('ADMIN') ? 'Administration / Reservations' : 'Reservations / Items'}">	
+	        	<h:panelGrid columns="2">
+	        	    <p:selectBooleanCheckbox value="#{reservationView.onlyShowActive}" itemLabel="Show Only Active Reservations" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+	            		<p:ajax update="reservationForm"/>
+	        		</p:selectBooleanCheckbox>
+	  				<p:commandButton value="New Reservation" update=":reservationAddForm:reservationAddDialog" oncomplete="PF('reservationAddDialog').show()" icon="ui-icon-plusthick" title="New Reservation" >
+	                </p:commandButton>
+	            </h:panelGrid>
+            </p:panel>
+            <p:dataTable id="reservationTable" var="reservation" value="#{reservationListContoller.getReservations()}" resizableColumns="true" resizeMode="expand" rendered="#{!sessionInfoBean.hasRole('ADMIN') or !reservationView.onlyShowActive}">
                 <p:column headerText="Labitem">
                     <h:outputText value="#{reservation.item.labItem.itemName}"/>
                 </p:column>
@@ -48,7 +49,7 @@
                 </p:column>
                 <p:column style="width:100px;text-align: center">
                 
-					<p:commandButton update=":reservationEditForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-pencil" title="Edit" disabled="#{reservationDetailController.getEditDisabled()}">
+					<p:commandButton update=":reservationEditForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-pencil" title="Edit" disabled="#{reservationDetailController.editDisabled}">
 					    <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
 					</p:commandButton>
                     <p:commandButton action="#{reservationDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":reservationForm:reservationActiveTable, :reservationForm:reservationTable" disabled="#{reservation.reservationDate le calendarView.today and !sessionInfoBean.hasRole('ADMIN')}">

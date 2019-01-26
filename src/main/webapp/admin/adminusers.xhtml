@@ -8,9 +8,11 @@
                 template="/WEB-INF/templates/main.xhtml">
     <ui:define name ="content">
         <h:form id="userForm">
-        	<h:panelGrid>
-        		<p:commandButton value="New User" update=":userAddForm:userAddDialog" oncomplete="PF('userAddDialog').show()" icon="ui-icon-plusthick" title="Neu"/>
-        	</h:panelGrid>
+	        <p:panel header="Administration / Users">	
+	        	<h:panelGrid>
+	        		<p:commandButton value="New User" update=":userAddForm:userAddDialog" oncomplete="PF('userAddDialog').show()" icon="ui-icon-plusthick" title="Neu"/>
+	        	</h:panelGrid>
+        	</p:panel>
             <p:dataTable id="usersTable" var="user" value="#{userListController.users}" resizableColumns="true" resizeMode="expand">
                 <p:column headerText="Username">
                     <h:outputText value="#{user.username}"/>

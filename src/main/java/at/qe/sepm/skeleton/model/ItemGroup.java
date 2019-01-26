@@ -38,7 +38,7 @@ public class ItemGroup implements Persistable<Long> {
     @Temporal(TemporalType.TIMESTAMP)
     private Date groupCreationDate;
 
-	@OneToOne(fetch = FetchType.EAGER, optional = false)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "User_username", nullable = false)
 	private User user;
 	
