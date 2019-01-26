@@ -9,6 +9,7 @@ import javax.faces.bean.ManagedBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.repositories.LabItemRepository;
@@ -21,6 +22,7 @@ import at.qe.sepm.skeleton.services.LabItemService;
  */
 @ManagedBean(name = "labItemView")
 @Scope("view")
+@Controller
 public class LabItemView implements Serializable 
 {
 
