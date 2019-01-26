@@ -59,6 +59,8 @@ public class LabItemDetailController implements Serializable
 	{
 		this.labItem = labItem;
 		doReloadLabItem();
+
+		fileuploadView.setLabItem(labItem);
 	}
 
 	/**

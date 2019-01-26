@@ -189,4 +189,81 @@ public class LabItem implements Persistable<Long>
 		return (null == createDate);
 	}
 
+	/**
+	 * @return the days
+	 */
+	public int getDays()
+	{
+		return days;
+	}
+
+	/**
+	 * @param days
+	 *            the days to set
+	 */
+	public void setDays(int days)
+	{
+		this.days = days;
+	}
+
+	/**
+	 * @return the hours
+	 */
+	public int getHours()
+	{
+		return hours;
+	}
+
+	/**
+	 * @param hours
+	 *            the hours to set
+	 */
+	public void setHours(int hours)
+	{
+		this.hours = hours;
+	}
+
+	/**
+	 * @return the minutes
+	 */
+	public int getMinutes()
+	{
+		return minutes;
+	}
+
+	/**
+	 * @param minutes
+	 *            the minutes to set
+	 */
+	public void setMinutes(int minutes)
+	{
+		this.minutes = minutes;
+	}
+
+	/**
+	 * @return the stockItems
+	 */
+	public List<StockItem> getStockItems()
+	{
+		return stockItems;
+	}
+
+	/**
+	 * @param stockItems
+	 *            the stockItems to set
+	 */
+	public void setStockItems(List<StockItem> stockItems)
+	{
+		this.stockItems = stockItems;
+	}
+
+	/**
+	 * @param itemId
+	 *            the itemId to set
+	 */
+	public void setItemId(long itemId)
+	{
+		this.itemId = itemId;
+	}
+
 }
