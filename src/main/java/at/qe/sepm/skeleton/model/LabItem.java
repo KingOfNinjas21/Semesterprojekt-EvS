@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.joda.time.Period;
 import org.springframework.data.domain.Persistable;
 
@@ -61,7 +63,25 @@ public class LabItem implements Persistable<Long>
 	private List<StockItem> stockItems;
 
 	@OneToMany(mappedBy = "labItem1")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Manual> manuals;
+
+	/**
+	 * @return the manuals
+	 */
+	public List<Manual> getManuals()
+	{
+		return manuals;
+	}
+
+	/**
+	 * @param manuals
+	 *            the manuals to set
+	 */
+	public void setManuals(List<Manual> manuals)
+	{
+		this.manuals = manuals;
+	}
 
 	public long getItemId()
 	{
