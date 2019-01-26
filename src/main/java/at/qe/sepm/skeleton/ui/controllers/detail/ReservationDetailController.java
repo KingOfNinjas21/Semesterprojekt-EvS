@@ -149,16 +149,15 @@ public class ReservationDetailController implements Serializable
 			errorMessage.pushMessage("Begin Date after End Date.");
 		}
 		
-		if(errorMessage.hasError()) {
-			return;
-		}
+
 	
 		for (StockItem item : items)
 		{
-			if (!isAvailable(item, begin, end))
-			{
-				return;
-			}
+			isAvailable(item, begin, end);
+		}
+		
+		if(errorMessage.hasError()) {
+			return;
 		}
 
 		for (StockItem item : items)
