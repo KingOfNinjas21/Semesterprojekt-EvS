@@ -5,12 +5,16 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.OpeningHour;
 import at.qe.sepm.skeleton.services.OpeningHourService;
 import at.qe.sepm.skeleton.utils.ErrorMessage;
 
+@Component
+@Scope("view")
 public class OpeningHourDetailController implements Serializable {
 
 
@@ -27,6 +31,23 @@ public class OpeningHourDetailController implements Serializable {
 
 	private OpeningHour openingHour;
 	private OpeningHour newOpeningHour;
+	
+	public OpeningHour getOpeningHour() {
+		return openingHour;
+	}
+
+	public void setOpeningHour(OpeningHour openingHour) {
+		this.openingHour = openingHour;
+	}
+
+	public OpeningHour getNewOpeningHour() {
+		return newOpeningHour;
+	}
+
+	public void setNewOpeningHour(OpeningHour newOpeningHour) {
+		this.newOpeningHour = newOpeningHour;
+	}
+
 
 	@PostConstruct
 	private void init()

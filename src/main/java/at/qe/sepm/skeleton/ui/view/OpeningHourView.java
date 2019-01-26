@@ -2,10 +2,16 @@ package at.qe.sepm.skeleton.ui.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,34 +33,31 @@ public class OpeningHourView implements Serializable
 	 */
 	private static final long serialVersionUID = 1450030318846219581L;
 
-	@Autowired
-	private OpeningHourRepository openingHourRepository;
+	
+	private List<String> weekdays;
 
-	private List<OpeningHour> openingHours;
-	private List<OpeningHour> selectedOpeningHours;
+	public List<String> getWeekdays() {
+		return weekdays;
+	}
+
+	public void setWeekdays(List<String> weekdays) {
+		this.weekdays = weekdays;
+	}
 
 	@PostConstruct
 	public void init()
 	{
-		openingHours = new ArrayList<OpeningHour>();
-		selectedOpeningHours = new ArrayList<OpeningHour>();
+		weekdays = new ArrayList<String>();
+		weekdays.add("Monday");
+		weekdays.add("Tuesday");
+		weekdays.add("Wednesday");
+		weekdays.add("Thursday");
+		weekdays.add("Friday");
+		weekdays.add("Saturday");
+		weekdays.add("Sunday");
+		
 
-		openingHours.addAll(openingHourRepository.findAll());
 	}
 
-	public List<OpeningHour> getOpeningHours()
-	{
-		return openingHours;
-	}
-
-	public List<OpeningHour> getSelectedOpeningHours()
-	{
-		return selectedOpeningHours;
-	}
-
-	public void setSelectedOpeningHours(List<OpeningHour> selectedOpeningHours)
-	{
-		this.selectedOpeningHours = selectedOpeningHours;
-	}
 
 }
