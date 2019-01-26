@@ -55,7 +55,7 @@
                 </p:column>
             	
             	<p:column style="width:100px;text-align: center" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
-					<p:commandButton action="#{openingHourDetailController.doReloadOpeningHour()}" update=":openingHourEditForm:openingHourEditDialog" oncomplete="PF('openingHourEditDialog').show()" icon="ui-icon-pencil" title="Edit">
+					<p:commandButton update=":openingHourEditForm:openingHourEditDialog" oncomplete="PF('openingHourEditDialog').show()" icon="ui-icon-pencil" title="Edit">
 					    <f:setPropertyActionListener value="#{openingHour}" target="#{openingHourDetailController.openingHour}" />
 					</p:commandButton>
                     <p:commandButton action="#{openingHourDetailController.doDeleteOpeningHour()}" icon="ui-icon-trash" title="Delete" update=":openingHourForm:openingHourTable" >
@@ -78,20 +78,20 @@
 				            <p:outputLabel for="day" value="" />
 						    
 	                        <p:outputLabel value="Opening Hour" />
-	                        <p:calendar id="openingHour" binding="#{openingHour}" timeOnly="true" value="#{openingHourDetailController.openingHour.openingHour}" pattern="HH:mm" required="true" validatorMessage="Opening Hour Invalid." requiredMessage="Opening Hour required." />
-	                        <p:outputLabel for="openingHour" value="" />
+	                        <p:calendar id="openingHour2" timeOnly="true" value="#{openingHourDetailController.openingHour.openingHour}" pattern="HH:mm" required="true" validatorMessage="Opening Hour Invalid." requiredMessage="Opening Hour required." />
+	                        <p:outputLabel for="openingHour2" value="" />
 
 	                        <p:outputLabel  value="Closing Hour" />
-	                        <p:calendar id="closingHour" binding="#{closingHour}" timeOnly="true" value="#{openingHourDetailController.openingHour.closingHour}" pattern="HH:mm" required="true" validatorMessage="Closing Hour Invalid." requiredMessage="Closing Hour required." />
-	                        <p:outputLabel for="closingHour" value="" />
+	                        <p:calendar id="closingHour2" timeOnly="true" value="#{openingHourDetailController.openingHour.closingHour}" pattern="HH:mm" required="true" validatorMessage="Closing Hour Invalid." requiredMessage="Closing Hour required." />
+	                        <p:outputLabel for="closingHour2" value="" />
 	                        
 	                        <p:outputLabel value="Break Start" />
-	                        <p:calendar id="breakStart" binding="#{breakStart}" timeOnly="true" value="#{openingHourDetailController.openingHour.breakStart}" pattern="HH:mm" validatorMessage="Break Start Invalid."/>
+	                        <p:calendar id="breakStart" timeOnly="true" value="#{openingHourDetailController.openingHour.breakStart}" pattern="HH:mm" validatorMessage="Break Start Invalid."/>
 	                        <p:outputLabel for="breakStart" value="" />
 	                        
 	                        
 	                        <p:outputLabel  value="Break End" />
-	                        <p:calendar id="breakEnd" binding="#{breakEnd}" timeOnly="true" value="#{openingHourDetailController.openingHour.breakEnd}" pattern="HH:mm" validatorMessage="Break End Invalid."/>
+	                        <p:calendar id="breakEnd" timeOnly="true" value="#{openingHourDetailController.openingHour.breakEnd}" pattern="HH:mm" validatorMessage="Break End Invalid."/>
 	                        <p:outputLabel for="breakEnd" value="" />
 	                        
                         
