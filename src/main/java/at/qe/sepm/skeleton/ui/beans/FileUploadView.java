@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Scope;
 
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.model.Manual;
-import at.qe.sepm.skeleton.services.LabItemService;
 import at.qe.sepm.skeleton.services.ManualService;
 
 @ManagedBean
@@ -31,10 +30,6 @@ public class FileUploadView
 
 	@Autowired
 	private ManualService manualService;
-
-	// for testing
-	@Autowired
-	private LabItemService lab;
 
 	@PostConstruct
 	private void init()
@@ -90,6 +85,26 @@ public class FileUploadView
 			uploadedFiles.add(file);
 		}
 
+	}
+
+	public void handleFileUploadEdit(FileUploadEvent event)
+	{
+		file = event.getFile();
+		if (file != null)
+		{
+			FacesMessage message = new FacesMessage("Succesful ");
+			FacesContext.getCurrentInstance().addMessage(null, message);
+
+			manual.setManualName(file.getFileName());
+
+			manual.setType(file.getContentType());
+
+			manual.setData(file.getContents());
+
+			manual.setLabItem(labItem);
+
+			manualService.saveManual(manual);
+		}
 	}
 
 	/**

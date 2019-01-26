@@ -19,7 +19,7 @@
     </h:form>
     
   
-  <h:form>   
+  <h:form id="hure">   
 
   <p:dataTable id="ManualTable" var="manual" value="#{labItemDetailController.labItem}" resizableColumns="true" >
                 <p:column headerText="Id" style="width:30px;text-align: center">
@@ -43,6 +43,18 @@
 			<p:fileDownload value="#{fileDownloadView.file}" />
 		</p:commandButton> 
 
+        
+						<p:commandButton  value="Bedienungsanleitungen" action="#{manualView.display()}" update=":hure:editManualTable"/>
+						
+						<p:dataTable id="editManualTable" var="manual" value="#{labItemDetailController.labItem.getManuals()}" resizableColumns="true" rendered="#{manualView.show}">
+							<p:column>			
+                 
+							
+							</p:column>
+		
+
+		</p:dataTable>
+        
 
   </h:form>
     </ui:define>

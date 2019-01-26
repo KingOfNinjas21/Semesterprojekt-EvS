@@ -31,7 +31,8 @@
                 <p:column headerText="Manuals">
                     <p:commandButton update=":manualForm:manualInfoDialog" oncomplete="PF('manualInfoDialog').show()" icon="ui-icon-plusthick" title="Bedienungsanleitungen">
 
-					    <f:setPropertyActionListener value="#{labItem}" target="#{labItemDetailController.labItem}" />
+					    <f:setPropertyActionListener value="#{labItem}" target="#{labItemDetailController.labItem}"/>
+					
 
 					</p:commandButton>
                 </p:column>
@@ -52,8 +53,8 @@
             </p:dataTable>
         </h:form>
         
-        <h:form id="labItemEditForm">
-            <p:dialog header="Edit Items" id="labItemEditDialog" dynamic="true" widgetVar="labItemEditDialog" modal="true" focus="manual" showEffect="fade" hideEffect="fade" resizable="false" >   
+        <h:form id="labItemEditForm" enctype="multipart/form-data" >
+            <p:dialog header="Edit Items" id="labItemEditDialog" dynamic="true" widgetVar="labItemEditDialog" modal="true" focus="manual" showEffect="fade" hideEffect="fade" resizable="false" onHide="#{manualView.reset()}" >   
 	            <p:outputPanel id="labItemData" rendered="#{not empty labItemDetailController.labItem}">
 	
 	               <h:panelGrid columns="3">
@@ -62,27 +63,41 @@
 	                    <p:outputLabel for="itemName" value="" />
 						
 	                    <p:outputLabel value="Max Reservation Time" />
-		                <p:inputNumber id="maxDays" value="#{labItemDetailController.labItem.maxReservationTime.getDays()}" mask="999" 
+		                <p:inputNumber id="maxDays" value="#{labItemDetailController.labItem.days}" mask="999" 
 		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
 		                        				minValue="0" maxValue="365" symbol=" Days" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxDays" value="" />
 		                <h:panelGroup />
-		                <p:inputNumber id="maxHours" value="#{labItemDetailController.labItem.maxReservationTime.getHours()}" mask="99" 
+		                <p:inputNumber id="maxHours" value="#{labItemDetailController.labItem.hours}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Hours) required." converterMessage="Max Reservation Time (Hours) required."
 		                        				minValue="0" maxValue="23" symbol=" Hours" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxHours" value="" />
 		                <h:panelGroup />
 		                
-		                <p:inputNumber id="maxMinutes" value="#{labItemDetailController.labItem.maxReservationTime.getMinutes()}" mask="99" 
+		                <p:inputNumber id="maxMinutes" value="#{labItemDetailController.labItem.minutes}" mask="99" 
 		                        				required="true" requiredMessage="Max Reservation Time (Minutes) required." converterMessage="Max Reservation Time (Minutes) required."
 		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
 		                <p:outputLabel for="maxMinutes" value="" />
 		                    
 		                
-	                    <p:outputLabel for="manual" value="Manuals" />
-	                    <p:inputText id="manual" value="#{labItemDetailController.labItem.manuel}" />
+	                    <p:outputLabel for="manual" value="" />
+                    	<p:fileUpload id="manual" label="Manuals" multiple="false" uploadLabel="Upload..." update=":messages" value="#{fileUploadView.file}" mode="advanced" skinSimple="false" fileUploadListener="#{fileUploadView.handleFileUploadEdit}"/>                     
 	
-		            </h:panelGrid>
+	</h:panelGrid>
+						<p:commandButton  value="Bedienungsanleitungen" actionListener="#{manualView.display()}" update="labItemData"/>
+						
+						<p:dataTable id="editManualTable" var="manual" value="#{labItemDetailController.labItem.getManuals()}" resizableColumns="true" rendered="#{manualView.show}">
+							<p:column>			
+                 
+							
+							</p:column>
+		
+
+		</p:dataTable>
+
+						
+			
+		            
 					<p:separator />
 
 	   				<h:panelGrid columns="3">
