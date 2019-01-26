@@ -39,18 +39,17 @@ public class LabItem implements Persistable<Long>
 	@Column(nullable = false, unique = true)
 	private String itemName;
 
-//	@Column(nullable = false)
-//	@Type(type="org.joda.time.contrib.hibernate.PersistentPeriod")
-//	private Period maxReservationTime;
-	
+	// @Column(nullable = false)
+	// @Type(type="org.joda.time.contrib.hibernate.PersistentPeriod")
+	// private Period maxReservationTime;
+
 	@Column(nullable = true)
 	private int days;
 	@Column(nullable = true)
 	private int hours;
 	@Column(nullable = true)
 	private int minutes;
-	
-	
+
 	// TODO: List of Manuels
 	private String manuel;
 
@@ -60,6 +59,9 @@ public class LabItem implements Persistable<Long>
 
 	@OneToMany(mappedBy = "labItem")
 	private List<StockItem> stockItems;
+
+	@OneToMany(mappedBy = "labItem1")
+	private List<Manual> manuals;
 
 	public long getItemId()
 	{
@@ -95,25 +97,23 @@ public class LabItem implements Persistable<Long>
 	{
 		if (days + hours + minutes <= 0)
 			return null;
-		
-		
-		Period p = new Period().withDays(days)
-				.withHours(hours)
-				.withMinutes(minutes);
+
+		Period p = new Period().withDays(days).withHours(hours).withMinutes(minutes);
 		return p;
-//		return maxReservationTime;
+		// return maxReservationTime;
 	}
-	
-	public String getMaxReservationTimeStr() {
-		return String.format("Tage: %d Stunden: %d Minuten: %d",days, hours, minutes);
+
+	public String getMaxReservationTimeStr()
+	{
+		return String.format("Tage: %d Stunden: %d Minuten: %d", days, hours, minutes);
 	}
 
 	public void setMaxReservationTime(Period maxReservationTime)
 	{
 		this.days = maxReservationTime.getDays();
-		this.hours= maxReservationTime.getHours();
+		this.hours = maxReservationTime.getHours();
 		this.minutes = maxReservationTime.getMinutes();
-//		this.maxReservationTime = maxReservationTime;
+		// this.maxReservationTime = maxReservationTime;
 	}
 
 	public Date getCreateDate()

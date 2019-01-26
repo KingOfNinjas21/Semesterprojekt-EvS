@@ -12,26 +12,30 @@ import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.services.LabItemService;
+import at.qe.sepm.skeleton.ui.beans.FileUploadView;
 import at.qe.sepm.skeleton.utils.ErrorMessage;
 
 @Component
 @Scope("view")
-public class LabItemDetailController implements Serializable 
+public class LabItemDetailController implements Serializable
 {
 
 	private static final long serialVersionUID = 152811281487490741L;
 
 	@Autowired
 	private LabItemService labItemService;
-	
+
 	@Autowired
 	private ErrorMessage errorMessage;
 
+	@Autowired
+	private FileUploadView fileuploadView;
+
 	private LabItem labItem;
 	private LabItem newLabItem;
-	private int days	= 0;
-	private int hours	= 0;
-	private int minutes	= 0;
+	private int days = 0;
+	private int hours = 0;
+	private int minutes = 0;
 
 	@PostConstruct
 	private void init()
@@ -74,27 +78,33 @@ public class LabItemDetailController implements Serializable
 		this.newLabItem = newLabItem;
 	}
 
-	public int getDays() {
+	public int getDays()
+	{
 		return days;
 	}
 
-	public void setDays(int days) {
+	public void setDays(int days)
+	{
 		this.days = days;
 	}
 
-	public int getHours() {
+	public int getHours()
+	{
 		return hours;
 	}
 
-	public void setHours(int hours) {
+	public void setHours(int hours)
+	{
 		this.hours = hours;
 	}
 
-	public int getMinutes() {
+	public int getMinutes()
+	{
 		return minutes;
 	}
 
-	public void setMinutes(int minutes) {
+	public void setMinutes(int minutes)
+	{
 		this.minutes = minutes;
 	}
 
@@ -129,27 +139,26 @@ public class LabItemDetailController implements Serializable
 			errorMessage.pushMessage("Item Name invalid.");
 			return;
 		}
-		
-		
-		if (newLabItem.getMaxReservationTime() == null ) {
-			if (days + hours + minutes <= 0) {
+
+		if (newLabItem.getMaxReservationTime() == null)
+		{
+			if (days + hours + minutes <= 0)
+			{
 				errorMessage.pushMessage("Max Reservation Time invalid.");
 				return;
 			}
 		}
-		
-		
-		if (errorMessage.hasError()) {
+
+		if (errorMessage.hasError())
+		{
 			return;
 		}
-		
 
-		Period period = new Period().withDays(days)
-				.withHours(hours)
-				.withMinutes(minutes);
+		Period period = new Period().withDays(days).withHours(hours).withMinutes(minutes);
 
 		newLabItem.setMaxReservationTime(period);
 		labItem = labItemService.saveLabItem(newLabItem);
+		fileuploadView.upload(labItem);
 		newLabItem = new LabItem();
 	}
 
