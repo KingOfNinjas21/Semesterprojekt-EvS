@@ -60,6 +60,7 @@ public class ReservationDetailController implements Serializable
 	private ErrorMessage errorMessage;
 
 	private Reservation reservation;
+	private String reason;
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	/**
@@ -149,8 +150,11 @@ public class ReservationDetailController implements Serializable
 			errorMessage.pushMessage("Begin Date after End Date.");
 		}
 		
+		if (reason == null)
+		{
+			errorMessage.pushMessage("Invalid Reason.");
+		}
 
-	
 		for (StockItem item : items)
 		{
 			isAvailable(item, begin, end);
@@ -168,6 +172,7 @@ public class ReservationDetailController implements Serializable
 			entity.setReservationDate(begin);
 			entity.setReturnableDate(end);
 			entity.setIsReturned(false);
+			entity.setReason(reason);
 			
 			reservation = reservationService.save(entity);
 			item.addReservation(reservation);
@@ -181,6 +186,7 @@ public class ReservationDetailController implements Serializable
 		calendarView.setBeginDate(beginDate);
 		calendarView.setEndDate(beginDate);
 		stockItemView.setSelectedItems(null);
+		reason = null;
 	}
 	
 	
@@ -283,5 +289,13 @@ public class ReservationDetailController implements Serializable
 	public void setStockItemView(StockItemView labItemView)
 	{
 		this.stockItemView = labItemView;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 }

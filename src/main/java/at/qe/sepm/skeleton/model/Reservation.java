@@ -44,6 +44,17 @@ public class Reservation implements Persistable<Long>
 	@Column(nullable = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
+	
+	@Column(nullable = false)
+	private String reason;
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
 
 	private boolean isReturned;
 

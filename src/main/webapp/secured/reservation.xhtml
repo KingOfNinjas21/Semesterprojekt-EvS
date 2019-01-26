@@ -104,19 +104,32 @@
         <h:form id="reservationEditForm">
 			<p:dialog header="Edit Reservation" id="reservationEditDialog" dynamic="true" widgetVar="reservationEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 			    <p:outputPanel id="reservationData" rendered="#{not empty reservationDetailController.reservation}">
-			        <h:panelGrid columns="2">
-			            <p:outputLabel for="labItem" value="Item: " />
-			            <p:inputText id="labItem" value="#{reservationDetailController.reservation.item.labItem.itemName}" disabled="true"/>
+			        <h:panelGrid columns="3">
+			            <p:outputLabel  value="Item" />
+			            <p:inputText id="labItem" value="#{reservationDetailController.reservation.item.labItem.itemName}" disabled="true" required="true" requiredMessage="Item required."/>
+			            <p:outputLabel for="labItem" value="" />
 			            
-			            <p:outputLabel for="reservationDate" value="From: " />
-			            <p:inputText id="reservationDate" value="#{reservationDetailController.reservation.reservationDate}" disabled="true">
+			            <p:outputLabel for="reservationDate" value="From" />
+			            <p:inputText id="reservationDate" value="#{reservationDetailController.reservation.reservationDate}" disabled="true" required="true" requiredMessage="Begin Date required.">
 			                <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
 			            </p:inputText>
+			            <p:outputLabel for="reservationDate" value="" />
 			            
-			            <p:outputLabel for="returnableDate" value="To: " />
-			            <p:inputText id="returnableDate" value="#{reservationDetailController.reservation.returnableDate}" disabled="true">
+			            <p:outputLabel  value="To" />
+			            <p:inputText id="returnableDate" value="#{reservationDetailController.reservation.returnableDate}" disabled="true" required="true" requiredMessage="End Date required.">
 			                <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
 			            </p:inputText>
+			            <p:outputLabel for="returnableDate" value="" />
+			            
+			            <p:outputLabel value="Reason" />
+			            <p:inputTextarea id="reason" value="#{reservationDetailController.reservation.reason}" disabled="true" required="true" requiredMessage="Reason required." validatorMessage="Reason must have at least 4 characters." rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} characters remaining." autoResize="false">
+							<f:validateLength minimum="4"/>
+						</p:inputTextarea>
+						<p:outputLabel for="reason" value="" />
+						
+						<h:panelGroup />
+						<h:outputText id="display" />
+
 			        </h:panelGrid>
 			        <p:separator />                    
 			        <h:panelGrid columns="2">
@@ -159,6 +172,17 @@
 	                        	<p:ajax event="dateSelect" update="beginDate" />
 	                        </p:calendar>
 	                        <p:outputLabel for="endDate" value="" />
+	                        
+	                        <p:outputLabel value="Reason" />
+				            <p:inputTextarea id="reason" value="#{reservationDetailController.reason}" style="width: 212px;" required="true" requiredMessage="Reason required." validatorMessage="Reason must have at least 4 characters." rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} characters remaining." autoResize="false">
+								<f:validateLength minimum="4"/>
+							</p:inputTextarea>
+							<p:outputLabel for="reason" value="" />
+							
+							<h:panelGroup />
+							<h:outputText id="display" />
+							<h:panelGroup />
+						
 	                        <h:panelGroup />
 	                        <h:panelGrid columns="2">	
 	                        	<p:commandButton value="Add" style="width:100px" action="#{reservationDetailController.doAddModel()}" oncomplete="if (!args.validationFailed) PF('reservationAddDialog').hide()" update="addMessages, addGrid, :reservationForm:reservationActiveTable, :reservationForm:reservationTable"/>
