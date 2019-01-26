@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.primefaces.model.LazyScheduleModel;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,8 +66,9 @@ public class ScheduleView implements Serializable {
     		for(Reservation reservation : stockitem.getReservations())
     		{
     			DefaultScheduleEvent e = new DefaultScheduleEvent(stockitem.getLabItem().getItemName(), reservation.getReservationDate(), reservation.getReturnableDate());
-    			e.setDescription(e.getTitle() + "<br/>From: " + e.getStartDate().toString() + "<br/>To: " + e.getEndDate().toString());
-    			
+    			SimpleDateFormat fd = new SimpleDateFormat("dd.MM.yyyy hh:mm");
+    			e.setDescription("-- Reservation Details --<br/>Item: " + e.getTitle() + "<br/>From: " + fd.format(e.getStartDate()) + "<br/>To: " + fd.format(e.getEndDate()));
+
     			lazyEventModel.addEvent(e);
     		}
     	}

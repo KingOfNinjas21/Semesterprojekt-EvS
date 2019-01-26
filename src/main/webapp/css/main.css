@@ -135,12 +135,20 @@ body {
     margin-bottom:50px;
 }
 
+
 .ui-tooltip {
-	position:absolute;
-	    display:block;
+	display:block;
     position:fixed;
     overflow:hidden;
+    left: -10px;
+  	border-style: dashed !important;
+  	border-width: 3px !important;
+    padding: 5px 5px !important;
+    box-shadow: 0 0 10px 0 #ddd;
+    -moz-box-shadow: 0 0 10px 0 #ddd;
+    -webkit-box-shadow: 0 0 10px 0 #ddd;
 }
+
 /*
 #footer {
     position: fixed;

@@ -103,14 +103,14 @@
 					        <p:outputLabel for="items" value="" />
 	                        
 	                        <p:outputLabel value="Begin" />
-	                        <p:calendar id="beginDate" binding="#{beginDate}" value="#{calendarView.beginDate}" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="Begin Date required." mindate="#{calendarView.getToday()}">
+	                        <p:calendar id="beginDate" binding="#{beginDate}" value="#{calendarView.beginDate}" locale="en_GB" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="Begin Date required." mindate="#{calendarView.getToday()}">
 	                        	<p:ajax event="dateSelect" update="endDate" />
 	                        </p:calendar>
 	                        <p:outputLabel for="beginDate" value="" />
 	                        
 	                        
 	                        <p:outputLabel  value="End" />
-	                        <p:calendar id="endDate" binding="#{endDate}" value="#{calendarView.endDate}" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="End Date required." mindate="#{calendarView.beginDate}">
+	                        <p:calendar id="endDate" binding="#{endDate}" value="#{calendarView.endDate}" locale="en_GB" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="End Date required." mindate="#{calendarView.beginDate}">
 	                        	<p:ajax event="dateSelect" update="beginDate" />
 	                        </p:calendar>
 	                        <p:outputLabel for="endDate" value="" />
