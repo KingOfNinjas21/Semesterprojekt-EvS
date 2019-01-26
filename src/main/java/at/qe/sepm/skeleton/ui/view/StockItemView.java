@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.repositories.StockRepository;
+import at.qe.sepm.skeleton.services.StockItemService;
 
 /**
  * A lab item view. Loads the items from {@code LabItemRepository}.
@@ -28,7 +29,7 @@ public class StockItemView implements Serializable
 	private static final long serialVersionUID = -6659257695533986758L;
 
 	@Autowired
-	private StockRepository stockRepository;
+	private StockItemService stockItemService;
 
 	private List<StockItem> items;
 	private List<StockItem> selectedItems;
@@ -39,7 +40,7 @@ public class StockItemView implements Serializable
 		items = new ArrayList<StockItem>();
 		selectedItems = new ArrayList<StockItem>();
 
-		for (StockItem item : stockRepository.findAll())
+		for (StockItem item : stockItemService.loadAll())
 		{
 			if (item.isBlocked())
 				continue;

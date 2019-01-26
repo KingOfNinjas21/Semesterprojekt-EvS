@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Scope;
 
 import at.qe.sepm.skeleton.model.LabItem;
 import at.qe.sepm.skeleton.repositories.LabItemRepository;
+import at.qe.sepm.skeleton.services.LabItemService;
 
 /**
  * A lab item view. Loads the items from {@code LabItemRepository}.
@@ -26,7 +27,7 @@ public class LabItemView implements Serializable
 	private static final long serialVersionUID = -2990342781351510303L;
 
 	@Autowired
-	private LabItemRepository labItemRepository;
+	private LabItemService labItemService;
 
 	private List<LabItem> items;
 	private List<LabItem> selectedItems;
@@ -37,7 +38,7 @@ public class LabItemView implements Serializable
 		items = new ArrayList<LabItem>();
 		selectedItems = new ArrayList<LabItem>();
 
-		items.addAll(labItemRepository.findAll());
+		items.addAll(labItemService.loadAll());
 	}
 
 	public List<LabItem> getItems()

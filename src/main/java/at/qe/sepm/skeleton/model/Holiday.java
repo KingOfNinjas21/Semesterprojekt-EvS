@@ -62,7 +62,6 @@ public class Holiday implements Persistable<Long>
 	@Override
 	public boolean isNew()
 	{
-
 		return (date == null);
 	}
 

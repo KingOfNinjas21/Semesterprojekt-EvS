@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.OpeningHour;
 import at.qe.sepm.skeleton.services.OpeningHourService;
 
+@Component
+@Scope("view")
 public class OpeningHourListController implements Serializable{
 	/**
 	 * 
