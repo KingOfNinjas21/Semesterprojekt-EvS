@@ -3,6 +3,7 @@ package at.qe.sepm.skeleton.model;
 import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  */
 
 @Entity
-public class LabItemGroup implements Persistable<Long> {
+public class ItemGroup implements Persistable<Long> {
 
 
 	/**
@@ -20,12 +21,12 @@ public class LabItemGroup implements Persistable<Long> {
 	 */
 	private static final long serialVersionUID = 2019364544560844557L;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name="ITEM_GROUPS",
-		joinColumns=@JoinColumn(name="GROUP_ID", referencedColumnName="GROUPID"),
-		inverseJoinColumns=@JoinColumn(name="ITEM_ID", referencedColumnName="ITEMID"))
-    private List<LabItem> labitem;
+		joinColumns=@JoinColumn(name="GROUPID", referencedColumnName="GROUPID"),
+		inverseJoinColumns=@JoinColumn(name="ITEMID", referencedColumnName="STOCKITEMID"))
+    private List<StockItem> items;
 	 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,12 +42,12 @@ public class LabItemGroup implements Persistable<Long> {
 	@JoinColumn(name = "User_username", nullable = false)
 	private User user;
 	
-    public List<LabItem> getLabitem() {
-        return labitem;
+    public List<StockItem> getItems() {
+        return items;
     }
 
-    public void setLabitem(List<LabItem> labitem) {
-        this.labitem = labitem;
+    public void setItems(List<StockItem> arrayList) {
+        this.items = arrayList;
     }
 
     public Long getGroupId() {
@@ -75,14 +76,24 @@ public class LabItemGroup implements Persistable<Long> {
     	return this.groupName;
     }
     
+    public void setGroupName(String name) 
+    {
+    	this.groupName = name;
+    }
+    
     public User getUser() 
     {
     	return this.user;
     }
+    
+    public void setUser(User user) 
+    {
+    	this.user = user;
+    }
 
     @Override
     public boolean isNew() {
-        return (groupName == null);
+        return (GroupId == null);
     }
 }
 

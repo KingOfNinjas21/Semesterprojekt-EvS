@@ -7,22 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import at.qe.sepm.skeleton.model.LabItemGroup;
-import at.qe.sepm.skeleton.services.LabItemGroupService;
+import at.qe.sepm.skeleton.model.ItemGroup;
+import at.qe.sepm.skeleton.services.ItemGroupService;
 
 @Component
 @Scope("view")
-public class LabItemGroupListController implements Serializable 
+public class ItemGroupListController implements Serializable 
 {
 
 	private static final long serialVersionUID = -8259454165251760199L;
 	
 	@Autowired
-	private LabItemGroupService labItemGroupService;
+	private ItemGroupService groupService;
 
-	public Collection<LabItemGroup> getLabItemGroups()
+	public Collection<ItemGroup> getAllItemGroups()
 	{
-		return labItemGroupService.getAllLabItemGroups();
+		return groupService.getAllGroups();
 	}
 
 }

@@ -14,30 +14,21 @@
   				</p:commandButton>
             </h:panelGrid>        
             <p:dataTable id="groupReservationTable" var="reservation" value="#{reservationListContoller.getReservationsByUser()}" resizableColumns="true" resizeMode="expand">
-                <p:column headerText="Labitem">
-                    <h:outputText value="#{reservation.item.labItem.itemName}"/>
+                <p:column headerText="Id">
+                    <h:outputText value="#{labItemGroup.groupId}"/>
                 </p:column>
-                <p:column headerText="From" style="width:130px;text-align: center">
-                    <h:outputText value="#{reservation.reservationDate}">
-                    	<f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Warsaw"/>
-                    </h:outputText>
+
+                <p:column headerText="Group Name">
+                    <h:outputText value="#{labItemGroup.groupName}"/>
                 </p:column>
-                <p:column headerText="To" style="width:130px;text-align: center">
-                    <h:outputText value="#{reservation.returnableDate}">
-                    	<f:convertDateTime pattern="dd.MM.yyyy HH:mm" timeZone="Europe/Warsaw"/> />
-                    </h:outputText>
-                </p:column>
-                <p:column headerText="Returned" style="width:100px;text-align: center">
-                    <h:selectBooleanCheckbox value="#{reservation.isReturned}" disabled="true"/>
-                </p:column>
-                <p:column style="width:100px;text-align: center">
-                
-					<p:commandButton update=":groupReservationForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-pencil" title="Edit" disabled="#{reservationDetailController.editDisabled}">
-					    <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
+            	
+            	<p:column style="width:100px;text-align: center">
+					<p:commandButton update=":labItemGroupEditForm:labItemGroupEditDialog" oncomplete="PF('labItemGroupEditDialog').show()" icon="ui-icon-pencil" title="Edit">
+					    <f:setPropertyActionListener value="#{labItemGroup}" target="#{labItemGroupDetailController.labItemGroup}" />
 					</p:commandButton>
-                    <p:commandButton action="#{reservationDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":groupReservationForm:groupReservationTable" disabled="#{reservationDetailController.removeDisabled}">
-                        <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
-                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this reservation? You cannot undo this operation." icon="ui-icon-alert" />
+                    <p:commandButton action="#{labItemGroupDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":labItemGroupForm:labItemGroupTable">
+                        <f:setPropertyActionListener value="#{labItemGroup}" target="#{labItemGroupDetailController.labItemGroup}" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this group? You cannot undo this operation." icon="ui-icon-blank" />
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
