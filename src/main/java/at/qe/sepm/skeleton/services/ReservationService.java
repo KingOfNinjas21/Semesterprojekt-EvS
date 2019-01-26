@@ -92,9 +92,9 @@ public class ReservationService {
 		return reservationRepository.findAll();
 	}
     
-
-    
-
-	
+    @PreAuthorize("hasAuthority('ADMIN')")
+	public Collection<Reservation> loadActive() {
+		return reservationRepository.findActiveReservations();
+	}
 	
 }

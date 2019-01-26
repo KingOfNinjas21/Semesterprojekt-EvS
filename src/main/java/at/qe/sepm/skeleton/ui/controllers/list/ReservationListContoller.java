@@ -33,5 +33,9 @@ public class ReservationListContoller implements Serializable {
 	public Collection<Reservation> getReservations() {    	
 		return reserveService.loadAll();
 	}
+	
+	public Collection<Reservation> getActiveReservations() {
+		return reserveService.loadActive();
+	}
 
 }

@@ -30,6 +30,7 @@ public class CalendarView implements Serializable {
 	
 	private Date beginDate;
     private Date endDate;
+    private Date today;
 
     public Date getOpeningHour() {
         return openingHour;
@@ -44,6 +45,7 @@ public class CalendarView implements Serializable {
     @PostConstruct
     public void init() {
 		Calendar cal = Calendar.getInstance();
+		setToday(cal.getTime());
 		cal.set(Calendar.HOUR_OF_DAY, 8);
 		cal.set(Calendar.MINUTE, 0);
 		
@@ -84,8 +86,11 @@ public class CalendarView implements Serializable {
     }
     
 	public Date getToday() {
-        Calendar calendar = Calendar.getInstance();
- 
-        return calendar.getTime();
+        today = Calendar.getInstance().getTime();
+        return today;
     }
+
+	public void setToday(Date today) {
+		this.today = today;
+	}
 }
