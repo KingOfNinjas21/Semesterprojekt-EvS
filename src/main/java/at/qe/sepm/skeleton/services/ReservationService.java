@@ -92,8 +92,11 @@ public class ReservationService {
 		return reservationRepository.findAll();
 	}
     
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
 	public Collection<Reservation> loadActive() {
+        if (!sessionInfo.isAdmin()) {
+            return reservationRepository.findByUser(sessionInfo.getCurrentUser());
+        }
 		return reservationRepository.findActiveReservations();
 	}
 	

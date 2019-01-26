@@ -48,10 +48,10 @@
                 </p:column>
                 <p:column style="width:100px;text-align: center">
                 
-					<p:commandButton update=":reservationEditForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-pencil" title="Edit" disabled="#{reservationDetailController.editDisabled}">
+					<p:commandButton update=":reservationEditForm:reservationEditDialog" oncomplete="PF('reservationEditDialog').show()" icon="ui-icon-pencil" title="Edit" disabled="#{reservationDetailController.getEditDisabled()}">
 					    <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
 					</p:commandButton>
-                    <p:commandButton action="#{reservationDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":reservationForm:reservationActiveTable, :reservationForm:reservationTable" disabled="#{reservationDetailController.removeDisabled}">
+                    <p:commandButton action="#{reservationDetailController.doDeleteModel()}" icon="ui-icon-trash" title="Delete" update=":reservationForm:reservationActiveTable, :reservationForm:reservationTable" disabled="#{reservation.reservationDate le calendarView.today and !sessionInfoBean.hasRole('ADMIN')}">
                         <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}" />
                         <p:confirm header="Warning!" message="Are you sure that you want to delete this reservation? You cannot undo this operation." icon="ui-icon-blank" />
                     </p:commandButton>
