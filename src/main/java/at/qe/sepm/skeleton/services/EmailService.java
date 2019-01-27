@@ -20,7 +20,7 @@ public class EmailService {
     private static final String senderPassword = "sender123";
 
     @Autowired
-    private static AuditLogService auditLogService;
+    private AuditLogService auditLogService;
 
     private static void prepareEmailMessage(MimeMessage message, String to, String title, String html)
             throws MessagingException {
@@ -45,7 +45,7 @@ public class EmailService {
         return session;
     }
 
-    public static void reservationCreatedNotification(Reservation reservation) throws MessagingException {
+    public void reservationCreatedNotification(Reservation reservation) throws MessagingException {
         String title = "Reservation created!";
         String html =
                 "<h1>We created a reservation for you</h1>" +
@@ -64,7 +64,7 @@ public class EmailService {
         auditLogService.reservationCreatedEmailLog(reservation);
     }
 
-    public static void reservationExpiredNotification(String email) throws MessagingException {
+    public void reservationExpiredNotification(String email) throws MessagingException {
         String title = "Reservierung abgelaufen!";
         String html =
                 "<h1>Laborgeräte zurückbringen!</h1>";

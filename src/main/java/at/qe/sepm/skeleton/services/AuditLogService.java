@@ -13,6 +13,8 @@ import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.repositories.AuditLogRepository;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
+import javax.mail.MessagingException;
+
 
 /**
  * Service for logging.
@@ -56,4 +58,11 @@ public class AuditLogService {
 		auditLogRepository.save(entity);
 	}
 
+	public void reservationCreatedEmailFailLog(Reservation reservation, MessagingException e){
+		AuditLog entity = new AuditLog();
+		entity.setMessage(String.format("[EMAIL] User %s could not be notified, Email exception %s", reservation.getUser(), e.toString()));
+		entity.setTime(new Date());
+
+		auditLogRepository.save(entity);
+	}
 }
