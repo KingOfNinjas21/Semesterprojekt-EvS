@@ -84,7 +84,7 @@ public class FileUploadView implements Serializable
 		if (file != null)
 		{
 
-			FacesMessage message = new FacesMessage("Succesful ");
+			FacesMessage message = new FacesMessage("Successful ");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 
 			uploadedFiles.add(file);
@@ -97,7 +97,7 @@ public class FileUploadView implements Serializable
 		file = event.getFile();
 		if (file != null)
 		{
-			FacesMessage message = new FacesMessage("Succesful ");
+			FacesMessage message = new FacesMessage("Successful ");
 			FacesContext.getCurrentInstance().addMessage(null, message);
 
 			manual.setManualName(file.getFileName());
