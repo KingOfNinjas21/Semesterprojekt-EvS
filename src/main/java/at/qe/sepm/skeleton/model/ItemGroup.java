@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Entity to a create Group of Items
@@ -26,7 +27,7 @@ public class ItemGroup implements Persistable<Long> {
 		name="ITEM_GROUPS",
 		joinColumns=@JoinColumn(name="GROUPID", referencedColumnName="GROUPID"),
 		inverseJoinColumns=@JoinColumn(name="ITEMID", referencedColumnName="STOCKITEMID"))
-    private List<StockItem> items;
+    private Set<StockItem> items;
 	 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,11 +43,11 @@ public class ItemGroup implements Persistable<Long> {
 	@JoinColumn(name = "User_username", nullable = false)
 	private User user;
 	
-    public List<StockItem> getItems() {
+    public Set<StockItem> getItems() {
         return items;
     }
 
-    public void setItems(List<StockItem> arrayList) {
+    public void setItems(Set<StockItem> arrayList) {
         this.items = arrayList;
     }
 
