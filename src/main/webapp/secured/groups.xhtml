@@ -44,7 +44,7 @@
  		</h:form>
  		
  		<h:form id="itemGroupEditForm">
-                <p:dialog header="Edit Reservation" id="itemGroupEditDialog" widgetVar="itemGroupEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:dialog header="Edit Group" id="itemGroupEditDialog" widgetVar="itemGroupEditDialog" dynamic="true" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 				    <p:outputPanel id="itemGroupData" rendered="#{not empty itemGroupDetailController.itemGroup}">
 				        <h:panelGrid columns="3">
                         
@@ -63,9 +63,12 @@
 				        <p:separator />
 				        <h:panelGrid columns="3">
 				            <p:commandButton value="Save" action="#{itemGroupDetailController.doSaveItemGroup()}" oncomplete="if (!args.validationFailed) PF('itemGroupEditDialog').hide()" update="itemGroupData :itemGroupForm:itemGroupTable"/>
-				            <p:commandButton value="Reload" action="#{itemGroupDetailController.doReloadItemGroup()}" update="itemGroupData"/>
+				            <p:commandButton value="Reload" action="#{itemGroupDetailController.doReloadItemGroup()}" update="itemGroupData">
+				            	<p:resetInput target=":itemGroupEditForm" />
+				            </p:commandButton>
 				            <p:commandButton value="Abort" onclick="PF('itemGroupEditDialog').hide()"/>
 				        </h:panelGrid>
+				        
 					    <p:messages id="editMessages" closable="true" >
 							<p:autoUpdate />
 						</p:messages>
