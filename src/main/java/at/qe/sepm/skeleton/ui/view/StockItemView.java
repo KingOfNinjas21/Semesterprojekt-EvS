@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -46,15 +47,24 @@ public class StockItemView implements Serializable
 	@Autowired
 	private CalendarView calendarView;
 
-	private List<StockItem> items;
+	private Collection<StockItem> items;
 
-	private List<StockItem> selectedItems;
+	private Collection<StockItem> selectedItems;
 
 	private Collection<ItemGroup> itemGroups;
 
 	private List<ItemGroup> selectedItemGroups;
 	
 	private boolean onlyShowAvailable = false;
+	
+	@PostConstruct
+	public void init()
+	{
+		items = new ArrayList<StockItem>();
+		selectedItems = new ArrayList<StockItem>();
+		itemGroups = itemGroupService.getAllGroups();
+		loadItemsNotBlocked();			
+	}
 	
 	public boolean getOnlyShowAvailable() {
 		return onlyShowAvailable;
@@ -63,21 +73,6 @@ public class StockItemView implements Serializable
 	
 	public void setOnlyShowAvailable(boolean onlyShowAvailable) {
 		this.onlyShowAvailable = onlyShowAvailable;
-	}
-
-	@PostConstruct
-	public void init()
-	{
-		items = new ArrayList<StockItem>();
-		selectedItems = new ArrayList<StockItem>();
-		itemGroups = itemGroupService.getAllGroups();
-		items = stockItemService.loadAll();
-		loadItemsNotBlocked();
-		if(onlyShowAvailable)
-		{
-			filterItemsNotAvailable();
-		}
-			
 	}
 
 	private void loadItemsNotBlocked()
@@ -98,7 +93,7 @@ public class StockItemView implements Serializable
 
 		while (iter.hasNext()) {
 			StockItem item = iter.next();
-		    if (!isAvailable(item, calendarView.getBeginDate(), calendarView.getEndDate()))
+		    if (isAvailable(item, calendarView.getBeginDate(), calendarView.getEndDate()))
 		        iter.remove();
 		}
 		
@@ -135,17 +130,18 @@ public class StockItemView implements Serializable
 	}
 	
 	
-	public List<StockItem> getItems()
+	public Collection<StockItem> getItems()
 	{
+		items = new ArrayList<StockItem>();
 		loadItemsNotBlocked();
 		if(onlyShowAvailable)
-		{
-			filterItemsNotAvailable();
-		}
+			{
+				filterItemsNotAvailable();
+			}
 		return items;
 	}
 
-	public List<StockItem> getSelectedItems()
+	public Collection<StockItem> getSelectedItems()
 	{
 		return selectedItems;
 	}

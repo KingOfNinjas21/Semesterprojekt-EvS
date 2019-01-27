@@ -114,7 +114,7 @@ public class ReservationDetailController implements Serializable
 		Date begin = calendarView.getBeginDate();
 		Date end = calendarView.getEndDate();
 
-		List<StockItem> items = stockItemView.getSelectedItems();
+		List<StockItem> items = (List<StockItem>)stockItemView.getSelectedItems();
 		
 		if (holidayService.isHoliday(begin))
 		{

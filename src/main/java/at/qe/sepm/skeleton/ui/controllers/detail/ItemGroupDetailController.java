@@ -108,7 +108,7 @@ public class ItemGroupDetailController implements Serializable
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void doAddItemGroup()
 	{
-		List<StockItem> items = stockItemView.getSelectedItems();
+		List<StockItem> items = (List<StockItem>)stockItemView.getSelectedItems();
 		
 		if ((newItemGroup.getGroupName() == null) || (newItemGroup.getGroupName().length() <= 3))
 		{

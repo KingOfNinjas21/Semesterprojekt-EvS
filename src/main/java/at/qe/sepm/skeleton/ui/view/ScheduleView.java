@@ -59,7 +59,7 @@ public class ScheduleView implements Serializable {
     	List<StockItem> selectedItems = new ArrayList<StockItem>();
     	if(stockItemView.getSelectedItems() != null)
     	{
-    		selectedItems = stockItemView.getSelectedItems();
+    		selectedItems = new ArrayList<StockItem>(stockItemView.getSelectedItems());
     	}
     	for(StockItem stockitem : selectedItems)
     	{

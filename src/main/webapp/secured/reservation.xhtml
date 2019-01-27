@@ -206,7 +206,7 @@
 								<p:outputLabel for="itemGroups" value="" rendered="#{!sessionInfoBean.hasRole('STUDENT')}"/>
 
 								<p:outputLabel value="Items"/>
-						        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="#{empty stockItemView.selectedItemGroups}" requiredMessage="Select at least one item.">
+						        <p:selectCheckboxMenu id="items" widgetVar="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="#{empty stockItemView.selectedItemGroups}" requiredMessage="Select at least one item.">
 									 <f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
 						        	 <p:ajax event="change" update="reservationSchedule"/>
 						        	 <f:converter converterId="customConverter"/>
@@ -214,8 +214,8 @@
 						        <p:outputLabel for="items" value="" />
 						        
 						        <h:panelGroup />
-					        	<p:selectBooleanCheckbox id = "available" value="#{stockItemView.onlyShowAvailable}" itemLabel="Only Show Available">
-					        	<p:ajax event="change" update="items, itemGroups" action="stockItemView.init()"/>
+					        	<p:selectBooleanCheckbox id = "available" value="#{stockItemView.onlyShowAvailable}" itemLabel="Only Show Available" immediate="true" onclick="boxDisable(addGrid), $(this)">
+					        		<p:ajax event="change" update=""/>
 					        	</p:selectBooleanCheckbox>
 					        	<p:outputLabel for="available" value="" />
 		                        
