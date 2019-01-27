@@ -197,7 +197,7 @@ public class ReservationDetailController implements Serializable
 	
 	
 	
-	private boolean isAvailable(StockItem item, Date from, Date to)
+	public boolean isAvailable(StockItem item, Date from, Date to)
 	{
 		DateTime dt = new DateTime(from);
 		Period period = item.getLabItem().getMaxReservationTime();
