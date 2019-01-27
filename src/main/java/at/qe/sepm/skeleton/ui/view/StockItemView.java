@@ -53,6 +53,8 @@ public class StockItemView implements Serializable
 
 	private Collection<ItemGroup> selectedItemGroups;
 	
+	private Collection<StockItem> allItems;
+	
 	private boolean onlyShowAvailable = false;
 	
 	@PostConstruct
@@ -60,6 +62,9 @@ public class StockItemView implements Serializable
 	{
 		items = new ArrayList<StockItem>();
 		selectedItems = new ArrayList<StockItem>();
+		itemGroups = new ArrayList<ItemGroup>();
+		selectedItemGroups = new ArrayList<ItemGroup>();
+		
 		itemGroups = itemGroupService.getAllGroups();
 		loadItemsNotBlocked();			
 	}
@@ -146,13 +151,6 @@ public class StockItemView implements Serializable
 	}
 
 	public Collection<StockItem> getSelectedItems() {
-		if (selectedItemGroups != null) {
-			if (!selectedItemGroups.isEmpty()) {
-				for (ItemGroup item : selectedItemGroups) {
-					selectedItems.addAll(item.getItems());
-				}
-			}
-		}
 		return selectedItems;
 	}
 
@@ -179,5 +177,13 @@ public class StockItemView implements Serializable
 
 	public void setSelectedItemGroups(List<ItemGroup> selectedItemGroups) {
 		this.selectedItemGroups = selectedItemGroups;
+	}
+
+	public Collection<StockItem> getAllItems() {
+		return new ArrayList<StockItem>();
+	}
+
+	public void setAllItems(Collection<StockItem> allItems) {
+		this.allItems = allItems;
 	}
 }
