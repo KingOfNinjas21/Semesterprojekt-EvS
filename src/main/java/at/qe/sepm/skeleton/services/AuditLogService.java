@@ -67,4 +67,14 @@ public class AuditLogService {
 
 		auditLogRepository.save(entity);
 	}
+
+	public void reservationUserEmailInvalid(Reservation res){
+		AuditLog entity = new AuditLog();
+		entity.setMessage(String.format("[EMAIL] User %s's email is: %s", res.getUser(), res.getUser().getEmail()));
+		entity.setTime(new Date());
+		entity.setUpdateUser(sessionInfo.getCurrentUser());
+
+		auditLogRepository.save(entity);
+	}
+
 }

@@ -53,6 +53,11 @@ public class EmailService {
                 "<br>Please bring it back before the reservation expires on: " + reservation.getReturnableDate() +
                 "<br>Kind regards,<br> Group 4";
 
+        if (reservation.getUser().getEmail() == null){
+            auditLogService.reservationUserEmailInvalid(reservation);
+            return;
+        }
+
         System.out.println("Sending email to " + reservation.getUser().getEmail());
 
         Session session = createSession();
