@@ -23,7 +23,8 @@ public class StockItemService
 		return stockRepository.findOne(id);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	//don't remove STUDENT AND EMPLOYE RIGHTS !!!! Needed by stockItemView
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
 	public List<StockItem> loadAll()
 	{
 		return stockRepository.findAll();
