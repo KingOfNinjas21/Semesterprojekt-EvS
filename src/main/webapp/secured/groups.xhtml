@@ -26,6 +26,10 @@
                 <p:column headerText="Group Name">
                     <h:outputText value="#{itemGroup.groupName}"/>
                 </p:column>
+
+				<p:column headerText="Items">
+					<h:outputText value="#{itemGroup.items}"/>
+				</p:column>
             	
             	<p:column style="width:100px;text-align: center">
 					<p:commandButton action="#{itemGroupDetailController.doReloadItemGroup()}" update=":itemGroupEditForm:itemGroupEditDialog" oncomplete="PF('itemGroupEditDialog').show()" icon="ui-icon-pencil" title="Edit">
