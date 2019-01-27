@@ -2,23 +2,16 @@ package at.qe.sepm.skeleton.ui.view;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
+
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-
-import at.qe.sepm.skeleton.model.OpeningHour;
-import at.qe.sepm.skeleton.repositories.OpeningHourRepository;
 
 
 @ManagedBean(name = "openingHourView")

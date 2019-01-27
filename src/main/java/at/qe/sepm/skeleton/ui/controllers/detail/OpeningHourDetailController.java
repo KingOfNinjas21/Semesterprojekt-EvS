@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.OpeningHour;
 import at.qe.sepm.skeleton.services.OpeningHourService;
-import at.qe.sepm.skeleton.utils.ErrorMessage;
 
 @Component
 @Scope("view")
@@ -26,8 +25,8 @@ public class OpeningHourDetailController implements Serializable {
 	@Autowired
 	private OpeningHourService openingHourService;
 
-	@Autowired
-	private ErrorMessage errorMessage;
+	//@Autowired
+	//private ErrorMessage errorMessage;
 
 	private OpeningHour openingHour;
 	private OpeningHour newOpeningHour;
@@ -80,6 +79,7 @@ public class OpeningHourDetailController implements Serializable {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void doAddOpeningHour()
 	{
-
+		this.openingHourService.saveOpeningHour(newOpeningHour);
+		newOpeningHour = null;
 	}
 }

@@ -26,7 +26,7 @@ public class Holiday implements Persistable<Long>
 
 	@Column
 	private String title;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date beginDate;
 	
@@ -40,7 +40,14 @@ public class Holiday implements Persistable<Long>
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public String getTitle() {
+		return title;
+	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	/**
 	 * @param id
 	 *            the id to set

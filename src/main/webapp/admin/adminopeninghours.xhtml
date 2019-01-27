@@ -121,24 +121,24 @@
 			            <p:outputLabel for="day" value="" />
 					    
                         <p:outputLabel value="Opening Hour" />
-                        <p:calendar id="addopeningHour" binding="#{openingHour}" timeOnly="true" value="#{openingHourDetailController.newOpeningHour.openingHour}" pattern="HH:mm" required="true" validatorMessage="Opening Hour Invalid." requiredMessage="Opening Hour required." >
+                        <p:calendar id="addopeningHour" timeOnly="true" value="#{openingHourDetailController.newOpeningHour.openingHour}" pattern="HH:mm" required="true" validatorMessage="Opening Hour Invalid." requiredMessage="Opening Hour required." >
                         </p:calendar>
                         <p:outputLabel for="addopeningHour" value="" />
                         
                         
                         <p:outputLabel  value="Closing Hour" />
-                        <p:calendar id="addclosingHour" binding="#{closingHour}" timeOnly="true" value="#{openingHourDetailController.newOpeningHour.closingHour}" pattern="HH:mm" required="true" validatorMessage="Closing Hour Invalid." requiredMessage="Closing Hour required." >
+                        <p:calendar id="addclosingHour" timeOnly="true" value="#{openingHourDetailController.newOpeningHour.closingHour}" pattern="HH:mm" required="true" validatorMessage="Closing Hour Invalid." requiredMessage="Closing Hour required." >
                         </p:calendar>
                         <p:outputLabel for="addclosingHour" value="" />
                         
                         <p:outputLabel value="Break Start" />
-                        <p:calendar id="addbreakStart" binding="#{breakStart}" timeOnly="true" value="#{openingHourDetailController.newOpeningHour.breakStart}" pattern="HH:mm" validatorMessage="Break Start Invalid.">
+                        <p:calendar id="addbreakStart" timeOnly="true" value="#{openingHourDetailController.newOpeningHour.breakStart}" pattern="HH:mm" validatorMessage="Break Start Invalid.">
                         </p:calendar>
                         <p:outputLabel for="addbreakStart" value="" />
                         
                         
                         <p:outputLabel  value="Break End" />
-                        <p:calendar id="addbreakEnd" binding="#{breakEnd}" timeOnly="true" value="#{openingHourDetailController.newOpeningHour.breakEnd}" pattern="HH:mm" validatorMessage="Break End Invalid.">
+                        <p:calendar id="addbreakEnd" timeOnly="true" value="#{openingHourDetailController.newOpeningHour.breakEnd}" pattern="HH:mm" validatorMessage="Break End Invalid.">
                         </p:calendar>
                         <p:outputLabel for="addbreakEnd" value="" />
                         

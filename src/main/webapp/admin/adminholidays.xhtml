@@ -10,32 +10,66 @@
     <ui:define name ="content">
         <h:form id="holidayForm">
 	        <p:panel header="#{sessionInfoBean.hasRole('ADMIN') ? 'Administration / Time Management / Holidays' : 'Infocorner / Time Management / Holidays'}">	
-	        	<h:panelGrid>
+	        	<h:panelGrid columns="2">
+	        		<p:selectBooleanCheckbox value="#{holidayView.onlyShowFuture}" itemLabel="Show Only Future Holidays">
+	            		<p:ajax update="holidayForm"/>
+	        		</p:selectBooleanCheckbox>
 	  				<p:commandButton value="New Holiday" rendered="#{sessionInfoBean.hasRole('ADMIN')}" update=":holidayAddForm:holidayAddDialog" oncomplete="PF('holidayAddDialog').show()" icon="ui-icon-plusthick" title="New Holiday">
 	  				</p:commandButton>
 	            </h:panelGrid> 
             </p:panel>
             
             
-            <p:dataTable id="holidayTable" var="holiday" value="#{holidayListController.getAllHolidays()}" resizableColumns="true" >
+            <p:dataTable id="holidayTable" var="holiday" value="#{holidayListController.getSortedByBeginDate()}" rendered="#{!holidayView.onlyShowFuture}" resizableColumns="true">
                
           		<p:column headerText="Holiday" style="text-align: center">
-                    <h:outputText value="#{holiday.title}">
-                				</h:outputText>
+                    <h:outputText value="#{holiday.title}"/>
                 </p:column>
-                <p:column headerText="From" style="text-align: center">
+                <p:column headerText="Begin - End" style="text-align: center">
            			<p:column headerText="From" style="text-align: center">
 	                    <h:outputText value="#{holiday.beginDate}">
-			                    <f:convertDateTime pattern="dd.mm.yy" timeZone="Europe/Warsaw"/>
+			                    <f:convertDateTime pattern="dd.MM.yyyy" timeZone="Europe/Warsaw"/>
                  		</h:outputText>
 	                </p:column>
 	                <p:column headerText=" - ">
 	                	<h:outputText value=" - "/>
 	                </p:column>
-	                <p:column headerText="To" style="text-align: center">
+	                <p:column headerText="" style="text-align: center">
 		                    <h:outputText value="#{holiday.endDate}">
-			                    <f:convertDateTime pattern="dd.mm.yy" timeZone="Europe/Warsaw"/>
-                 					</h:outputText>
+			                    <f:convertDateTime pattern="dd.MM.yyyy" timeZone="Europe/Warsaw"/>
+                 			</h:outputText>
+		            </p:column>
+		        </p:column>
+            	
+            	<p:column style="width:100px;text-align: center" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+					<p:commandButton update=":holidayEditForm:holidayEditDialog" oncomplete="PF('holidayEditDialog').show()" icon="ui-icon-pencil" title="Edit">
+					    <f:setPropertyActionListener value="#{holiday}" target="#{holidayDetailController.holiday}" />
+					</p:commandButton>
+                    <p:commandButton action="#{holidayDetailController.doDeleteHoliday()}" icon="ui-icon-trash" title="Delete" update=":holidayForm:holidayTable" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+                        <f:setPropertyActionListener value="#{holiday}" target="#{holidayDetailController.holiday}" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this group? You cannot undo this operation." icon="ui-icon-blank" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+            <p:dataTable id="holidayFutureTable" var="holiday" value="#{holidayListController.getSortedByBeginDate()}" rendered="#{holidayView.onlyShowFuture}" rowStyleClass="#{holiday.endDate le calendarView.today ? 'hidestyle' : null}" resizableColumns="true">
+               
+          		<p:column headerText="Holiday" style="text-align: center">
+                    <h:outputText value="#{holiday.title}"/>
+                </p:column>
+                <p:column headerText="Begin - End" style="text-align: center">
+           			<p:column headerText="From" style="text-align: center">
+	                    <h:outputText value="#{holiday.beginDate}">
+			                    <f:convertDateTime pattern="dd.MM.yyyy" timeZone="Europe/Warsaw"/>
+                 		</h:outputText>
+	                </p:column>
+	                <p:column headerText=" - ">
+	                	<h:outputText value=" - "/>
+	                </p:column>
+	                <p:column headerText="" style="text-align: center">
+		                    <h:outputText value="#{holiday.endDate}">
+			                    <f:convertDateTime pattern="dd.MM.yyyy" timeZone="Europe/Warsaw"/>
+                 			</h:outputText>
 		            </p:column>
 		        </p:column>
             	
@@ -52,34 +86,11 @@
  		</h:form>
  		
  		<h:form id="holidayEditForm">
-                <p:dialog header="Edit Opening Hour" id="holidayEditDialog" widgetVar="holidayEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="day">
+                <p:dialog header="Edit Holiday" id="holidayEditDialog" widgetVar="holidayEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="">
 				    <p:outputPanel id="holidayData" rendered="#{not empty holidayDetailController.holiday}">
 				        <h:panelGrid columns="3">
                         
-	                        <p:outputLabel value="Day" />				        
-		                    <p:selectOneMenu id="day" value="#{holidayDetailController.holiday.weekday}" style="width:150px">
-				                <f:selectItems value="#{holidayView.weekdays}" />
-				            </p:selectOneMenu>
-				            <p:outputLabel for="day" value="" />
-						    
-	                        <p:outputLabel value="Opening Hour" />
-	                        <p:calendar id="holiday2" timeOnly="true" value="#{holidayDetailController.holiday.holiday}" pattern="HH:mm" required="true" validatorMessage="Opening Hour Invalid." requiredMessage="Opening Hour required." />
-	                        <p:outputLabel for="holiday2" value="" />
 
-	                        <p:outputLabel  value="Closing Hour" />
-	                        <p:calendar id="closingHour2" timeOnly="true" value="#{holidayDetailController.holiday.closingHour}" pattern="HH:mm" required="true" validatorMessage="Closing Hour Invalid." requiredMessage="Closing Hour required." />
-	                        <p:outputLabel for="closingHour2" value="" />
-	                        
-	                        <p:outputLabel value="Break Start" />
-	                        <p:calendar id="breakStart" timeOnly="true" value="#{holidayDetailController.holiday.breakStart}" pattern="HH:mm" validatorMessage="Break Start Invalid."/>
-	                        <p:outputLabel for="breakStart" value="" />
-	                        
-	                        
-	                        <p:outputLabel  value="Break End" />
-	                        <p:calendar id="breakEnd" timeOnly="true" value="#{holidayDetailController.holiday.breakEnd}" pattern="HH:mm" validatorMessage="Break End Invalid."/>
-	                        <p:outputLabel for="breakEnd" value="" />
-	                        
-                        
 				        </h:panelGrid>                  
 				        <p:separator />
 				        <h:panelGrid columns="3">
@@ -96,41 +107,28 @@
  		</h:form>
  		
  		<h:form id="holidayAddForm">
-            <p:dialog header="New Opening Hour" id="holidayAddDialog" widgetVar="holidayAddDialog" dynamic="true" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="day">
+            <p:dialog header="New Holiday" id="holidayAddDialog" widgetVar="holidayAddDialog" dynamic="true" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="title">
                 <p:outputPanel id="holidayAdd">
                 	<h:panelGrid columns="3">
-                        <p:outputLabel value="Day" />				        
-	                    <p:selectOneMenu id="day" value="#{holidayDetailController.newHoliday.weekday}" style="width:150px">
-			                <f:selectItems value="#{holidayView.weekdays}" />
-			            </p:selectOneMenu>
-			            <p:outputLabel for="day" value="" />
+                        <p:outputLabel value="Title" />				        
+	                    <h:inputText id="title" value="#{holidayDetailController.newHoliday.title}" style="width:150px"/>
+			            <p:outputLabel for="title" value="" />
 					    
-                        <p:outputLabel value="Opening Hour" />
-                        <p:calendar id="addholiday" binding="#{holiday}" timeOnly="true" value="#{holidayDetailController.newHoliday.holiday}" pattern="HH:mm" required="true" validatorMessage="Opening Hour Invalid." requiredMessage="Opening Hour required." >
+                        <p:outputLabel value="Begin" />
+                        <p:calendar id="beginDate" timeOnly="true" value="#{holidayDetailController.newHoliday.beginDate}" pattern="dd.MM.yyyy" required="true" validatorMessage="Holiday Begin Invalid." requiredMessage="Holiday Begin required." >
                         </p:calendar>
-                        <p:outputLabel for="addholiday" value="" />
+                        <p:outputLabel for="beginDate" value="" />
                         
                         
-                        <p:outputLabel  value="Closing Hour" />
-                        <p:calendar id="addclosingHour" binding="#{closingHour}" timeOnly="true" value="#{holidayDetailController.newHoliday.closingHour}" pattern="HH:mm" required="true" validatorMessage="Closing Hour Invalid." requiredMessage="Closing Hour required." >
+                        <p:outputLabel  value="End" />
+                        <p:calendar id="endDate" timeOnly="true" value="#{holidayDetailController.newHoliday.endDate}" pattern="dd.MM.yyyy" required="true" validatorMessage="Holiday End Invalid." requiredMessage="Holiday End required." >
                         </p:calendar>
-                        <p:outputLabel for="addclosingHour" value="" />
-                        
-                        <p:outputLabel value="Break Start" />
-                        <p:calendar id="addbreakStart" binding="#{breakStart}" timeOnly="true" value="#{holidayDetailController.newHoliday.breakStart}" pattern="HH:mm" validatorMessage="Break Start Invalid.">
-                        </p:calendar>
-                        <p:outputLabel for="addbreakStart" value="" />
-                        
-                        
-                        <p:outputLabel  value="Break End" />
-                        <p:calendar id="addbreakEnd" binding="#{breakEnd}" timeOnly="true" value="#{holidayDetailController.newHoliday.breakEnd}" pattern="HH:mm" validatorMessage="Break End Invalid.">
-                        </p:calendar>
-                        <p:outputLabel for="addbreakEnd" value="" />
-                        
+                        <p:outputLabel for="endDate" value="" />
+
 	                </h:panelGrid>
 					<p:separator />
                     <h:panelGrid columns="2">
-                        <p:commandButton value="Save" action="#{holidayDetailController.doAddHoliday()}" oncomplete="if (!args.validationFailed) PF('holidayAddDialog').hide()" update="holidayAdd, :holidayForm:holidayTable"/>
+                        <p:commandButton value="Save" action="#{holidayDetailController.doAddHoliday()}" oncomplete="if (!args.validationFailed) PF('holidayAddDialog').hide()" update="holidayAdd, holidayForm"/>
                         <p:commandButton value="Abort" onclick="PF('holidayAddDialog').hide()"/>
                     </h:panelGrid>
                     <p:messages id="addMessages" closable="true" >
