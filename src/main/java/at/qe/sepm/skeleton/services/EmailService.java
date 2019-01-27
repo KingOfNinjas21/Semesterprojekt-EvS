@@ -69,15 +69,16 @@ public class EmailService
 	public void reservationCreatedNotification(Reservation reservation, Collection<StockItem> selectedItems)
 			throws MessagingException
 	{
-		String stockItemsString = "";
-		for (StockItem item : selectedItems)
-		{
-			stockItemsString = item.getLabItem().getItemName() + ", ";
+		int size = selectedItems.size();
+		StringBuilder sb = new StringBuilder();
+		for(StockItem si: selectedItems){
+			sb.append(si.getLabItem().getItemName());
+			sb.append(", ");
 		}
 
 		String title = "Reservation created!";
-		String html = "<h1>We created a reservation for you</h1>" + "You reserved " + selectedItems.size()
-				+ " items:<br>" + stockItemsString + "<br>Please bring it back before the reservation expires on: "
+		String html = "<h1>We created a reservation for you</h1>" + "You reserved " + size
+				+ " items:<br>" + sb.toString() + "<br>Please bring it back before the reservation expires on: "
 				+ reservation.getReturnableDate() + "<br><br>Kind regards,<br> Group 4";
 
 		if (reservation.getUser().getEmail() == null)
