@@ -1,105 +1,128 @@
 package at.qe.sepm.skeleton.model;
 
-import org.springframework.data.domain.Persistable;
-
-import javax.persistence.*;
-
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.data.domain.Persistable;
 
 /**
  * Entity to a create Group of Items
+ * 
  * @author fbn
  */
 
 @Entity
-public class ItemGroup implements Persistable<Long> {
-
+public class ItemGroup implements Persistable<Long>
+{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2019364544560844557L;
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-		name="ITEM_GROUPS",
-		joinColumns=@JoinColumn(name="GROUPID", referencedColumnName="GROUPID"),
-		inverseJoinColumns=@JoinColumn(name="ITEMID", referencedColumnName="STOCKITEMID"))
-    private Set<StockItem> items;
-	 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long GroupId;
+	@ManyToMany(fetch = FetchType.EAGER, cascade =
+	{ CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "ITEM_GROUPS", joinColumns = @JoinColumn(name = "GROUPID", referencedColumnName = "GROUPID"), inverseJoinColumns = @JoinColumn(name = "ITEMID", referencedColumnName = "STOCKITEMID"))
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private Set<StockItem> items = new HashSet<StockItem>();
 
-    @Column(nullable = false, unique = true)
-    private String groupName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long GroupId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date groupCreationDate;
+	@Column(nullable = false, unique = true)
+	private String groupName;
 
-	@ManyToOne(fetch = FetchType.EAGER, optional = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date groupCreationDate;
+
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "User_username", nullable = false)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private User user;
-	
-    public Set<StockItem> getItems() {
-        return items;
-    }
 
-    public void setItems(Set<StockItem> arrayList) {
-        this.items = arrayList;
-    }
+	public Set<StockItem> getItems()
+	{
+		return items;
+	}
 
-    public Long getGroupId() {
-        return GroupId;
-    }
+	public void setItems(Set<StockItem> arrayList)
+	{
+		this.items = arrayList;
+	}
 
-    public void setGroupId(Long groupId) {
-        GroupId = groupId;
-    }
+	public Long getGroupId()
+	{
+		return GroupId;
+	}
 
-    public Date getGroupCreationDate() {
-        return groupCreationDate;
-    }
+	public void setGroupId(Long groupId)
+	{
+		GroupId = groupId;
+	}
 
-    public void setGroupCreationDate(Date groupCreationDate) {
-        this.groupCreationDate = groupCreationDate;
-    }
+	public Date getGroupCreationDate()
+	{
+		return groupCreationDate;
+	}
 
-    @Override
-    public Long getId() {
-        return this.GroupId;
-    }
-    
-    public String getGroupName() 
-    {
-    	return this.groupName;
-    }
-    
-    public void setGroupName(String name) 
-    {
-    	this.groupName = name;
-    }
-    
-    public User getUser() 
-    {
-    	return this.user;
-    }
-    
-    public void setUser(User user) 
-    {
-    	this.user = user;
-    }
+	public void setGroupCreationDate(Date groupCreationDate)
+	{
+		this.groupCreationDate = groupCreationDate;
+	}
 
-    @Override
-    public boolean isNew() {
-        return (GroupId == null);
-    }
+	@Override
+	public Long getId()
+	{
+		return this.GroupId;
+	}
 
-    @Override
-    public String toString() {
-        return groupName;
-    }
+	public String getGroupName()
+	{
+		return this.groupName;
+	}
+
+	public void setGroupName(String name)
+	{
+		this.groupName = name;
+	}
+
+	public User getUser()
+	{
+		return this.user;
+	}
+
+	public void setUser(User user)
+	{
+		this.user = user;
+	}
+
+	@Override
+	public boolean isNew()
+	{
+		return (GroupId == null);
+	}
+
+	@Override
+	public String toString()
+	{
+		return groupName;
+	}
 }
-

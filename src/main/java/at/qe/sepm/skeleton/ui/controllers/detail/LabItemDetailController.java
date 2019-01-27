@@ -129,6 +129,7 @@ public class LabItemDetailController implements Serializable
 	 */
 	public void doDeleteLabItem()
 	{
+
 		this.labItemService.deleteLabItem(labItem);
 		labItem = null;
 	}

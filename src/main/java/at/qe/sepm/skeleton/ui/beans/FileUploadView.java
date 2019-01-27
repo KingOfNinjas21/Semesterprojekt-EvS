@@ -1,5 +1,6 @@
 package at.qe.sepm.skeleton.ui.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +20,13 @@ import at.qe.sepm.skeleton.services.ManualService;
 
 @ManagedBean
 @Scope("view")
-public class FileUploadView
+public class FileUploadView implements Serializable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2153043266835468976L;
 	private UploadedFile file;
 	private Manual manual;
 	private LabItem labItem;

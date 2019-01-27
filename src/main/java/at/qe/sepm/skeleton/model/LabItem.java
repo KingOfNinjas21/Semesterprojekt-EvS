@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.joda.time.Period;
 import org.springframework.data.domain.Persistable;
 
@@ -59,10 +62,12 @@ public class LabItem implements Persistable<Long>
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createDate;
 
-	@OneToMany(mappedBy = "labItem")
+	@OneToMany(mappedBy = "labItem", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private List<StockItem> stockItems;
 
-	@OneToMany(mappedBy = "labItem1")
+	@OneToMany(mappedBy = "labItem1", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Manual> manuals;
 
