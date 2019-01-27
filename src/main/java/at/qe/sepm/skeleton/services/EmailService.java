@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Properties;
 
 @Service
@@ -27,7 +28,7 @@ public class EmailService {
     @Autowired
     private ReservationService reservationService;
 
-    private static void prepareEmailMessage(MimeMessage message, String to, String title, String html)
+    private void prepareEmailMessage(MimeMessage message, String to, String title, String html)
             throws MessagingException {
         message.setContent(html, "text/html; charset=utf-8");
         message.setFrom(new InternetAddress(senderEmail));
@@ -35,7 +36,7 @@ public class EmailService {
         message.setSubject(title);
     }
 
-    private static Session createSession() {
+    private Session createSession() {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -66,35 +67,37 @@ public class EmailService {
         System.out.println("Sending email to " + reservation.getUser().getEmail());
 
         Session session = createSession();
-
         MimeMessage message = new MimeMessage(session);
         prepareEmailMessage(message, reservation.getUser().getEmail(), title, html);
-
         Transport.send(message);
+
         auditLogService.reservationCreatedEmailLog(reservation);
     }
 
-    //@Scheduled(cron = "@daily")
+    //daily 06:00 AM
+    @Scheduled(cron = "0 0 06 00 * ?")
     public void reservationExpiredNotification() throws MessagingException {
-        Collection<Reservation> reservations = reservationService.loadAll();
+        Collection<Reservation> reservations = reservationService.loadActive();
+
         for(Reservation res: reservations){
-            continue;
+            String title = "Reservation expired!";
+            String html =
+                    "<h1>Please return your reserved item!</h1><br>" +
+                            "The item: " + res.getItem().getLabItem().getItemName() +
+                            "must be returned as soon as possible." +
+                            "<br>Reservation due date: " + res.getReturnableDate() +
+                            "<br><br>Kind regards, <br>Group 4";
+
+            if(res.getReturnableDate().after(new Date())){
+                Session session = createSession();
+                MimeMessage message = new MimeMessage(session);
+                prepareEmailMessage(message, res.getUser().getEmail(), title, html);
+                Transport.send(message);
+
+                auditLogService.reservationExpired(res);
+            }
         }
 
-        String title = "Reservierung abgelaufen!";
-        String html =
-                "<h1>Laborgeräte zurückbringen!</h1>";
-
-
-        System.out.println("Sending email to " + "a" );
-
-        Session session = createSession();
-
-        MimeMessage message = new MimeMessage(session);
-        prepareEmailMessage(message, "asdf", title, html);
-
-        Transport.send(message);
-        System.out.println("Done");
     }
 
 	public void sendPassword(String pass) {
