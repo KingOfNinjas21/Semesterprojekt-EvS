@@ -12,6 +12,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 /**
@@ -23,6 +24,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * of Innsbruck.
  */
 @SpringBootApplication
+@EnableScheduling
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class Main extends SpringBootServletInitializer {
 

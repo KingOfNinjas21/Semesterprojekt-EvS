@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javafx.scene.media.MediaException;
+import at.qe.sepm.skeleton.services.*;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.slf4j.Logger;
@@ -18,9 +18,6 @@ import org.springframework.stereotype.Component;
 
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.model.StockItem;
-import at.qe.sepm.skeleton.services.HolidayService;
-import at.qe.sepm.skeleton.services.OpeningHourService;
-import at.qe.sepm.skeleton.services.ReservationService;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 import at.qe.sepm.skeleton.ui.view.CalendarView;
 import at.qe.sepm.skeleton.ui.view.StockItemView;
@@ -62,6 +59,12 @@ public class ReservationDetailController implements Serializable
 	@Autowired
 	private ErrorMessage errorMessage;
 
+	@Autowired
+	private EmailService emailService;
+
+	@Autowired
+	private AuditLogService auditLogService;
+
 	private Reservation reservation;
 	private String reason;
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
@@ -77,7 +80,7 @@ public class ReservationDetailController implements Serializable
 	/**
 	 * Action to save the currently displayed reservation.
 	 */
-	public void doSaveModel() throws MessagingException
+	public void doSaveModel()
 	{
 		if (reservation.getReservationDate().before(new Date())) {
 			if (reservation.getIsReturned() == true) {
@@ -184,7 +187,19 @@ public class ReservationDetailController implements Serializable
 			entity.setReason(reason);
 			
 			reservation = reservationService.save(entity);
+
+			if(reservation==null){
+				auditLogService.reservationCreationFailed();
+				return;
+			}
+
 			item.addReservation(reservation);
+
+			try {
+				emailService.reservationCreatedNotification(reservation);
+			}catch (MessagingException e) {
+				auditLogService.reservationCreatedEmailFailLog(reservation, e);
+			}
 		}
 
 		Calendar cal = Calendar.getInstance();
