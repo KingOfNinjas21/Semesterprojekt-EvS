@@ -137,21 +137,23 @@ public class LabItemDetailController implements Serializable
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void doAddLabItem()
 	{
-		if ((newLabItem.getItemName() == null) || (newLabItem.getItemName().length() <= 3))
+		if(newLabItem.isNew())
 		{
-			errorMessage.pushMessage("Item Name invalid.");
-			return;
-		}
-
-		if (newLabItem.getMaxReservationTime() == null)
-		{
-			if (days + hours + minutes <= 0)
+			if ((newLabItem.getItemName() == null) || (newLabItem.getItemName().length() <= 3))
 			{
-				errorMessage.pushMessage("Max Reservation Time invalid.");
+				errorMessage.pushMessage("Item Name invalid.");
 				return;
 			}
+	
+			if (newLabItem.getMaxReservationTime() == null)
+			{
+				if (days + hours + minutes <= 0)
+				{
+					errorMessage.pushMessage("Max Reservation Time invalid.");
+					return;
+				}
+			}
 		}
-
 		if (errorMessage.hasError())
 		{
 			return;
