@@ -2,6 +2,7 @@ package at.qe.sepm.skeleton.model;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -179,41 +180,19 @@ public class Manual implements Persistable<Long>
 	@Override
 	public boolean equals(Object obj)
 	{
-		if (this == obj)
-			return true;
 		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Manual other = (Manual) obj;
-		if (createDate == null)
 		{
-			if (other.createDate != null)
-				return false;
-		} else if (!createDate.equals(other.createDate))
 			return false;
-		if (!Arrays.equals(data, other.data))
-			return false;
-		if (id != other.id)
-			return false;
-		if (labItem1 == null)
+		}
+		if (!(obj instanceof Manual))
 		{
-			if (other.labItem1 != null)
-				return false;
-		} else if (!labItem1.equals(other.labItem1))
 			return false;
-		if (manualName == null)
+		}
+		final Manual other = (Manual) obj;
+		if (!Objects.equals(this.id, other.id))
 		{
-			if (other.manualName != null)
-				return false;
-		} else if (!manualName.equals(other.manualName))
 			return false;
-		if (type == null)
-		{
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
+		}
 		return true;
 	}
 
