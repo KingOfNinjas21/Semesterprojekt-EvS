@@ -120,7 +120,7 @@ public class ReservationDetailController implements Serializable
 		Date begin = calendarView.getBeginDate();
 		Date end = calendarView.getEndDate();
 
-		List<StockItem> allitems = (List<StockItem>)stockItemView.getAllItems();
+		HashSet<StockItem> allitems = (HashSet<StockItem>)stockItemView.getAllItems();
 		List<StockItem> selectedItems = (List<StockItem>)stockItemView.getSelectedItems();
 		List<ItemGroup> selectedItemGroups = (List<ItemGroup>)stockItemView.getSelectedItemGroups();
 		
