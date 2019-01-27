@@ -1,10 +1,8 @@
 package at.qe.sepm.skeleton.ui.controllers.detail;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
@@ -121,8 +119,14 @@ public class ItemGroupDetailController implements Serializable
 			errorMessage.pushMessage("Item selection invalid");
 			return;
 		}
+		TreeSet<StockItem> set = new TreeSet<>(new Comparator<StockItem>() {
+	        @Override
+	        public int compare(StockItem s1, StockItem s2) { return s1.getId().compareTo(s2.getId());}}
+	        );
+
+		set.addAll(items);
 		
-		newItemGroup.setItems(new TreeSet<StockItem>(items));
+		newItemGroup.setItems(set);
 		
 		itemGroupService.saveGroup(newItemGroup);
 		newItemGroup = new ItemGroup();

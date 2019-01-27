@@ -1,7 +1,6 @@
 package at.qe.sepm.skeleton.model;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -42,7 +41,7 @@ public class ItemGroup implements Persistable<Long>
 	{ CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "ITEM_GROUPS", joinColumns = @JoinColumn(name = "GROUPID", referencedColumnName = "GROUPID"), inverseJoinColumns = @JoinColumn(name = "ITEMID", referencedColumnName = "STOCKITEMID"))
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private Set<StockItem> items = new HashSet<StockItem>();
+	private Set<StockItem> items;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
