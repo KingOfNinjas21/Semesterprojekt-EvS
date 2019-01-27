@@ -29,6 +29,12 @@ public class StockItemService
 	{
 		return stockRepository.findAll();
 	}
+	
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
+	public List<StockItem> loadAllNonBlocked()
+	{
+		return stockRepository.findAll();
+	}
 
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public StockItem saveStockItem(StockItem stockItem)

@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -16,8 +14,6 @@ import at.qe.sepm.skeleton.model.ItemGroup;
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.services.ItemGroupService;
 
-import org.joda.time.DateTime;
-import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -45,30 +41,79 @@ public class StockItemView implements Serializable
 	
 	@Autowired
 	private CalendarView calendarView;
-
-	private Collection<StockItem> items;
-
-	private Collection<StockItem> selectedItems;
-
-	private Collection<ItemGroup> itemGroups;
-
-	private Collection<ItemGroup> selectedItemGroups;
 	
 	private Collection<StockItem> allItems;
 	
-	private boolean onlyShowAvailable = false;
+	private Collection<StockItem> items;
+	private Collection<StockItem> selectedItems;
+	
+	private Collection<ItemGroup> itemGroups;
+	private Collection<ItemGroup> selectedItemGroups;
+	
+	
+	private boolean onlyShowAvailable = true;
 	
 	@PostConstruct
 	public void init()
 	{
+		allItems = new ArrayList<StockItem>();	
 		items = new ArrayList<StockItem>();
 		selectedItems = new ArrayList<StockItem>();
 		itemGroups = new ArrayList<ItemGroup>();
 		selectedItemGroups = new ArrayList<ItemGroup>();
 		
-		itemGroups = itemGroupService.getAllGroups();
-		loadItemsNotBlocked();			
+		
+		loadItems();
+		loadItemGroups();
 	}
+
+
+	public void loadItems()	{
+		allItems = stockItemService.loadAllNonBlocked();
+		items.addAll(allItems);
+	}
+	
+	public void loadItemGroups() {
+		itemGroups = itemGroupService.getAllGroups();
+	}
+	
+	
+	public void filterItemsNotAvailable()
+	{
+		if (!onlyShowAvailable)
+			return;
+		
+		selectedItems.clear();
+		items.clear();
+
+		for (StockItem item : allItems) {
+			
+		    if (isAvailable(item, calendarView.getBeginDate(), calendarView.getEndDate()))
+		    	items.add(item);
+		}
+		
+	}
+	
+	private boolean isAvailable(StockItem item, Date from, Date to)
+	{
+		// Check if there is a reservation between from and to
+		for (Reservation reservation : item.getReservations()) {
+			Date begin = reservation.getReservationDate();
+			Date end = reservation.getReturnableDate();
+			
+
+			if( end.after(to) && begin.before(from) ||
+				to.after(begin) && from.before(begin) ||
+				from.before(end) && to.after(end) ||
+				from.before(begin) && to.after(end)){
+				
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
 	
 	public boolean getOnlyShowAvailable() {
 		return onlyShowAvailable;
@@ -76,82 +121,33 @@ public class StockItemView implements Serializable
 
 	
 	public void setOnlyShowAvailable(boolean onlyShowAvailable) {
+		if (onlyShowAvailable)
+			filterItemsNotAvailable();
 		this.onlyShowAvailable = onlyShowAvailable;
-	}
-
-	private void loadItemsNotBlocked()
-	{
-		for (StockItem item : stockItemService.loadAll())
-		{
-			if (item.isBlocked())
-				continue;
-			else
-				items.add(item);
-		}
-	}
-	
-	private void filterItemsNotAvailable()
-	{
-		
-		Iterator<StockItem> iter = items.iterator();
-
-		while (iter.hasNext()) {
-			StockItem item = iter.next();
-		    if (isAvailable(item, calendarView.getBeginDate(), calendarView.getEndDate()))
-		        iter.remove();
-		}
-		
-	}
-	
-	public boolean isAvailable(StockItem item, Date from, Date to)
-	{
-		DateTime dt = new DateTime(from);
-		Period period = item.getLabItem().getMaxReservationTime();
-		
-		if (period == null) {
-			throw new NullPointerException("getMaxReservationTime is null");
-		}
-		
-		if (dt.plus(period).isBefore(to.getTime()) ) {
-			return false;
-		}
-
-		for (Reservation reservation : item.getReservations()) {
-
-			if (reservation.getIsReturned()) {
-				continue;
-			}
-			if (from.before(reservation.getReservationDate()) && to.before(reservation.getReservationDate())) {
-				continue;
-			}
-			if (from.after(reservation.getReturnableDate()) && to.after(reservation.getReturnableDate())) {
-				continue;
-			}
-			return false;
-		}
-
-		return true;
 	}
 	
 	
 	public Collection<StockItem> getItems()
 	{
-		items = new ArrayList<StockItem>();
-		loadItemsNotBlocked();
-		if(onlyShowAvailable)
-			{
-				filterItemsNotAvailable();
-			}
 		return items;
 	}
 
-	public void getItemsFromSelectedGroups(Collection<ItemGroup> itemGroups){
-		for(ItemGroup group: itemGroups){
-			selectedItems.addAll(group.getItems());
-		}
-	}
+//	public void getItemsFromSelectedGroups(Collection<ItemGroup> itemGroups){
+//		for(ItemGroup group: itemGroups){
+//			selectedItems.addAll(group.getItems());
+//		}
+//	}
 
 	public Collection<StockItem> getSelectedItems() {
+		
+		if (selectedItemGroups != null) {
+			if (!selectedItemGroups.isEmpty()) {
+				for (ItemGroup item : selectedItemGroups) {
+					selectedItems.addAll(item.getItems());
+				}
+			}
+		}
+			
 		return selectedItems;
 	}
 
@@ -178,13 +174,5 @@ public class StockItemView implements Serializable
 
 	public void setSelectedItemGroups(List<ItemGroup> selectedItemGroups) {
 		this.selectedItemGroups = selectedItemGroups;
-	}
-
-	public Collection<StockItem> getAllItems() {
-		return new HashSet<StockItem>();
-	}
-
-	public void setAllItems(Collection<StockItem> allItems) {
-		this.allItems = allItems;
 	}
 }

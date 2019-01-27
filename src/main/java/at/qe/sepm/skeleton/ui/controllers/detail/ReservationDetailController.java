@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
-import at.qe.sepm.skeleton.model.ItemGroup;
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
@@ -120,26 +119,8 @@ public class ReservationDetailController implements Serializable
 		Date begin = calendarView.getBeginDate();
 		Date end = calendarView.getEndDate();
 
-		HashSet<StockItem> allitems = (HashSet<StockItem>)stockItemView.getAllItems();
-		List<StockItem> selectedItems = (List<StockItem>)stockItemView.getSelectedItems();
-		List<ItemGroup> selectedItemGroups = (List<ItemGroup>)stockItemView.getSelectedItemGroups();
+		List<StockItem> items = new ArrayList<>(stockItemView.getItems());
 		
-			
-		if (selectedItems != null) {
-			if (!selectedItems.isEmpty()) {
-				for (StockItem item : selectedItems) {
-					allitems.add(item);
-				}
-			}
-		}
-		
-		if (selectedItemGroups != null) {
-			if (!selectedItemGroups.isEmpty()) {
-				for (ItemGroup item : selectedItemGroups) {
-					allitems.addAll(item.getItems());
-				}
-			}
-		}
 		
 		if (holidayService.isHoliday(begin))
 		{
@@ -159,11 +140,6 @@ public class ReservationDetailController implements Serializable
 		if (!openingHourService.withinOpeningHours(end))
 		{
 			errorMessage.pushMessage("End Date not within opening hours.");
-		}
-
-		if (allitems == null)
-		{
-			errorMessage.pushMessage("Could not load items.");
 		}
 
 		if (begin == null)
@@ -186,7 +162,7 @@ public class ReservationDetailController implements Serializable
 			errorMessage.pushMessage("Invalid Reason.");
 		}
 
-		for (StockItem item : allitems)
+		for (StockItem item : items)
 		{
 			isAvailable(item, begin, end);
 		}
@@ -194,9 +170,10 @@ public class ReservationDetailController implements Serializable
 		if(errorMessage.hasError()) {
 			return;
 		}
+		
 		reservedItems = new ArrayList<>();
 
-	for (StockItem item : allitems)
+		for (StockItem item : items)
 		{			
 			log.debug("Saving: " + item);
 
