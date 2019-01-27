@@ -85,7 +85,7 @@
 	
 					</h:panelGrid>
 						<p:commandButton  value="Manual" actionListener="#{manualView.display()}" update="labItemData"/>
-							<p:dataTable id="editManualTable" var="manual" value="#{labItemDetailController.labItem.getManuals()}" resizableColumns="true" rendered="#{manualView.show}">
+							<p:dataTable id="editManualTable" var="manual" value="#{labItemDetailController.labItem.getManuals()}" resizableColumns="true" rendered="#{manualView.show}"  >
 							<p:column headerText="Name">			
 								<h:outputText value="#{manual.manualName}"/>
 							</p:column>
@@ -174,26 +174,26 @@
             </p:confirmDialog>    
 		</h:form>
 		
-<h:form id="manualForm">
-	<p:dialog id="manualInfoDialog" header="Manuals"  dynamic="true" widgetVar="manualInfoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-	<p:outputPanel id="labItemData" rendered="#{not empty labItemDetailController.labItem}">
-		<p:dataTable id="manualTable" var="manual" value="#{labItemDetailController.labItem.getManuals()}" resizableColumns="true" >
-			<p:column>			
-                    <h:commandLink value="#{manual.manualName}" actionListener="#{fileDownloadView.fileDownload()}" > 
-						<f:setPropertyActionListener value="#{manual}" target="#{fileDownloadView.manual}" />
-						<p:fileDownload value="#{fileDownloadView.file}" />
-					</h:commandLink>
+		<h:form id="manualForm">
+			<p:dialog id="manualInfoDialog" header="Manuals"  dynamic="true" widgetVar="manualInfoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false"  width="600px">
+			<p:outputPanel id="labItemData" rendered="#{not empty labItemDetailController.labItem}">
+				<p:dataTable id="manualTable" var="manual" value="#{labItemDetailController.labItem.getManuals()}" resizableColumns="true" >
+					<p:column>			
+							<h:commandLink value="#{manual.manualName}" actionListener="#{fileDownloadView.fileDownload()}" > 
+								<f:setPropertyActionListener value="#{manual}" target="#{fileDownloadView.manual}" />
+								<p:fileDownload value="#{fileDownloadView.file}" />
+							</h:commandLink>
 
-			</p:column>
-		
+					</p:column>
+				
 
-		</p:dataTable>
-	<p:commandButton value="Abort" onclick="PF('manualInfoDialog').hide()"/>
+				</p:dataTable>
+			<p:commandButton value="Abort" onclick="PF('manualInfoDialog').hide()"/>
 
-	</p:outputPanel>	
-	
-	</p:dialog>
-</h:form>
+			</p:outputPanel>	
+			
+			</p:dialog>
+		</h:form>
 
 		
                 

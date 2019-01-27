@@ -32,7 +32,10 @@
                     <h:outputText value="#{reservation.user.lastName}"/>
                 </p:column>
                 <p:column headerText="Manuals">
-	                <h:outputText value="#{labItemController.labItem.manuel}" />   
+					<p:commandButton update=":manualForm:manualInfoDialog" oncomplete="PF('manualInfoDialog').show()" icon="ui-icon-plusthick" title="Bedienungsanleitungen">
+					    <f:setPropertyActionListener value="#{reservation}" target="#{reservationDetailController.reservation}"/>
+					</p:commandButton>
+	                  
 	            </p:column>  
                 <p:column headerText="From" style="width:130px;text-align: center">
                     <h:outputText value="#{reservation.reservationDate}">
@@ -271,7 +274,27 @@
 	                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                 </h:panelGrid>
             </p:confirmDialog>      
-        </h:form>
+		</h:form>
+		
+		<h:form id="manualForm">
+			<p:dialog id="manualInfoDialog" header="Manuals"  dynamic="true" widgetVar="manualInfoDialog" modal="true" showEffect="fade" hideEffect="fade" resizeable="false" width="600px" >
+			
+			<p:outputPanel id="labItemData" rendered="#{not empty reservationDetailController.reservation}">
+			<p:dataTable id="manualTable" var="manual" value="#{reservationDetailController.reservation.item.labItem.getManuals()}" resizableColumns="true" >
+				<p:column>			
+						<h:commandLink value="#{manual.manualName}" actionListener="#{fileDownloadView.fileDownload()}" > 
+							<f:setPropertyActionListener value="#{manual}" target="#{fileDownloadView.manual}" />
+							<p:fileDownload value="#{fileDownloadView.file}" />
+						</h:commandLink>
+
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Abort" onclick="PF('manualInfoDialog').hide()"/>
+
+			</p:outputPanel>	
+	
+		</p:dialog>
+</h:form>
         
     </ui:define>
 </ui:composition>
