@@ -49,7 +49,7 @@ public class StockItem implements Persistable<Long>
 	// private Set<ItemCondition> condition;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "item", cascade =
-	{ CascadeType.REFRESH, CascadeType.PERSIST })
+	{ CascadeType.ALL })
 	private List<Reservation> reservations;
 
 	/**

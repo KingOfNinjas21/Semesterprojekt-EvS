@@ -30,7 +30,7 @@ public class Reservation implements Persistable<Long>
 	private long reservedId;
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER, cascade =
-	{ CascadeType.REFRESH, CascadeType.PERSIST })
+		{ CascadeType.ALL })
 	private StockItem item;
 
 	@Column(nullable = false)
