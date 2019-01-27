@@ -54,7 +54,7 @@
         </h:form>
         
         <h:form id="labItemEditForm" enctype="multipart/form-data" >
-            <p:dialog header="Edit Items" id="labItemEditDialog" dynamic="true" widgetVar="labItemEditDialog" modal="true" focus="manual" showEffect="fade" hideEffect="fade" resizable="false" onHide="#{manualView.reset()}" >   
+            <p:dialog header="Edit Lab Item" id="labItemEditDialog" dynamic="true" widgetVar="labItemEditDialog" modal="true" focus="manual" showEffect="fade" hideEffect="fade" resizable="false" onHide="#{manualView.reset()}" >   
 	            <p:outputPanel id="labItemData" rendered="#{not empty labItemDetailController.labItem}">
 	
 	               <h:panelGrid columns="3">

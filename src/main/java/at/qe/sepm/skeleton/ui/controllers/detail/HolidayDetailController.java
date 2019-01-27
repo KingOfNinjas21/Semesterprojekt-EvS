@@ -59,17 +59,12 @@ public class HolidayDetailController implements Serializable {
 		holiday = holidayService.loadHoliday(holiday.getId());
 	}
 
-	/**
-	 * Action to save the currently displayed LabItemGroup.
-	 */
+
 	public void doSaveHoliday()
 	{
 		holiday = this.holidayService.saveHoliday(holiday);
 	}
 
-	/**
-	 * Action to delete the currently displayed LabItemGroup.
-	 */
 	public void doDeleteHoliday()
 	{
 		this.holidayService.deleteHoliday(holiday);
