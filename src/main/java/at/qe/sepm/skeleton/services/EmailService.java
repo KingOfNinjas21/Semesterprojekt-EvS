@@ -6,6 +6,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,6 +28,9 @@ public class EmailService {
 
     @Autowired
     private ReservationService reservationService;
+
+    @Autowired
+    private UserService userService;
 
     private void prepareEmailMessage(MimeMessage message, String to, String title, String html)
             throws MessagingException {
@@ -63,24 +67,20 @@ public class EmailService {
             auditLogService.reservationUserEmailInvalid(reservation);
             return;
         }
-
         System.out.println("Sending email to " + reservation.getUser().getEmail());
 
-        Session session = createSession();
-        MimeMessage message = new MimeMessage(session);
-        prepareEmailMessage(message, reservation.getUser().getEmail(), title, html);
-        Transport.send(message);
-
+        sendNotificationEmail(reservation.getUser().getEmail(), title, html);
         auditLogService.reservationCreatedEmailLog(reservation);
     }
 
     //daily 06:00 AM
-    @Scheduled(cron = "0 0 06 00 * ?")
+    @Scheduled(cron = "0 0 6 1/1 * *")
     public void reservationExpiredNotification() throws MessagingException {
         Collection<Reservation> reservations = reservationService.loadActive();
+        String title = "Reservation expired!";
+        String title_admin = "User-Reservation expired!";
 
         for(Reservation res: reservations){
-            String title = "Reservation expired!";
             String html =
                     "<h1>Please return your reserved item!</h1><br>" +
                             "The item: " + res.getItem().getLabItem().getItemName() +
@@ -88,16 +88,31 @@ public class EmailService {
                             "<br>Reservation due date: " + res.getReturnableDate() +
                             "<br><br>Kind regards, <br>Group 4";
 
+            String html_admin =
+                    "<h1>A users reservation expired!</h1><br>" +
+                            "The item: " + res.getItem().getLabItem().getItemName() +
+                            "from user" + res.getUser().getUsername() +
+                            "with:" +
+                            "<br>Reservation due date: " + res.getReturnableDate() +
+                            "expired" +
+                            "<br><br>Kind regards, <br>Group 4";
+
             if(res.getReturnableDate().after(new Date())){
-                Session session = createSession();
-                MimeMessage message = new MimeMessage(session);
-                prepareEmailMessage(message, res.getUser().getEmail(), title, html);
-                Transport.send(message);
+
+                sendNotificationEmail(res.getUser().getEmail(), title, html);
+                sendNotificationEmail(userService.loadUser("admin").getEmail() , title_admin, html_admin);
 
                 auditLogService.reservationExpired(res);
             }
         }
 
+    }
+
+    public void sendNotificationEmail(String email, String title, String html) throws MessagingException{
+        Session session = createSession();
+        MimeMessage message = new MimeMessage(session);
+        prepareEmailMessage(message, email, title, html);
+        Transport.send(message);
     }
 
 	public void sendPassword(String pass) {
