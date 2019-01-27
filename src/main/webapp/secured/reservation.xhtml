@@ -201,7 +201,7 @@
 	                		<h:panelGrid id="addGrid" columns="3" style="valign:top">
 
 								<p:outputLabel value="Groups" rendered="#{!sessionInfoBean.hasRole('STUDENT')}"/>
-								<p:selectCheckboxMenu id="itemGroups" value="#{stockItemView.selectedItemGroups}" label="Gruppen" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="false" requiredMessage="Select at least one group (or item)." rendered="#{!sessionInfoBean.hasRole('STUDENT')}">
+								<p:selectCheckboxMenu id="itemGroups" value="#{stockItemView.selectedItemGroups}" label="Gruppen" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="{empty stockItemView.selectedItems}" requiredMessage="Select at least one group (or item)." rendered="#{!sessionInfoBean.hasRole('STUDENT')}">
 									<f:selectItems value="#{stockItemView.itemGroups}" var="itemGroups" itemValue="#{itemGroups}" itemLabel="#{itemGroups.groupName}" noSelectionOption="false"/>
 									<p:ajax event="change" update="reservationSchedule"/>
 									<f:converter converterId="customConverter"/>
@@ -209,7 +209,7 @@
 								<p:outputLabel for="itemGroups" value="" rendered="#{!sessionInfoBean.hasRole('STUDENT')}"/>
 
 								<p:outputLabel value="Items"/>
-						        <p:selectCheckboxMenu id="items" widgetVar="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="true" requiredMessage="Select at least one item.">
+						        <p:selectCheckboxMenu id="items" widgetVar="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="#{empty stockItemView.selectedItemGroups}" requiredMessage="Select at least one item.">
 									 <f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
 						        	 <p:ajax event="change" update="reservationSchedule"/>
 						        	 <f:converter converterId="customConverter"/>
@@ -260,7 +260,7 @@
 						<!-- //TODO: Wochen- und Monatsübersicht der Reservierungen pro Laborgerät einzusehen -->
 						<h:panelGrid columns="1">
 							<h:panelGrid columns="2">
-								<p:panel header="Reservations Calendar" style="width: 600px">	
+								<p:panel header="Reservations Calendar" style="font-size:smaller;width: 600px">	
 									<p:schedule id="reservationSchedule" title="Reservation Calendar" widgetVar="reservationSchedule" value="#{scheduleView.lazyEventModel}" locale="en_GB" draggable="false" resizeable="false" slotDuration="60" tooltip="true"/>
 								</p:panel>
 							</h:panelGrid>
