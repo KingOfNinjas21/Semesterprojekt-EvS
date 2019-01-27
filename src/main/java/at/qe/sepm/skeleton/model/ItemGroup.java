@@ -95,5 +95,10 @@ public class ItemGroup implements Persistable<Long> {
     public boolean isNew() {
         return (GroupId == null);
     }
+
+    @Override
+    public String toString() {
+        return groupName;
+    }
 }
 

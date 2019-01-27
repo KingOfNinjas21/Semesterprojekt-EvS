@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -32,10 +33,14 @@ public class ItemGroupService {
         return groupRepository.findOne(id);
     }
 
-	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE')")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
     public Collection<ItemGroup> getAllGroups()
     {
 		if (!sessionInfo.isAdmin()) {
+			if(sessionInfo.isStudent())
+			{
+				return new ArrayList<ItemGroup>();
+			}
 			return groupRepository.findByUser(sessionInfo.getCurrentUser());
 		}
 

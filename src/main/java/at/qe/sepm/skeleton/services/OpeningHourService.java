@@ -29,7 +29,7 @@ public class OpeningHourService
 		return openingHourRepository.findOne(id);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
 	public List<OpeningHour> loadAll()
 	{
 		return openingHourRepository.findAll();

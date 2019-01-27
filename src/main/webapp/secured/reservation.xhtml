@@ -154,49 +154,7 @@
 			    	
                 	<h:panelGrid id="addGridLeftRight" columns="3" >
 	                	<h:panelGrid id="addGridUpper">
-	                		<h:panelGrid id="addGrid" columns="3" style="valign:top">
-		                        <p:outputLabel value="Items"/>
-						        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="true" requiredMessage="Select at least one item.">
-									 <f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
-						        	 <p:ajax event="change" update="reservationSchedule"/>
-						        	 <f:converter converterId="customConverter"/>
-						        </p:selectCheckboxMenu>
-						        <p:outputLabel for="items" value="" />
-		                        
-		                        <p:outputLabel value="Begin" />
-		                        <p:calendar id="beginDate" binding="#{beginDate}" value="#{calendarView.beginDate}" locale="en_GB" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="Begin Date required." mindate="#{calendarView.getToday()}">
-		                        	<p:ajax event="dateSelect" update="endDate" />
-		                        </p:calendar>
-		                        <p:outputLabel for="beginDate" value="" />
-		                        
-		                        
-		                        <p:outputLabel  value="End" />
-		                        <p:calendar id="endDate" binding="#{endDate}" value="#{calendarView.endDate}" locale="en_GB" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="End Date required." mindate="#{calendarView.beginDate}">
-		                        	<p:ajax event="dateSelect" update="beginDate" />
-		                        </p:calendar>
-		                        <p:outputLabel for="endDate" value="" />
-		                        
-		                        <p:outputLabel value="Reason" />
-					            <p:inputTextarea id="reason" value="#{reservationDetailController.reason}" style="width: 212px;" required="true" requiredMessage="Reason required." validatorMessage="Reason must have at least 4 characters." rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} characters remaining." autoResize="false">
-									<f:validateLength minimum="4"/>
-								</p:inputTextarea>
-								<p:outputLabel for="reason" value="" />
-								
-								<h:panelGroup />
-								<h:outputText id="display" />
-								<h:panelGroup />
-							
-		                        <h:panelGroup />
-		                        <h:panelGrid columns="2">	
-		                        	<p:commandButton value="Add" style="width:100px" action="#{reservationDetailController.doAddModel()}" oncomplete="if (!args.validationFailed) PF('reservationAddDialog').hide()" update="addMessages, addGrid, :reservationForm:reservationActiveTable, :reservationForm:reservationTable"/>
-		                        	<p:commandButton value="Cancel" style="width:100px" onclick="PF('reservationAddDialog').hide()"/>
-		                    	</h:panelGrid>
-		                    	<h:panelGroup />
-		                    	<h:panelGroup />
-	<!-- 	                    	<p:commandButton value="Refresh Calendar" action="#{scheduleView.loadStockItemViewEvents()}" oncomplete="" update="addGrid"/> -->
-			            	</h:panelGrid>
-			            	<p:separator /> 
-			            	<h:panelGrid>
+	                	<h:panelGrid>
 			            			<h:outputLabel value="Opening Hours" style="align: center"/>
 				            		<p:dataTable id="openingHourTable" var="openingHour" style="width: 319px" rowStyleClass="#{openingHour.closingHour eq openingHour.openingHour ? 'hidestyle' : null}" value="#{openingHourListController.getAllOpeningHours()}" resizableColumns="false" resizeMode="fit">
 				            			<p:column headerText="Day" style="text-align: center; width:85px">
@@ -236,6 +194,59 @@
 
 				            		</p:dataTable>
 			            	</h:panelGrid>
+			            	<p:separator />
+	                		<h:panelGrid id="addGrid" columns="3" style="valign:top">
+
+								<p:outputLabel value="Groups" rendered="#{!sessionInfoBean.hasRole('STUDENT')}"/>
+								<p:selectCheckboxMenu id="itemGroups" value="#{stockItemView.selectedItemGroups}" label="Gruppen" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="#{empty stockItemView.selectedItems}" requiredMessage="Select at least one group (or item)." rendered="#{!sessionInfoBean.hasRole('STUDENT')}">
+									<f:selectItems value="#{stockItemView.itemGroups}" var="itemGroups" itemValue="#{itemGroups}" itemLabel="#{itemGroups.groupName}" noSelectionOption="false"/>
+									<p:ajax event="change" update="reservationSchedule"/>
+									<f:converter converterId="customConverter"/>
+								</p:selectCheckboxMenu>
+								<p:outputLabel for="itemGroups" value="" rendered="#{!sessionInfoBean.hasRole('STUDENT')}"/>
+
+								<p:outputLabel value="Items"/>
+						        <p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="#{empty stockItemView.selectedItemGroups}" requiredMessage="Select at least one item.">
+									 <f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
+						        	 <p:ajax event="change" update="reservationSchedule"/>
+						        	 <f:converter converterId="customConverter"/>
+						        </p:selectCheckboxMenu>
+						        <p:outputLabel for="items" value="" />
+		                        
+		                        <p:outputLabel value="Begin" />
+		                        <p:calendar id="beginDate" binding="#{beginDate}" value="#{calendarView.beginDate}" locale="en_GB" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="Begin Date required." mindate="#{calendarView.getToday()}">
+		                        	<p:ajax event="dateSelect" update="endDate" />
+		                        </p:calendar>
+		                        <p:outputLabel for="beginDate" value="" />
+		                        
+		                        
+		                        <p:outputLabel  value="End" />
+		                        <p:calendar id="endDate" binding="#{endDate}" value="#{calendarView.endDate}" locale="en_GB" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="End Date required." mindate="#{calendarView.beginDate}">
+		                        	<p:ajax event="dateSelect" update="beginDate" />
+		                        </p:calendar>
+		                        <p:outputLabel for="endDate" value="" />
+		                        
+		                        <p:outputLabel value="Reason" />
+					            <p:inputTextarea id="reason" value="#{reservationDetailController.reason}" style="width: 212px;" required="true" requiredMessage="Reason required." validatorMessage="Reason must have at least 4 characters." rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} characters remaining." autoResize="false">
+									<f:validateLength minimum="4"/>
+								</p:inputTextarea>
+								<p:outputLabel for="reason" value="" />
+								
+								<h:panelGroup />
+								<h:outputText id="display" />
+								<h:panelGroup />
+							
+		                        <h:panelGroup />
+		                        <h:panelGrid columns="2">	
+		                        	<p:commandButton value="Add" style="width:100px" action="#{reservationDetailController.doAddModel()}" oncomplete="if (!args.validationFailed) PF('reservationAddDialog').hide()" update="addMessages, addGrid, :reservationForm:reservationActiveTable, :reservationForm:reservationTable"/>
+		                        	<p:commandButton value="Cancel" style="width:100px" onclick="PF('reservationAddDialog').hide()"/>
+		                    	</h:panelGrid>
+		                    	<h:panelGroup />
+		                    	<h:panelGroup />
+	<!-- 	                    	<p:commandButton value="Refresh Calendar" action="#{scheduleView.loadStockItemViewEvents()}" oncomplete="" update="addGrid"/> -->
+			            	</h:panelGrid>
+			            	 
+			            	
 		            	</h:panelGrid>
 						<!-- //TODO: Wochen- und Monatsübersicht der Reservierungen pro Laborgerät einzusehen -->
 						<h:panelGrid columns="1">
