@@ -95,4 +95,14 @@ public class AuditLogService {
 		auditLogRepository.save(entity);
 	}
 
+	public void reservationExpiresSoon(Reservation reservation){
+		AuditLog entity = new AuditLog();
+		entity.setMessage(String.format("[EMAIL] Reservation %s from user %s expires soon(%s)!",reservation.getItem().getLabItem().getItemName(),
+				reservation.getUser().getUsername(), reservation.getReturnableDate()));
+		entity.setTime(new Date());
+		entity.setUpdateUser(sessionInfo.getCurrentUser());
+
+		auditLogRepository.save(entity);
+	}
+
 }

@@ -48,13 +48,7 @@ public class Reservation implements Persistable<Long>
 	@Column(nullable = false)
 	private String reason;
 
-	public String getReason() {
-		return reason;
-	}
-
-	public void setReason(String reason) {
-		this.reason = reason;
-	}
+	private boolean notified;
 
 	private boolean isReturned;
 
@@ -63,6 +57,22 @@ public class Reservation implements Persistable<Long>
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name = "User_username", nullable = false)
 	private User user;
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public boolean isNotified() {
+		return notified;
+	}
+
+	public void setNotified(boolean notified) {
+		this.notified = notified;
+	}
 
 	public long getReservedId()
 	{

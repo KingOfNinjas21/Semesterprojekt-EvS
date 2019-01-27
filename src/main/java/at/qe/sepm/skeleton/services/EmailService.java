@@ -6,7 +6,6 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Scope("application")
@@ -55,6 +55,7 @@ public class EmailService {
         return session;
     }
 
+    //Notifies the user about his reservation
     public void reservationCreatedNotification(Reservation reservation) throws MessagingException {
         String title = "Reservation created!";
         String html =
@@ -73,7 +74,7 @@ public class EmailService {
         auditLogService.reservationCreatedEmailLog(reservation);
     }
 
-    //daily 06:00 AM
+    //daily 06:00 AM, checks for expired notifications and mails the user + admin
     @Scheduled(cron = "0 0 6 1/1 * *")
     public void reservationExpiredNotification() throws MessagingException {
         Collection<Reservation> reservations = reservationService.loadActive();
@@ -95,20 +96,46 @@ public class EmailService {
                             "with:" +
                             "<br>Reservation due date: " + res.getReturnableDate() +
                             "expired" +
-                            "<br><br>Kind regards, <br>Group 4";
+                            "<br><br>Kind regards, <br>you";
 
             if(res.getReturnableDate().after(new Date())){
 
                 sendNotificationEmail(res.getUser().getEmail(), title, html);
-                sendNotificationEmail(userService.loadUser("admin").getEmail() , title_admin, html_admin);
+                sendNotificationEmail(userService.loadUser("admin").getEmail(), title_admin, html_admin);
 
                 auditLogService.reservationExpired(res);
             }
         }
-
     }
 
-    public void sendNotificationEmail(String email, String title, String html) throws MessagingException{
+    //every 4 hours, checks for expiring reservations and notifies user
+    @Scheduled(cron = "0 0 0/4 1/1 * *")
+    public void reservationExpiresSoonNotification() throws MessagingException {
+        Collection<Reservation> reservations = reservationService.loadActive();
+        String title = "Reservation expires soon!";
+
+        for(Reservation res: reservations){
+            String html =
+                    "<h1>Please return your reserved items on time!</h1><br>" +
+                            "The item: " + res.getItem().getLabItem().getItemName() +
+                            "must be returned until reservation due date: " + res.getReturnableDate() +
+                            "<br><br>Kind regards, <br>Group 4";
+
+            //Calulate time difference between returnableDate and current time
+            Date date = new Date();
+            long diff = res.getReturnableDate().getTime() - date.getTime();
+            diff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+
+            if(!res.isNotified() && (diff<=1)){
+
+                sendNotificationEmail(res.getUser().getEmail(), title, html);
+                res.setNotified(true);
+                auditLogService.reservationExpiresSoon(res);
+            }
+        }
+    }
+
+    private void sendNotificationEmail(String email, String title, String html) throws MessagingException{
         Session session = createSession();
         MimeMessage message = new MimeMessage(session);
         prepareEmailMessage(message, email, title, html);
