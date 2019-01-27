@@ -2,7 +2,10 @@ package at.qe.sepm.skeleton.ui.controllers.detail;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 
@@ -42,7 +45,7 @@ public class ItemGroupDetailController implements Serializable
 	private void init()
 	{
 		newItemGroup = new ItemGroup();
-		newItemGroup.setItems(new ArrayList<StockItem>());
+		newItemGroup.setItems(new TreeSet<StockItem>());
 	}
 
 	/**
@@ -119,7 +122,7 @@ public class ItemGroupDetailController implements Serializable
 			return;
 		}
 		
-		newItemGroup.setItems(items);
+		newItemGroup.setItems(new TreeSet<StockItem>(items));
 		
 		itemGroupService.saveGroup(newItemGroup);
 		newItemGroup = new ItemGroup();

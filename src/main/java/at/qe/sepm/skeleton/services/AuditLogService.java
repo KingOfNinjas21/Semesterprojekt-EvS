@@ -2,6 +2,7 @@ package at.qe.sepm.skeleton.services;
 
 import java.util.Date;
 
+import at.qe.sepm.skeleton.model.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -11,6 +12,8 @@ import at.qe.sepm.skeleton.model.AuditLog;
 import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.repositories.AuditLogRepository;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
+
+import javax.mail.MessagingException;
 
 
 /**
@@ -47,4 +50,19 @@ public class AuditLogService {
 	    auditLogRepository.save(entity);
 	}
 
+	public void reservationCreatedEmailLog(Reservation reservation){
+		AuditLog entity = new AuditLog();
+		entity.setMessage(String.format("[EMAIL] User %s notified about reservation %s", reservation.getUser(), reservation.getItem()));
+		entity.setTime(new Date());
+
+		auditLogRepository.save(entity);
+	}
+
+	public void reservationCreatedEmailFailLog(Reservation reservation, MessagingException e){
+		AuditLog entity = new AuditLog();
+		entity.setMessage(String.format("[EMAIL] User %s could not be notified, Email exception %s", reservation.getUser(), e.toString()));
+		entity.setTime(new Date());
+
+		auditLogRepository.save(entity);
+	}
 }

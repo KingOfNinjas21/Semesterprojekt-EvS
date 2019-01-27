@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javafx.scene.media.MediaException;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.slf4j.Logger;
@@ -24,6 +25,8 @@ import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 import at.qe.sepm.skeleton.ui.view.CalendarView;
 import at.qe.sepm.skeleton.ui.view.StockItemView;
 import at.qe.sepm.skeleton.utils.ErrorMessage;
+
+import javax.mail.MessagingException;
 
 /**
  * Controller for the reservation detail view.
@@ -74,7 +77,7 @@ public class ReservationDetailController implements Serializable
 	/**
 	 * Action to save the currently displayed reservation.
 	 */
-	public void doSaveModel()
+	public void doSaveModel() throws MessagingException
 	{
 		if (reservation.getReservationDate().before(new Date())) {
 			if (reservation.getIsReturned() == true) {
@@ -107,7 +110,7 @@ public class ReservationDetailController implements Serializable
 	 * @throws ParseException
 	 */
 
-	public void doAddModel() throws ParseException
+	public void doAddModel() throws ParseException, MessagingException
 	{
 
 		Reservation entity = new Reservation();
@@ -197,7 +200,7 @@ public class ReservationDetailController implements Serializable
 	
 	
 	
-	private boolean isAvailable(StockItem item, Date from, Date to)
+	public boolean isAvailable(StockItem item, Date from, Date to)
 	{
 		DateTime dt = new DateTime(from);
 		Period period = item.getLabItem().getMaxReservationTime();

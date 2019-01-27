@@ -215,6 +215,12 @@
 						        	 <f:converter converterId="customConverter"/>
 						        </p:selectCheckboxMenu>
 						        <p:outputLabel for="items" value="" />
+						        
+						        <h:panelGroup />
+					        	<p:selectBooleanCheckbox id = "available" value="#{stockItemView.onlyShowAvailable}" itemLabel="Only Show Available">
+					        	<p:ajax event="change" update="items, itemGroups" action="stockItemView.init()"/>
+					        	</p:selectBooleanCheckbox>
+					        	<p:outputLabel for="available" value="" />
 		                        
 		                        <p:outputLabel value="Begin" />
 		                        <p:calendar id="beginDate" binding="#{beginDate}" value="#{calendarView.beginDate}" locale="en_GB" pattern="dd.MM.yyyy HH:mm" required="true" requiredMessage="Begin Date required." mindate="#{calendarView.getToday()}">
