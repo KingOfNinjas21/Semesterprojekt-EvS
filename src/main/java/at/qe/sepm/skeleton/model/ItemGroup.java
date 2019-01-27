@@ -2,6 +2,7 @@ package at.qe.sepm.skeleton.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -124,5 +125,31 @@ public class ItemGroup implements Persistable<Long>
 	public String toString()
 	{
 		return groupName;
+	}
+	
+	
+	@Override
+	public int hashCode()
+	{
+		return (getId() != null) ? (getClass().getSimpleName().hashCode() + getId().hashCode()) : super.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null)
+		{
+			return false;
+		}
+		if (!(obj instanceof ItemGroup))
+		{
+			return false;
+		}
+		final ItemGroup other = (ItemGroup) obj;
+		if (!Objects.equals(getId(), other.getId()))
+		{
+			return false;
+		}
+		return true;
 	}
 }

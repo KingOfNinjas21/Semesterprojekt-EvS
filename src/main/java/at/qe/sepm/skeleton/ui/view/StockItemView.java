@@ -82,8 +82,6 @@ public class StockItemView implements Serializable
 	{
 		if (!onlyShowAvailable)
 			return;
-		
-		selectedItems.clear();
 		items.clear();
 
 		for (StockItem item : allItems) {
@@ -129,6 +127,9 @@ public class StockItemView implements Serializable
 	
 	public Collection<StockItem> getItems()
 	{
+		if(onlyShowAvailable)
+			filterItemsNotAvailable();
+
 		return items;
 	}
 
@@ -138,16 +139,7 @@ public class StockItemView implements Serializable
 //		}
 //	}
 
-	public Collection<StockItem> getSelectedItems() {
-		
-		if (selectedItemGroups != null) {
-			if (!selectedItemGroups.isEmpty()) {
-				for (ItemGroup item : selectedItemGroups) {
-					selectedItems.addAll(item.getItems());
-				}
-			}
-		}
-			
+	public Collection<StockItem> getSelectedItems() {		
 		return selectedItems;
 	}
 
@@ -175,4 +167,12 @@ public class StockItemView implements Serializable
 	public void setSelectedItemGroups(List<ItemGroup> selectedItemGroups) {
 		this.selectedItemGroups = selectedItemGroups;
 	}
+	
+	public void getItemsFromSelectedGroups(Collection<ItemGroup> itemGroups){
+		for(ItemGroup group: itemGroups){
+			selectedItems.addAll(group.getItems());
+		}
+	}
+
+	
 }

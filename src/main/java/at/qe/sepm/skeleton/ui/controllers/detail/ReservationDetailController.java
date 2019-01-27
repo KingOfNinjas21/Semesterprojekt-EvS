@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
+import at.qe.sepm.skeleton.model.ItemGroup;
 import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
@@ -118,8 +119,6 @@ public class ReservationDetailController implements Serializable
 		Reservation entity = new Reservation();
 		Date begin = calendarView.getBeginDate();
 		Date end = calendarView.getEndDate();
-
-		List<StockItem> items = new ArrayList<>(stockItemView.getItems());
 		
 		
 		if (holidayService.isHoliday(begin))
@@ -131,7 +130,7 @@ public class ReservationDetailController implements Serializable
 		{
 			errorMessage.pushMessage("End Date is holiday.");
 		}
-
+		
 		if (!openingHourService.withinOpeningHours(begin))
 		{
 			errorMessage.pushMessage("Begin Date not within opening hours.");
@@ -161,8 +160,31 @@ public class ReservationDetailController implements Serializable
 		{
 			errorMessage.pushMessage("Invalid Reason.");
 		}
+		
+		
+		HashSet<StockItem> allitems = new HashSet<>();
+		List<StockItem> selectedItems = (List<StockItem>)stockItemView.getSelectedItems();
+		List<ItemGroup> selectedItemGroups = (List<ItemGroup>)stockItemView.getSelectedItemGroups();
+		
 
-		for (StockItem item : items)
+		if (selectedItems != null) {
+			if (!selectedItems.isEmpty()) {
+				for (StockItem item : selectedItems) {
+					allitems.add(item);
+				}
+			}
+		}
+		
+		if (selectedItemGroups != null) {
+			if (!selectedItemGroups.isEmpty()) {
+				for (ItemGroup item : selectedItemGroups) {
+					allitems.addAll(item.getItems());
+				}
+			}
+		}
+
+
+		for (StockItem item : allitems)
 		{
 			isAvailable(item, begin, end);
 		}
@@ -173,7 +195,7 @@ public class ReservationDetailController implements Serializable
 		
 		reservedItems = new ArrayList<>();
 
-		for (StockItem item : items)
+		for (StockItem item : allitems)
 		{			
 			log.debug("Saving: " + item);
 
@@ -194,7 +216,9 @@ public class ReservationDetailController implements Serializable
 		}
 
 		try {
-			emailService.reservationCreatedNotification(reservation, reservedItems);
+			if (reservation != null)
+				emailService.reservationCreatedNotification(reservation, reservedItems);
+			
 		}catch (MessagingException e) {
 			auditLogService.reservationCreatedEmailFailLog(reservation, e);
 		}
