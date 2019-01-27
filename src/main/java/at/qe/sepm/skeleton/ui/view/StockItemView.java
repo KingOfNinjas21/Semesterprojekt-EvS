@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 
+import at.qe.sepm.skeleton.model.ItemCondition;
 import at.qe.sepm.skeleton.model.ItemGroup;
 import at.qe.sepm.skeleton.services.ItemGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import at.qe.sepm.skeleton.model.StockItem;
-import at.qe.sepm.skeleton.repositories.StockRepository;
 import at.qe.sepm.skeleton.services.StockItemService;
 
 /**
@@ -30,7 +30,7 @@ public class StockItemView implements Serializable
 {
 
 	private static final long serialVersionUID = -6659257695533986758L;
-
+	
 	@Autowired
 	private StockItemService stockItemService;
 
@@ -95,4 +95,5 @@ public class StockItemView implements Serializable
 	public void setSelectedItemGroups(List<ItemGroup> selectedItemGroups) {
 		this.selectedItemGroups = selectedItemGroups;
 	}
+	
 }

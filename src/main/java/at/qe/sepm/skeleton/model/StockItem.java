@@ -171,6 +171,12 @@ public class StockItem implements Persistable<Long>
 		this.blocked = blocked;
 	}
 
+	//used for stockItem administration (blocked checkbox disabled/enabled)
+	public boolean isAvailable()
+	{
+		return this.getCondition().contains(ItemCondition.AVAILABLE);
+	}	
+	
 	/**
 	 * @return the condition
 	 */
