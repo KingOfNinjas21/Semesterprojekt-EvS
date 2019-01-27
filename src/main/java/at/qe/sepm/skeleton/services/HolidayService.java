@@ -72,7 +72,7 @@ public class HolidayService
 
 		for (Holiday holiday : holidayRepository.findAll())
 		{
-			if (date.equals(holiday.getDate()))
+			if ((date.after(holiday.getBeginDate()) && date.before(holiday.getEndDate())) || date.equals(holiday.getBeginDate()) || date.equals(holiday.getEndDate()))
 			{
 				return true;
 			}

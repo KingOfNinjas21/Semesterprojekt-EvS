@@ -2,6 +2,7 @@ package at.qe.sepm.skeleton.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,8 +24,22 @@ public class Holiday implements Persistable<Long>
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@Column
+	private String title;
+	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
+	private Date beginDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date endDate;
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
 	/**
 	 * @param id
@@ -38,18 +53,18 @@ public class Holiday implements Persistable<Long>
 	/**
 	 * @return the date
 	 */
-	public Date getDate()
+	public Date getBeginDate()
 	{
-		return date;
+		return beginDate;
 	}
 
 	/**
 	 * @param date
 	 *            the date to set
 	 */
-	public void setDate(Date date)
+	public void setBeginDate(Date date)
 	{
-		this.date = date;
+		this.beginDate = date;
 	}
 
 	@Override
@@ -62,7 +77,7 @@ public class Holiday implements Persistable<Long>
 	@Override
 	public boolean isNew()
 	{
-		return (date == null);
+		return (beginDate == null);
 	}
 
 }
