@@ -211,14 +211,13 @@ public class ReservationDetailController implements Serializable
 				auditLogService.reservationCreationFailed();
 				return;
 			}
-			reservedItems.add(item);
 			item.addReservation(reservation);
 		}
 
 		try {
 			if (reservation != null)
-				emailService.reservationCreatedNotification(reservation, reservedItems);
-			
+			reservedItems = new ArrayList<>(stockItemView.getSelectedItems());
+			emailService.reservationCreatedNotification(reservation, reservedItems);
 		}catch (MessagingException e) {
 			auditLogService.reservationCreatedEmailFailLog(reservation, e);
 		}
