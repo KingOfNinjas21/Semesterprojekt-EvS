@@ -54,14 +54,16 @@ public class AuditLogService {
 		AuditLog entity = new AuditLog();
 		entity.setMessage(String.format("[EMAIL] User %s notified about reservation %s", reservation.getUser(), reservation.getItem()));
 		entity.setTime(new Date());
+		entity.setUpdateUser(sessionInfo.getCurrentUser());
 
 		auditLogRepository.save(entity);
 	}
 
 	public void reservationCreatedEmailFailLog(Reservation reservation, MessagingException e){
 		AuditLog entity = new AuditLog();
-		entity.setMessage(String.format("[EMAIL] User %s could not be notified, Email exception %s", reservation.getUser(), e.toString()));
+		entity.setMessage(String.format("[EMAIL] User %s could not be notified, Email exception %s", reservation.getUser(), e));
 		entity.setTime(new Date());
+		entity.setUpdateUser(sessionInfo.getCurrentUser());
 
 		auditLogRepository.save(entity);
 	}

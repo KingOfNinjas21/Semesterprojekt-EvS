@@ -49,9 +49,9 @@ public class EmailService {
         String title = "Reservation created!";
         String html =
                 "<h1>We created a reservation for you</h1>" +
-                        "This is the item: "+ reservation.getItem() +
-                "Please bring it back before the duration expires!" +
-                "Kind regards,\nGroup 4";
+                        "This is the item: "+ reservation.getItem().getLabItem().getItemName() +
+                "<br>Please bring it back before the reservation expires on: " + reservation.getReturnableDate() +
+                "<br>Kind regards,<br> Group 4";
 
         System.out.println("Sending email to " + reservation.getUser().getEmail());
 
