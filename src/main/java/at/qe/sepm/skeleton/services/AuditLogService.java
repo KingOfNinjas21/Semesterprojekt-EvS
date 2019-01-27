@@ -52,7 +52,7 @@ public class AuditLogService {
 
 	public void reservationCreatedEmailLog(Reservation reservation){
 		AuditLog entity = new AuditLog();
-		entity.setMessage(String.format("[EMAIL] User %s notified about reservation %s", reservation.getUser(), reservation.getItem()));
+		entity.setMessage(String.format("[EMAIL] User %s notified about reservation %s", reservation.getUser().getUsername(), reservation.getItem().getLabItem().getItemName()));
 		entity.setTime(new Date());
 		entity.setUpdateUser(sessionInfo.getCurrentUser());
 
@@ -71,6 +71,15 @@ public class AuditLogService {
 	public void reservationUserEmailInvalid(Reservation res){
 		AuditLog entity = new AuditLog();
 		entity.setMessage(String.format("[EMAIL] User %s's email is: %s", res.getUser(), res.getUser().getEmail()));
+		entity.setTime(new Date());
+		entity.setUpdateUser(sessionInfo.getCurrentUser());
+
+		auditLogRepository.save(entity);
+	}
+
+	public void reservationCreationFailed(){
+		AuditLog entity = new AuditLog();
+		entity.setMessage(String.format("[RESERVATION] Reservation not created: [NULL]"));
 		entity.setTime(new Date());
 		entity.setUpdateUser(sessionInfo.getCurrentUser());
 

@@ -1,19 +1,21 @@
 package at.qe.sepm.skeleton.services;
 
-import at.qe.sepm.skeleton.model.AuditLog;
 import at.qe.sepm.skeleton.model.Reservation;
-import at.qe.sepm.skeleton.model.User;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Properties;
 
 @Service
+@Scope("application")
 public class EmailService {
 
     private static final String senderEmail = "sepmsender@gmail.com";
@@ -21,6 +23,9 @@ public class EmailService {
 
     @Autowired
     private AuditLogService auditLogService;
+
+    @Autowired
+    private ReservationService reservationService;
 
     private static void prepareEmailMessage(MimeMessage message, String to, String title, String html)
             throws MessagingException {
@@ -51,7 +56,7 @@ public class EmailService {
                 "<h1>We created a reservation for you</h1>" +
                         "This is the item: "+ reservation.getItem().getLabItem().getItemName() +
                 "<br>Please bring it back before the reservation expires on: " + reservation.getReturnableDate() +
-                "<br>Kind regards,<br> Group 4";
+                "<br><br>Kind regards,<br> Group 4";
 
         if (reservation.getUser().getEmail() == null){
             auditLogService.reservationUserEmailInvalid(reservation);
@@ -69,18 +74,24 @@ public class EmailService {
         auditLogService.reservationCreatedEmailLog(reservation);
     }
 
-    public void reservationExpiredNotification(String email) throws MessagingException {
+    //@Scheduled(cron = "@daily")
+    public void reservationExpiredNotification() throws MessagingException {
+        Collection<Reservation> reservations = reservationService.loadAll();
+        for(Reservation res: reservations){
+            continue;
+        }
+
         String title = "Reservierung abgelaufen!";
         String html =
                 "<h1>Laborgeräte zurückbringen!</h1>";
 
 
-        System.out.println("Sending email to " + email);
+        System.out.println("Sending email to " + "a" );
 
         Session session = createSession();
 
         MimeMessage message = new MimeMessage(session);
-        prepareEmailMessage(message, email, title, html);
+        prepareEmailMessage(message, "asdf", title, html);
 
         Transport.send(message);
         System.out.println("Done");

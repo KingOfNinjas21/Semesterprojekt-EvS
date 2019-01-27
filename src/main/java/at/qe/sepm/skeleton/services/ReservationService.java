@@ -13,9 +13,6 @@ import at.qe.sepm.skeleton.model.Reservation;
 import at.qe.sepm.skeleton.repositories.ReservationRepository;
 import at.qe.sepm.skeleton.ui.beans.SessionInfoBean;
 
-import javax.mail.MessagingException;
-
-
 /**
  * Service for accessing and manipulating reservation data.
  * 
@@ -32,12 +29,6 @@ public class ReservationService {
 	@Autowired
 	private SessionInfoBean sessionInfo;
 
-	@Autowired
-    private EmailService emailService;
-
-	@Autowired
-    private AuditLogService auditLogService;
-	   
     /**
      * Saves the reservation. This method will also set {@link Reservation#createDate} for new reservation.
      * The user requesting this operation will also be stored as {@link Reservation#createUser}
@@ -46,17 +37,11 @@ public class ReservationService {
      * @return the updated reservation
      */
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('EMPLOYEE') or hasAuthority('STUDENT')")
-    public Reservation save(Reservation reserved) throws MessagingException {
+    public Reservation save(Reservation reserved){
         if (reserved.isNew()) {
             reserved.setCreateDate(new Date());
             reserved.setUser(sessionInfo.getCurrentUser());
         }
-        try {
-            emailService.reservationCreatedNotification(reserved);
-        }catch (MessagingException e) {
-            auditLogService.reservationCreatedEmailFailLog(reserved, e);
-        }
-
         return reservationRepository.save(reserved);
     }
     
