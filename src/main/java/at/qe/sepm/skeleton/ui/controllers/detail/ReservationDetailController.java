@@ -2,9 +2,7 @@ package at.qe.sepm.skeleton.ui.controllers.detail;
 
 import java.io.Serializable;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import at.qe.sepm.skeleton.services.*;
 import org.joda.time.DateTime;
@@ -66,6 +64,7 @@ public class ReservationDetailController implements Serializable
 	private AuditLogService auditLogService;
 
 	private Reservation reservation;
+	private Collection<StockItem> reservedItems;
 	private String reason;
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -175,8 +174,9 @@ public class ReservationDetailController implements Serializable
 		if(errorMessage.hasError()) {
 			return;
 		}
+		reservedItems = new ArrayList<>();
 
-		for (StockItem item : items)
+	for (StockItem item : items)
 		{			
 			log.debug("Saving: " + item);
 
@@ -192,14 +192,14 @@ public class ReservationDetailController implements Serializable
 				auditLogService.reservationCreationFailed();
 				return;
 			}
-
+			reservedItems.add(item);
 			item.addReservation(reservation);
+		}
 
-			try {
-				emailService.reservationCreatedNotification(reservation);
-			}catch (MessagingException e) {
-				auditLogService.reservationCreatedEmailFailLog(reservation, e);
-			}
+		try {
+			emailService.reservationCreatedNotification(reservation, reservedItems);
+		}catch (MessagingException e) {
+			auditLogService.reservationCreatedEmailFailLog(reservation, e);
 		}
 
 		Calendar cal = Calendar.getInstance();

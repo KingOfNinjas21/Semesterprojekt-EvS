@@ -6,6 +6,7 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import at.qe.sepm.skeleton.model.StockItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -56,11 +57,17 @@ public class EmailService {
     }
 
     //Notifies the user about his reservation
-    public void reservationCreatedNotification(Reservation reservation) throws MessagingException {
+    public void reservationCreatedNotification(Reservation reservation, Collection<StockItem> selectedItems) throws MessagingException {
+        String stockItemsString ="";
+        for(StockItem item: selectedItems){
+            stockItemsString = item.getLabItem().getItemName() + ", ";
+        }
+
         String title = "Reservation created!";
         String html =
                 "<h1>We created a reservation for you</h1>" +
-                        "This is the item: "+ reservation.getItem().getLabItem().getItemName() +
+                        "You reserved "+ selectedItems.size() + " items:<br>" +
+                        stockItemsString +
                 "<br>Please bring it back before the reservation expires on: " + reservation.getReturnableDate() +
                 "<br><br>Kind regards,<br> Group 4";
 

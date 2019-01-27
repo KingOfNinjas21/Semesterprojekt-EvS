@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+
 
 import at.qe.sepm.skeleton.model.ItemGroup;
 import at.qe.sepm.skeleton.model.Reservation;
@@ -23,7 +23,6 @@ import org.springframework.stereotype.Controller;
 
 import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.services.StockItemService;
-import at.qe.sepm.skeleton.ui.controllers.detail.ReservationDetailController;
 
 /**
  * A lab item view. Loads the items from {@code LabItemRepository}.
@@ -35,7 +34,6 @@ import at.qe.sepm.skeleton.ui.controllers.detail.ReservationDetailController;
 @Controller
 public class StockItemView implements Serializable 
 {
-
 	private static final long serialVersionUID = -6659257695533986758L;
 	
 	@Autowired
@@ -53,7 +51,7 @@ public class StockItemView implements Serializable
 
 	private Collection<ItemGroup> itemGroups;
 
-	private List<ItemGroup> selectedItemGroups;
+	private Collection<ItemGroup> selectedItemGroups;
 	
 	private boolean onlyShowAvailable = false;
 	
@@ -141,8 +139,20 @@ public class StockItemView implements Serializable
 		return items;
 	}
 
-	public Collection<StockItem> getSelectedItems()
-	{
+	public void getItemsFromSelectedGroups(Collection<ItemGroup> itemGroups){
+		for(ItemGroup group: itemGroups){
+			selectedItems.addAll(group.getItems());
+		}
+	}
+
+	public Collection<StockItem> getSelectedItems() {
+		if (selectedItemGroups != null) {
+			if (!selectedItemGroups.isEmpty()) {
+				for (ItemGroup item : selectedItemGroups) {
+					selectedItems.addAll(item.getItems());
+				}
+			}
+		}
 		return selectedItems;
 	}
 
@@ -163,12 +173,11 @@ public class StockItemView implements Serializable
 		this.itemGroups = itemGroups;
 	}
 
-	public List<ItemGroup> getSelectedItemGroups() {
+	public Collection<ItemGroup> getSelectedItemGroups() {
 		return selectedItemGroups;
 	}
 
 	public void setSelectedItemGroups(List<ItemGroup> selectedItemGroups) {
 		this.selectedItemGroups = selectedItemGroups;
 	}
-	
 }
