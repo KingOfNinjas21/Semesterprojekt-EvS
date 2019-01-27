@@ -151,7 +151,7 @@
                     
                 <p:outputPanel id="stockItemNew" widgetVar="stockItemNew">
                 
-                	<h:panelGrid id="addStockGrid" columns="4">         				
+                	<h:panelGrid id="addStockGrid" columns="4">
            				<p:outputLabel value="Labitem" />
                         <p:inputText id="addItemName" value="#{labItemDetailController.newLabItem.itemName}"  required="true" requiredMessage="Lab Item Name required."/>
                         <p:outputLabel for="addItemName" value="" />
@@ -204,11 +204,13 @@
                         <h:panelGroup />
                         <h:panelGroup />
 
-                        <p:outputLabel value="Manuals" />
-                        <p:inputText id="addManual" value="#{labItemDetailController.newLabItem.manuel}" />       
-                        <p:outputLabel for="addManual" value="" />                
+              
 
 	                </h:panelGrid>
+	                	<p:separator />
+                        	<p:outputLabel for="addManual" value="" />
+                        	<p:fileUpload id="addManual" label="Manuals" multiple="false" uploadLabel="Upload..." update=":messages" value="#{fileUploadView.file}" mode="advanced" skinSimple="false" fileUploadListener="#{fileUploadView.handleFileUpload}"/>                     
+						<p:separator /> 
 	                
 					<p:separator />
 					
