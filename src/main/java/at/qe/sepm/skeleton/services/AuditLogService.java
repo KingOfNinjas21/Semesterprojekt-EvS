@@ -2,6 +2,7 @@ package at.qe.sepm.skeleton.services;
 
 import java.util.Date;
 
+import at.qe.sepm.skeleton.model.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -45,6 +46,14 @@ public class AuditLogService {
 	    entity.setUpdateUser(user);
 	    
 	    auditLogRepository.save(entity);
+	}
+
+	public void reservationCreatedEmailLog(Reservation reservation){
+		AuditLog entity = new AuditLog();
+		entity.setMessage(String.format("[EMAIL] User %s notified about reservation %s", reservation.getUser(), reservation.getItem()));
+		entity.setTime(new Date());
+
+		auditLogRepository.save(entity);
 	}
 
 }
