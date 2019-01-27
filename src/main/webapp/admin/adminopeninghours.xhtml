@@ -9,7 +9,7 @@
                 
     <ui:define name ="content">
         <h:form id="openingHourForm">
-	        <p:panel header="#{sessionInfoBean.hasRole('ADMIN') ? 'Administration / Time Management / OpeningHours' : 'Infocorner / Time Management / OpeningHours'}">	
+	        <p:panel header="#{sessionInfoBean.hasRole('ADMIN') ? 'Administration / Time Management / Opening Hours' : 'Infocorner / Time Management / Opening Hours'}">	
 	        	<h:panelGrid>
 	  				<p:commandButton value="New Opening Hour" rendered="#{sessionInfoBean.hasRole('ADMIN')}" update=":openingHourAddForm:openingHourAddDialog" oncomplete="PF('openingHourAddDialog').show()" icon="ui-icon-plusthick" title="New Opening Hour">
 	  				</p:commandButton>

@@ -89,14 +89,14 @@ public class OpeningHourService
 
 		if (openingHour.getBreakStart() == null || openingHour.getBreakEnd() == null)
 		{
-			if (openingHour.getOpeningHour().after(date) || openingHour.getClosingHour().before(date))
+			if ((openingHour.getOpeningHour().after(date) || openingHour.getClosingHour().before(date)) && (!openingHour.getOpeningHour().equals(date) && !openingHour.getClosingHour().equals(date)))
 				return false;
 		} else
 		{
-			if (openingHour.getOpeningHour().after(date) || openingHour.getClosingHour().before(date))
+			if ((openingHour.getOpeningHour().after(date) || openingHour.getClosingHour().before(date)) && (!openingHour.getOpeningHour().equals(date) && !openingHour.getClosingHour().equals(date)))
 				return false;
 
-			if (!openingHour.getBreakStart().after(date) && !openingHour.getBreakEnd().before(date))
+			if ((!openingHour.getBreakStart().after(date) && !openingHour.getBreakEnd().before(date)) && (!openingHour.getBreakStart().equals(date) && !openingHour.getBreakEnd().equals(date)))
 				return false;
 
 		}

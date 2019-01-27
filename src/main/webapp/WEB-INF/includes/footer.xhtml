@@ -2,17 +2,28 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+      
     <body>
         <ui:composition>
 
-            <div style="float: right;">
-            	<h:outputText value="Session Info:" style="font-weight: 200%;"/>
-            	<br/>
-                <ui:fragment rendered="#{sessionInfoBean.loggedIn}" >
-                    Username: #{sessionInfoBean.currentUserName} <br/>
-                    Userroles: [#{sessionInfoBean.currentUserRoles}]
-                </ui:fragment>
+            <div >
+            	<ui:fragment rendered="#{sessionInfoBean.loggedIn}">
+	            	<table style="border: 1px solid #ff7400;width:200px;padding-left:0px; text-align: center; left:0px;position:absolute">
+	            		<tr>
+		            		<th colspan="2" style="border: 1px solid #a24a00;">Session Info</th>
+		            	</tr>
+		            	<tr >
+						    <th style="border: 1px solid #a24a00;">Username</th>
+						    <th style="border: 1px solid #a24a00;">Userroles</th>
+						  </tr>
+						  <tr>
+						    <td style="border: 1px solid #a24a00;">#{sessionInfoBean.currentUserName}</td>
+						    <td style="border: 1px solid #a24a00;">#{sessionInfoBean.currentUserRoles}</td>
+						</tr>
+					</table>
+				</ui:fragment>
                 <ui:fragment rendered="#{!sessionInfoBean.loggedIn}">
                     Not logged in
                 </ui:fragment>

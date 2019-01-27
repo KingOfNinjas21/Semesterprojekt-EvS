@@ -39,26 +39,25 @@
 	            <h:form rendered="#{sessionInfoBean.loggedIn}" >
 		                <p:panelMenu style="margin-top:50px">
 		                	<p:submenu label="Reservations" rendered="#{!sessionInfoBean.hasRole('ADMIN')}">
-		                        <p:menuitem value="Items" url="/secured/reservation.xhtml"/>
-		                        <p:menuitem value="Groups" url="/secured/groups.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE')}"/>
+		                        <p:menuitem value="Items" url="/secured/reservation.xhtml" icon="ui ui-icon-tag"/>
+		                        <p:menuitem value="Groups" url="/secured/groups.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE')}" icon="ui ui-icon-folder-open"/>
 		                    </p:submenu>
-		                    <p:submenu label="Administration" rendered="#{sessionInfoBean.hasRole('ADMIN')}" icon="ui ui-icon-gear">
-		                    	<p:menuitem value="Lab Items" url="/admin/adminlabitems.xhtml"/>
-		                    	<p:menuitem value="Stock Items" url="/admin/adminstockitems.xhtml"/>
-		                    	<p:menuitem value="Reservations" url="/secured/reservation.xhtml"/>
-		                        <p:menuitem value="Users" url="/admin/adminusers.xhtml"/>
-								<p:menuitem value="Groups" url="/secured/groups.xhtml"/>
-								<p:submenu label="Time Management" icon="ui ui-icon-clock">
-									<p:menuitem value="Opening Hours" url="/admin/adminopeninghours.xhtml"/>
-									<p:menuitem value="Holidays" url="/admin/adminholidays.xhtml"/>
+		                    <p:submenu label="Administration" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+		                    	<p:menuitem value="Lab Items" url="/admin/adminlabitems.xhtml" icon="ui ui-icon-tag"/>
+		                    	<p:menuitem value="Stock Items" url="/admin/adminstockitems.xhtml" icon="ui ui-icon-tag"/>
+		                    	<p:menuitem value="Reservations" url="/secured/reservation.xhtml" icon="ui ui-icon-calculator"/>
+		                        <p:menuitem value="Users" url="/admin/adminusers.xhtml" icon="ui ui-icon-person"	/>
+								<p:menuitem value="Groups" url="/secured/groups.xhtml" icon="ui ui-icon-folder-open"/>
+								<p:submenu label="Time Management">
+									<p:menuitem value="Opening Hours" url="/admin/adminopeninghours.xhtml" icon="ui ui-icon-clock"/>
+									<p:menuitem value="Holidays" url="/admin/adminholidays.xhtml" icon="ui ui-icon-image"/>
 								</p:submenu>
-								<p:menuitem value="FileUpload" url="/admin/upload.xhtml"/>
 		                    </p:submenu>
 		                    <p:submenu label="Navigations">
-			                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}"/>
-			                    <p:menuitem value="Home" url="/secured/welcome.xhtml" rendered="#{sessionInfoBean.loggedIn}"/>
-			                    <p:menuitem value="Help" url="/secured/help.xhtml" rendered="#{sessionInfoBean.loggedIn}"/>
-			                    <p:menuitem value="Logout" url="/logout" rendered="#{sessionInfoBean.loggedIn}"/>
+			                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}" icon="ui ui-icon-power"/>
+			                    <p:menuitem value="Home" url="/secured/welcome.xhtml" rendered="#{sessionInfoBean.loggedIn}" icon="ui ui-icon-home"/>
+			                    <p:menuitem value="Help" url="/secured/help.xhtml" rendered="#{sessionInfoBean.loggedIn}" icon="ui 	ui-icon-help"/>
+			                    <p:menuitem value="Logout" url="/logout" rendered="#{sessionInfoBean.loggedIn}" icon="ui ui-icon-power"/>
 			                    
 
 			                </p:submenu>
