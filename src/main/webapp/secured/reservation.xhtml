@@ -218,7 +218,7 @@
 						        
 						        <h:panelGroup />
 					        	<p:selectBooleanCheckbox id = "available" value="#{stockItemView.onlyShowAvailable}" itemLabel="Only Show Available" immediate="true" onclick="boxDisable(addGrid), $(this)">
-					        		<p:ajax event="change" update=""/>
+					        		<p:ajax update="reservationForm"/>
 					        	</p:selectBooleanCheckbox>
 					        	<p:outputLabel for="available" value="" />
 		                        
