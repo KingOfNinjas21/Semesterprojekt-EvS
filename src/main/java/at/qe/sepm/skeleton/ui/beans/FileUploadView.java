@@ -104,6 +104,7 @@ public class FileUploadView
 			manual.setLabItem(labItem);
 
 			manualService.saveManual(manual);
+
 		}
 	}
 

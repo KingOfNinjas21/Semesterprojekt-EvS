@@ -53,18 +53,27 @@
  		<h:form id="stockItemEditForm">
                 <p:dialog header="Edit Items" id="stockItemEditDialog" dynamic="true" widgetVar="stockItemEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">   
 	                <p:outputPanel id="stockItemData" rendered="#{not empty stockItemDetailController.stockItem}">
-	                	<h:panelGrid columns="2">
-	                        <p:outputLabel for="itemName" value="Item Name" />
+	                	<h:panelGrid columns="3">
+	                        <p:outputLabel  value="Item Name" />
 	                        <p:inputText id="itemName" value="#{labItemDetailController.labItem.itemName}" disabled="true" style="width:290px" required="true" requiredMessage="Item Name required."/>
+	                        <p:outputLabel for="itemName" value="" />
 	                        
-	                        <p:outputLabel for="lab" value="Lab Name" />
+	                        <p:outputLabel value="Lab Name" />
 	                        <p:inputText id="lab" value="#{stockItemDetailController.stockItem.labName}" style="width:290px" required="true" requiredMessage="Lab Name required."/>
-	
-	                        <p:outputLabel for="location" value="Location" />
+							<p:outputLabel for="lab" value="" />
+							
+	                        <p:outputLabel value="Location" />
 	                        <p:inputText id="location" value="#{stockItemDetailController.stockItem.location}" required="true" requiredMessage="Location required."/>
-
-	                        <p:outputLabel for="description" value="Description" style="width:150px"/>
+	                        <p:outputLabel for="location" value="" />
+					        
+	                        <p:outputLabel value="Description" style="width:150px"/>
 						    <p:inputTextarea id="description" value="#{stockItemDetailController.stockItem.description}" rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} characters remaining." autoResize="false" />
+							<p:outputLabel for="description" value="" style="width:150px"/>
+							
+							<p:outputLabel value="Blocked" />
+					        <p:selectBooleanCheckbox id = "blocked" value="#{stockItemDetailController.stockItem.blocked}" itemLabel="" disabled="#{!stockItemDetailController.stockItem.isAvailable() and !stockItemDetailController.stockItem.blocked}"/>
+					        <p:outputLabel for="blocked" value="" />
+					        
 							<h:panelGroup />
 							<h:outputText id="display" />
 		                </h:panelGrid>
