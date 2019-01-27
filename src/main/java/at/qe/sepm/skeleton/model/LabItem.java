@@ -64,6 +64,7 @@ public class LabItem implements Persistable<Long>
 
 	@OneToMany(mappedBy = "labItem", cascade = CascadeType.ALL, orphanRemoval = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<StockItem> stockItems;
 
 	@OneToMany(mappedBy = "labItem1", cascade = CascadeType.ALL, orphanRemoval = true)

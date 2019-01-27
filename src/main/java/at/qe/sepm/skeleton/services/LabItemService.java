@@ -1,5 +1,6 @@
 package at.qe.sepm.skeleton.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import at.qe.sepm.skeleton.model.LabItem;
+import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.repositories.LabItemRepository;
+import at.qe.sepm.skeleton.repositories.StockRepository;
 
 /**
  * Service for accessing and manipulating for lab items.
@@ -27,6 +30,9 @@ public class LabItemService
 
 	@Autowired
 	private StockItemService stockitemSeervice;
+
+	@Autowired
+	private StockRepository stockrepository;
 
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public LabItem loadLabItem(long id)
@@ -79,7 +85,14 @@ public class LabItemService
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public void deleteLabItem(LabItem item)
 	{
+		List<StockItem> stockitems = new ArrayList<>(stockrepository.findAllByLabItem(item));
+		for (StockItem sItem : stockitems)
+		{
+			item.getStockItems().remove(sItem);
+			stockitemSeervice.deleteStockItem(sItem);
+			item = labItemRepository.save(item);
 
+		}
 		labItemRepository.delete(item);
 	}
 
