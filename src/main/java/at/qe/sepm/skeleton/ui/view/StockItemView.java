@@ -56,10 +56,11 @@ public class StockItemView implements Serializable
 	
 	private boolean onlyShowAvailable = false;
 	
-	public boolean isOnlyShowAvailable() {
+	public boolean getOnlyShowAvailable() {
 		return onlyShowAvailable;
 	}
 
+	
 	public void setOnlyShowAvailable(boolean onlyShowAvailable) {
 		this.onlyShowAvailable = onlyShowAvailable;
 	}
