@@ -14,13 +14,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.data.domain.Persistable;
 
 @Entity
@@ -55,12 +51,6 @@ public class StockItem implements Persistable<Long>
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "item", cascade =
 	{ CascadeType.REFRESH, CascadeType.PERSIST })
 	private List<Reservation> reservations;
-
-	@ManyToMany(fetch = FetchType.EAGER, cascade =
-	{ CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "ITEM_GROUPS", joinColumns = @JoinColumn(name = "ITEMID", referencedColumnName = "STOCKITEMID"), inverseJoinColumns = @JoinColumn(name = "GROUPID", referencedColumnName = "GROUPID"))
-	@LazyCollection(LazyCollectionOption.FALSE)
-	private Set<ItemGroup> itemgroups = new HashSet<ItemGroup>();
 
 	/**
 	 * @return the stockItemId

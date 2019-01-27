@@ -9,7 +9,7 @@ import at.qe.sepm.skeleton.model.StockItem;
 public interface StockRepository extends AbstractRepository<StockItem, Long>
 {
 	public StockItem findFirstByStockItemId(long id);
-	
+
 	@Query("SELECT s FROM StockItem s WHERE s.blocked = FALSE")
 	public List<StockItem> loadAllNonBlocked();
 

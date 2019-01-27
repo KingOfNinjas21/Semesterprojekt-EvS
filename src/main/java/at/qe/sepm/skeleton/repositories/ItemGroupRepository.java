@@ -3,6 +3,7 @@ package at.qe.sepm.skeleton.repositories;
 import java.util.Collection;
 
 import at.qe.sepm.skeleton.model.ItemGroup;
+import at.qe.sepm.skeleton.model.StockItem;
 import at.qe.sepm.skeleton.model.User;
 
 /**
@@ -14,4 +15,5 @@ public interface ItemGroupRepository extends AbstractRepository<ItemGroup, Long>
 
 	public Collection<ItemGroup> findByUser(User user);
 
+	public Collection<ItemGroup> findAllByItemsContains(StockItem item);
 }

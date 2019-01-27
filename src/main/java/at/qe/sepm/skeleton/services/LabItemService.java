@@ -25,6 +25,9 @@ public class LabItemService
 	@Autowired
 	LabItemRepository labItemRepository;
 
+	@Autowired
+	private StockItemService stockitemSeervice;
+
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public LabItem loadLabItem(long id)
 	{
@@ -78,6 +81,11 @@ public class LabItemService
 	{
 
 		labItemRepository.delete(item);
+	}
+
+	public void deletAllStockItems(LabItem item)
+	{
+
 	}
 
 }
