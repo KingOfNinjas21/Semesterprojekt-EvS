@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+                
+    <ui:define name ="content">
+        <h:form id="holidayForm">
+	        <p:panel header="#{sessionInfoBean.hasRole('ADMIN') ? 'Administration / Time Management / Holidays' : 'Infocorner / Time Management / Holidays'}">	
+	        	<h:panelGrid columns="2">
+	        		<p:selectBooleanCheckbox value="#{holidayView.onlyShowFuture}" itemLabel="Show Only Future Holidays">
+	            		<p:ajax update="holidayForm"/>
+	        		</p:selectBooleanCheckbox>
+	  				<p:commandButton value="New Holiday" rendered="#{sessionInfoBean.hasRole('ADMIN')}" update=":holidayAddForm:holidayAddDialog" oncomplete="PF('holidayAddDialog').show()" icon="ui-icon-plusthick" title="New Holiday">
+	  				</p:commandButton>
+	            </h:panelGrid> 
+            </p:panel>
+            
+            
+            <p:dataTable id="holidayTable" var="holiday" value="#{holidayListController.getSortedByBeginDate()}" rendered="#{!holidayView.onlyShowFuture}" resizableColumns="true">
+               
+          		<p:column headerText="Holiday" style="text-align: center">
+                    <h:outputText value="#{holiday.title}"/>
+                </p:column>
+                <p:column headerText="Begin - End" style="text-align: center">
+           			<p:column headerText="From" style="text-align: center">
+	                    <h:outputText value="#{holiday.beginDate}">
+			                    <f:convertDateTime pattern="dd.MM.yyyy" timeZone="Europe/Warsaw"/>
+                 		</h:outputText>
+	                </p:column>
+	                <p:column headerText=" - ">
+	                	<h:outputText value=" - "/>
+	                </p:column>
+	                <p:column headerText="" style="text-align: center">
+		                    <h:outputText value="#{holiday.endDate}">
+			                    <f:convertDateTime pattern="dd.MM.yyyy" timeZone="Europe/Warsaw"/>
+                 			</h:outputText>
+		            </p:column>
+		        </p:column>
+            	
+            	<p:column style="width:100px;text-align: center" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+					<p:commandButton update=":holidayEditForm:holidayEditDialog" oncomplete="PF('holidayEditDialog').show()" icon="ui-icon-pencil" title="Edit">
+					    <f:setPropertyActionListener value="#{holiday}" target="#{holidayDetailController.holiday}" />
+					</p:commandButton>
+                    <p:commandButton action="#{holidayDetailController.doDeleteHoliday()}" icon="ui-icon-trash" title="Delete" update=":holidayForm:holidayFutureTable, :holidayForm:holidayTable" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+                        <f:setPropertyActionListener value="#{holiday}" target="#{holidayDetailController.holiday}" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this holiday? You cannot undo this operation." icon="ui-icon-blank" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+            
+            <p:dataTable id="holidayFutureTable" var="holiday" value="#{holidayListController.getSortedByBeginDate()}" rendered="#{holidayView.onlyShowFuture}" rowStyleClass="#{holiday.endDate le calendarView.today ? 'hidestyle' : null}" resizableColumns="true">
+               
+          		<p:column headerText="Holiday" style="text-align: center">
+                    <h:outputText value="#{holiday.title}"/>
+                </p:column>
+                <p:column headerText="Begin - End" style="text-align: center">
+           			<p:column headerText="From" style="text-align: center">
+	                    <h:outputText value="#{holiday.beginDate}">
+			                    <f:convertDateTime pattern="dd.MM.yyyy" timeZone="Europe/Warsaw"/>
+                 		</h:outputText>
+	                </p:column>
+	                <p:column headerText=" - ">
+	                	<h:outputText value=" - "/>
+	                </p:column>
+	                <p:column headerText="" style="text-align: center">
+		                    <h:outputText value="#{holiday.endDate}">
+			                    <f:convertDateTime pattern="dd.MM.yyyy" timeZone="Europe/Warsaw"/>
+                 			</h:outputText>
+		            </p:column>
+		        </p:column>
+            	
+            	<p:column style="width:100px;text-align: center" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+					<p:commandButton update=":holidayEditForm:holidayEditDialog" oncomplete="PF('holidayEditDialog').show()" icon="ui-icon-pencil" title="Edit">
+					    <f:setPropertyActionListener value="#{holiday}" target="#{holidayDetailController.holiday}" />
+					</p:commandButton>
+                    <p:commandButton action="#{holidayDetailController.doDeleteHoliday()}" icon="ui-icon-trash" title="Delete" update=":holidayForm:holidayFutureTable, :holidayForm:holidayTable" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+                        <f:setPropertyActionListener value="#{holiday}" target="#{holidayDetailController.holiday}" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this group? You cannot undo this operation." icon="ui-icon-blank" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+ 		</h:form>
+ 		
+ 		<h:form id="holidayEditForm">
+                <p:dialog header="Edit Holiday" id="holidayEditDialog" widgetVar="holidayEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="">
+				    <p:outputPanel id="holidayData" rendered="#{not empty holidayDetailController.holiday}">
+	                	<h:panelGrid columns="3">
+	                        <p:outputLabel value="Title" />				        
+		                    <p:inputText id="title" value="#{holidayDetailController.holiday.title}" style="width:150px"/>
+				            <p:outputLabel for="title" value="" />
+						    
+	                        <p:outputLabel value="Begin" />
+	                        <p:calendar id="beginDate" locale="en_GB" value="#{holidayDetailController.holiday.beginDate}" pattern="dd.MM.yyyy" required="true" validatorMessage="Holiday Begin Invalid." requiredMessage="Holiday Begin required." >
+	                        </p:calendar>
+	                        <p:outputLabel for="beginDate" value="" />
+	                        
+	                        
+	                        <p:outputLabel  value="End" />
+	                        <p:calendar id="endDate" locale="en_GB" value="#{holidayDetailController.holiday.endDate}" pattern="dd.MM.yyyy" required="true" validatorMessage="Holiday End Invalid." requiredMessage="Holiday End required." >
+	                        </p:calendar>
+	                        <p:outputLabel for="endDate" value="" />
+	
+		                </h:panelGrid>                 
+				        <p:separator />
+				        <h:panelGrid columns="3">
+				            <p:commandButton value="Save" action="#{holidayDetailController.doSaveHoliday()}" oncomplete="if (!args.validationFailed) PF('holidayEditDialog').hide()" update="holidayData, :holidayForm:holidayFutureTable, :holidayForm:holidayTable"/>
+				            <p:commandButton value="Reload" action="#{holidayDetailController.doReloadHoliday()}" update="holidayData"/>
+				            <p:commandButton value="Abort" onclick="PF('holidayEditDialog').hide()"/>
+				        </h:panelGrid>
+					    <p:messages id="editMessages" closable="true" >
+							<p:autoUpdate />
+						</p:messages>
+				    </p:outputPanel>
+				    
+				</p:dialog>  
+ 		</h:form>
+ 		
+ 		<h:form id="holidayAddForm">
+            <p:dialog header="New Holiday" id="holidayAddDialog" widgetVar="holidayAddDialog" dynamic="true" modal="true" showEffect="fade" hideEffect="fade" resizable="false" focus="title">
+                <p:outputPanel id="holidayAdd">
+                	<h:panelGrid columns="3">
+                        <p:outputLabel value="Title" />				        
+	                    <p:inputText id="title" value="#{holidayDetailController.newHoliday.title}" style="width:150px"/>
+			            <p:outputLabel for="title" value="" />
+					    
+                        <p:outputLabel value="Begin" />
+                        <p:calendar id="beginDate" locale="en_GB" value="#{holidayDetailController.newHoliday.beginDate}" pattern="dd.MM.yyyy" required="true" validatorMessage="Holiday Begin Invalid." requiredMessage="Holiday Begin required." >
+                        </p:calendar>
+                        <p:outputLabel for="beginDate" value="" />
+                        
+                        
+                        <p:outputLabel  value="End" />
+                        <p:calendar id="endDate" locale="en_GB" value="#{holidayDetailController.newHoliday.endDate}" pattern="dd.MM.yyyy" required="true" validatorMessage="Holiday End Invalid." requiredMessage="Holiday End required." >
+                        </p:calendar>
+                        <p:outputLabel for="endDate" value="" />
+
+	                </h:panelGrid>
+					<p:separator />
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Save" action="#{holidayDetailController.doAddHoliday()}" oncomplete="if (!args.validationFailed) PF('holidayAddDialog').hide()" update="holidayAdd, holidayForm"/>
+                        <p:commandButton value="Abort" onclick="PF('holidayAddDialog').hide()"/>
+                    </h:panelGrid>
+                    <p:messages id="addMessages" closable="true" >
+						<p:autoUpdate />
+					</p:messages>
+                </p:outputPanel>
+            </p:dialog> 
+ 		</h:form>
+ 		
+ 		<h:form id="holidayConfirmationForm">
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="500" style="text-align: center;padding-top: 0px;">
+            	<h:panelGrid columns="2" style="margin: 0 auto">
+	                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </h:panelGrid>
+            </p:confirmDialog>    
+        </h:form>
+    </ui:define>
+</ui:composition>

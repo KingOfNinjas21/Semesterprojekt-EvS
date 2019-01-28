@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+                
+    <ui:define name ="content">
+        <h:form id="labItemCreationForm">
+	        <p:panel header="Administration / Lab Items">	
+	        	<h:panelGrid>
+	  				<p:commandButton value="New Lab Item" update=":labItemAddForm:labItemAddDialog" oncomplete="PF('labItemAddDialog').show()" icon="ui-icon-plusthick" title="New Item"/>
+	            </h:panelGrid> 
+            </p:panel>
+            
+            <p:dataTable id="labItemTable" var="labItem" value="#{labItemListController.getLabItems()}" resizableColumns="true" >
+                <p:column headerText="Id" style="width:30px;text-align: center">
+                    <h:outputText value="#{labItem.itemId}"/>
+                </p:column>
+                
+                <p:column headerText="Item Name">
+                    <h:outputText value="#{labItem.itemName}"/>
+                </p:column>
+                
+                <p:column headerText="Max Reservation Time">
+                    <h:outputText value="#{labItem.maxReservationTimeStr}" />
+                </p:column>
+                
+                <p:column headerText="Manuals">
+                    <p:commandButton update=":manualForm:manualInfoDialog" oncomplete="PF('manualInfoDialog').show()" icon="ui-icon-plusthick" title="Bedienungsanleitungen">
+
+					    <f:setPropertyActionListener value="#{labItem}" target="#{labItemDetailController.labItem}"/>
+					
+
+					</p:commandButton>
+                </p:column>
+                
+                <p:column headerText="Stock Item Count" style="width:200px;text-align: center">
+                    <h:outputText value="" />
+                </p:column>
+            	
+            	<p:column style="width:100px;text-align: center">
+					<p:commandButton update=":labItemEditForm:labItemEditDialog" oncomplete="PF('labItemEditDialog').show()" icon="ui-icon-pencil" title="Edit">
+					    <f:setPropertyActionListener value="#{labItem}" target="#{labItemDetailController.labItem}" />
+					</p:commandButton>
+                    <p:commandButton action="#{labItemDetailController.doDeleteLabItem}" icon="ui-icon-trash" title="Delete" update=":labItemCreationForm:labItemTable">
+                        <f:setPropertyActionListener value="#{labItem}" target="#{labItemDetailController.labItem}" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this Labitem? This will delete every Stockitem connected to this Labitem as well. You cannot undo this operation." icon="ui-icon-blank" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        
+        <h:form id="labItemEditForm" enctype="multipart/form-data" >
+            <p:dialog header="Edit Lab Item" id="labItemEditDialog" dynamic="true" widgetVar="labItemEditDialog" modal="true" focus="manual" showEffect="fade" hideEffect="fade" resizable="false" onHide="#{manualView.reset()}" >   
+	            <p:outputPanel id="labItemData" rendered="#{not empty labItemDetailController.labItem}">
+	
+	               <h:panelGrid columns="3">
+	                    <p:outputLabel value="Item Name" />
+	                    <p:inputText id="itemName" value="#{labItemDetailController.labItem.itemName}" disabled="true"  required="true" requiredMessage="Item Name required."/>
+	                    <p:outputLabel for="itemName" value="" />
+						
+	                    <p:outputLabel value="Max Reservation Time" />
+		                <p:inputNumber id="maxDays" value="#{labItemDetailController.labItem.days}" mask="999" 
+		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
+		                        				minValue="0" maxValue="365" symbol=" Days" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxDays" value="" />
+		                <h:panelGroup />
+		                <p:inputNumber id="maxHours" value="#{labItemDetailController.labItem.hours}" mask="99" 
+		                        				required="true" requiredMessage="Max Reservation Time (Hours) required." converterMessage="Max Reservation Time (Hours) required."
+		                        				minValue="0" maxValue="23" symbol=" Hours" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxHours" value="" />
+		                <h:panelGroup />
+		                
+		                <p:inputNumber id="maxMinutes" value="#{labItemDetailController.labItem.minutes}" mask="99" 
+		                        				required="true" requiredMessage="Max Reservation Time (Minutes) required." converterMessage="Max Reservation Time (Minutes) required."
+		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxMinutes" value="" />
+		                    
+		                
+	                    <p:outputLabel for="manual" value="" />
+                    	<p:fileUpload id="manual" label="Manuals" multiple="false" uploadLabel="Upload..." update=":messages" value="#{fileUploadView.file}" mode="advanced" skinSimple="false" fileUploadListener="#{fileUploadView.handleFileUploadEdit}"/>                     
+	
+					</h:panelGrid>
+						<p:commandButton  value="Manual" actionListener="#{manualView.display()}" update="labItemData"/>
+							<p:dataTable id="editManualTable" var="manual" value="#{labItemDetailController.labItem.getManuals()}" resizableColumns="true" rendered="#{manualView.show}"  >
+							<p:column headerText="Name">			
+								<h:outputText value="#{manual.manualName}"/>
+							</p:column>
+							<p:column>
+                    			<p:commandButton action="#{manualDetailController.doDeleteManual()}" icon="ui-icon-trash" title="Delete" update=":labItemEditForm:editManualTable">
+                        		<f:setPropertyActionListener value="#{manual}" target="#{manualDetailController.manual}" />
+                        		<p:confirm header="Confirmation" message="Are you sure that you want to delete this Manual" icon="ui-icon-blank" />
+                    </p:commandButton>
+							</p:column>
+		
+
+								</p:dataTable>
+
+						
+			
+		            
+					<p:separator />
+
+	   				<h:panelGrid columns="3">
+	                        <p:commandButton value="Save" action="#{labItemDetailController.doSaveLabItem()}" oncomplete="if (!args.validationFailed) PF('labItemEditDialog').hide()" update=":labItemCreationForm:labItemTable"/>
+					        <p:commandButton value="Reload" action="#{labItemDetailController.doReloadLabItem()}" update="labItemData"/>
+					        <p:commandButton value="Abort" onclick="PF('labItemEditDialog').hide()"/>
+					</h:panelGrid>
+					
+					<p:messages id="editMessages" closable="true" >
+						<p:autoUpdate />
+					</p:messages>
+				</p:outputPanel>
+			</p:dialog>  
+        </h:form>
+        
+        <h:form id="labItemAddForm" enctype="multipart/form-data" onHide="fileUploadView.clearPuffer()">
+            <p:dialog header="New Lab Item" id="labItemAddDialog" dynamic="true" widgetVar="labItemAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="labItemAdd">
+                
+                	<h:panelGrid id="addGrid" columns="4">
+                        <p:outputLabel value="Item Name" />
+                        <p:inputText id="addItemName" value="#{labItemDetailController.newLabItem.itemName}" disabled="false" required="true" requiredMessage="Item Name required."/>
+                        <p:outputLabel for="addItemName" value="" />
+                        <p:watermark for="addItemName" value="New Item" id="additemnamewatermark" />
+                        
+                        <p:outputLabel value="Max Reservation Time" />
+		                <p:inputNumber id="maxDays" value="#{labItemDetailController.days}" mask="999" 
+		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
+		                        				minValue="0" maxValue="365" symbol=" Days" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxDays" value="" />
+		                <h:panelGroup />
+		                <h:panelGroup />
+		                <p:inputNumber id="maxHours" value="#{labItemDetailController.hours}" mask="99" 
+		                        				required="true" requiredMessage="Max Reservation Time (Hours) required." converterMessage="Max Reservation Time (Hours) required."
+		                        				minValue="0" maxValue="23" symbol=" Hours" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxHours" value="" />
+		                <h:panelGroup />
+		                <h:panelGroup />
+		                <p:inputNumber id="maxMinutes" value="#{labItemDetailController.minutes}" mask="99" 
+		                        				required="true" requiredMessage="Max Reservation Time (Minutes) required." converterMessage="Max Reservation Time (Minutes) required."
+		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxMinutes" value="" />
+		                <h:panelGroup />
+					</h:panelGrid>
+					<p:separator />
+                        <p:outputLabel for="addManual" value="" />
+                        <p:fileUpload id="addManual" label="Manuals" multiple="false" uploadLabel="Upload..." update=":messages" value="#{fileUploadView.file}" mode="advanced" skinSimple="false" fileUploadListener="#{fileUploadView.handleFileUpload}"/>                     
+
+	                
+	                
+					<p:separator />
+					
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Save" action="#{labItemDetailController.doAddLabItem()}" oncomplete="if (!args.validationFailed) PF('labItemAddDialog').hide()" update="addGrid :labItemCreationForm:labItemTable"/>
+                        <p:commandButton value="Abort" onclick="PF('labItemAddDialog').hide()" action="#{fileUploadView.clearPuffer()}"/>
+                    </h:panelGrid>
+                    <p:messages id="addMessages" closable="true" >
+						<p:autoUpdate />
+					</p:messages>
+                </p:outputPanel>
+            </p:dialog> 
+        </h:form>
+        
+        <h:form id="labItemConfirmationForm">
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="500" style="text-align: center;padding-top: 0px;">
+            	<h:panelGrid columns="2" style="margin: 0 auto">
+	                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </h:panelGrid>
+            </p:confirmDialog>    
+		</h:form>
+		
+		<h:form id="manualForm">
+			<p:dialog id="manualInfoDialog" header="Manuals"  dynamic="true" widgetVar="manualInfoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false"  width="600px">
+			<p:outputPanel id="labItemData" rendered="#{not empty labItemDetailController.labItem}">
+				<p:dataTable id="manualTable" var="manual" value="#{labItemDetailController.labItem.getManuals()}" resizableColumns="true" >
+					<p:column>			
+							<h:commandLink value="#{manual.manualName}" actionListener="#{fileDownloadView.fileDownload()}" > 
+								<f:setPropertyActionListener value="#{manual}" target="#{fileDownloadView.manual}" />
+								<p:fileDownload value="#{fileDownloadView.file}" />
+							</h:commandLink>
+
+					</p:column>
+				
+
+				</p:dataTable>
+			<p:commandButton value="Abort" onclick="PF('manualInfoDialog').hide()"/>
+
+			</p:outputPanel>	
+			
+			</p:dialog>
+		</h:form>
+
+		
+                
+    </ui:define>
+</ui:composition>

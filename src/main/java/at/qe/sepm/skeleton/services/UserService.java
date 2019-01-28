@@ -2,6 +2,7 @@ package at.qe.sepm.skeleton.services;
 
 import at.qe.sepm.skeleton.model.User;
 import at.qe.sepm.skeleton.repositories.UserRepository;
+
 import java.util.Collection;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Service for accessing and manipulating user data.
@@ -18,13 +19,16 @@ import org.springframework.stereotype.Component;
  * course "Softwaredevelopment and Project Management" offered by the University
  * of Innsbruck.
  */
-@Component
+@Service
 @Scope("application")
 public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-
+    
+    @Autowired
+    private AuditLogService auditLogService;
+    
     /**
      * Returns a collection of all users.
      *
@@ -74,8 +78,10 @@ public class UserService {
      */
     @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteUser(User user) {
-        userRepository.delete(user);
-        // :TODO: write some audit log stating who and when this user was permanently deleted.
+    	String username = user.getUsername();
+    	
+        userRepository.delete(user);        
+        auditLogService.userDeleted(username);   
     }
 
     private User getAuthenticatedUser() {

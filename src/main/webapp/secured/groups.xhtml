@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+                
+    <ui:define name ="content">
+        <h:form id="itemGroupForm">
+	        <p:panel header="#{sessionInfoBean.hasRole('ADMIN') ? 'Administration / Groups' : 'Reservations / Groups'}">	
+	        	<h:panelGrid>
+	  				<p:commandButton value="New Group" update=":itemGroupAddForm:itemGroupAddDialog" oncomplete="PF('itemGroupAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
+	  				</p:commandButton>
+	            </h:panelGrid> 
+            </p:panel>
+            
+            
+            <p:dataTable id="itemGroupTable" var="itemGroup" value="#{itemGroupListController.getAllItemGroups()}" resizableColumns="true" >
+               
+                <p:column headerText="Id">
+                    <h:outputText value="#{itemGroup.groupId}"/>
+                </p:column>
+
+                <p:column headerText="Group Name">
+                    <h:outputText value="#{itemGroup.groupName}"/>
+                </p:column>
+
+				<p:column headerText="Items">
+					<h:outputText value="#{itemGroup.items}"/>
+				</p:column>
+            	
+            	<p:column style="width:100px;text-align: center">
+					<p:commandButton action="#{itemGroupDetailController.doReloadItemGroup()}" update=":itemGroupEditForm:itemGroupEditDialog" oncomplete="PF('itemGroupEditDialog').show()" icon="ui-icon-pencil" title="Edit">
+					    <f:setPropertyActionListener value="#{itemGroup}" target="#{itemGroupDetailController.itemGroup}" />
+					</p:commandButton>
+                    <p:commandButton action="#{itemGroupDetailController.doDeleteItemGroup()}" icon="ui-icon-trash" title="Delete" update=":itemGroupForm:itemGroupTable">
+                        <f:setPropertyActionListener value="#{itemGroup}" target="#{itemGroupDetailController.itemGroup}" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this group? You cannot undo this operation." icon="ui-icon-blank" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+ 		</h:form>
+ 		
+ 		<h:form id="itemGroupEditForm">
+                <p:dialog header="Edit Group" id="itemGroupEditDialog" widgetVar="itemGroupEditDialog" dynamic="true" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				    <p:outputPanel id="itemGroupData" rendered="#{not empty itemGroupDetailController.itemGroup}">
+				        <h:panelGrid columns="3">
+                        
+                        <p:outputLabel value="Group Name" />
+				        	<p:inputText id="itemGroup" value="#{itemGroupDetailController.itemGroup.groupName}" disabled="true"/>
+				        <p:outputLabel for="itemGroup" value="" />
+				        
+				        <p:outputLabel value="Items"/>
+	                    	<p:selectCheckboxMenu id="items" value="#{itemGroupDetailController.itemGroup.items}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="true" requiredMessage="Select at least one item.">
+								<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
+						        <f:converter converterId="customConverter"/>
+						    </p:selectCheckboxMenu>
+					    <p:outputLabel for="items" value=""/>
+
+				        </h:panelGrid>                  
+				        <p:separator />
+				        <h:panelGrid columns="3">
+				            <p:commandButton value="Save" action="#{itemGroupDetailController.doSaveItemGroup()}" oncomplete="if (!args.validationFailed) PF('itemGroupEditDialog').hide()" update="itemGroupData :itemGroupForm:itemGroupTable"/>
+				            <p:commandButton value="Reload" action="#{itemGroupDetailController.doReloadItemGroup()}" update="itemGroupData">
+				            	<p:resetInput target=":itemGroupEditForm" />
+				            </p:commandButton>
+				            <p:commandButton value="Abort" onclick="PF('itemGroupEditDialog').hide()"/>
+				        </h:panelGrid>
+				        
+					    <p:messages id="editMessages" closable="true" >
+							<p:autoUpdate />
+						</p:messages>
+				    </p:outputPanel>
+				    
+				</p:dialog>  
+ 		</h:form>
+ 		
+ 		<h:form id="itemGroupAddForm">
+            <p:dialog header="New Group" id="itemGroupAddDialog" widgetVar="itemGroupAddDialog" dynamic="true" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="itemGroupAdd">
+                	<h:panelGrid columns="3">
+                        <p:outputLabel value="Group Name" />
+                        <p:inputText id="addGroupName" value="#{itemGroupDetailController.newItemGroup.groupName}" disabled="false" required="true" requiredMessage="Group Name required." validatorMessage="Username must have at least 4 characters.">
+                        	<f:validateLength minimum="4"/>
+                        </p:inputText>
+                        <p:outputLabel for="addGroupName" value="" />
+                        
+                        <p:outputLabel value="Items"/>
+                    	<p:selectCheckboxMenu id="items" value="#{stockItemView.selectedItems}" label="Geräte" multiple="true" filter="true" filterMatchMode="startsWith" style="width: 212px;" required="true" requiredMessage="Select at least one item.">
+							<f:selectItems value="#{stockItemView.items}" var="stockItem" itemValue="#{stockItem}" itemLabel="#{stockItem.labItem.itemName}" noSelectionOption="false"/> 
+					        <f:converter converterId="customConverter"/>
+					    </p:selectCheckboxMenu>
+					    <p:outputLabel for="items" value=""/>
+					    
+	                </h:panelGrid>
+					<p:separator />
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Save" action="#{itemGroupDetailController.doAddItemGroup()}" oncomplete="if (!args.validationFailed) PF('itemGroupAddDialog').hide()" update="itemGroupAdd, :itemGroupForm:itemGroupTable"/>
+                        <p:commandButton value="Abort" onclick="PF('itemGroupAddDialog').hide()"/>
+                    </h:panelGrid>
+                    <p:messages id="addMessages" closable="true" >
+						<p:autoUpdate />
+					</p:messages>
+                </p:outputPanel>
+            </p:dialog> 
+ 		</h:form>
+ 		
+ 		<h:form id="itemGroupConfirmationForm">
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="500" style="text-align: center;padding-top: 0px;">
+            	<h:panelGrid columns="2" style="margin: 0 auto">
+	                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </h:panelGrid>
+            </p:confirmDialog>    
+        </h:form>
+    </ui:define>
+</ui:composition>

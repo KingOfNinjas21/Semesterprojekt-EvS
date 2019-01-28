@@ -1,5 +1,6 @@
 package at.qe.sepm.skeleton.utils;
 
+import java.io.Serializable;
 import java.util.Map;
 import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.ObjectFactory;
@@ -12,9 +13,11 @@ import org.springframework.beans.factory.config.Scope;
  * course "Softwaredevelopment and Project Management" offered by the University
  * of Innsbruck.
  */
-public class ViewScope implements Scope {
+public class ViewScope implements Scope, Serializable {
 
-    @Override
+	private static final long serialVersionUID = -7245166546345203155L;
+
+	@Override
     public Object get(String name, ObjectFactory<?> objectFactory) {
         // retrieve the view map of the faces context
         Map<String, Object> viewMap = FacesContext.getCurrentInstance().getViewRoot().getViewMap();

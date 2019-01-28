@@ -3,29 +3,95 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:ui="http://java.sun.com/jsf/facelets"	
+	  xmlns:p="http://primefaces.org/ui"
       >
 
     <h:head>
-        <title>SEPM Skeleton</title>
+        <title>SportLa</title>
+        <!--  <link type="text/css" rel="stylesheet" href="/javax.faces.resource/theme.css.xhtml?ln=primefaces-midnight"/> -->
+        <link type="text/css" rel="stylesheet" href="/css/newtheme.css" /> 
+        <link type="text/css" rel="stylesheet" href="/css/main.css" /> 
+        <script language="javascript">
+	        $(document).ready(function(){
+	            $(".ui-panelmenu-content").css("display","block");
+	            $(".ui-panelmenu-header").addClass("ui-state-active");
+	            $(".ui-icon-triangle-1-e").removeClass("ui-icon-triangle-1-e").addClass("ui-icon-triangle-1-s");
+	        });
+        </script>
+        <script>
+		    PrimeFaces.locales['en_GB'] = {
+		        firstDay : 1,
+		        currentText : 'today'
+		    };
+		</script>
     </h:head>
-
-    <h:body style="margin:10px;">
+    <h:body style="margin:0px;">
         <div id="page">
+        	<p:growl id="messages" showDetail="false" />
+			<div class="sidebar">
+			<!--   <h3 style="margin-top:25px;margin-bottom:30px; font-size: 400%;text-align: center;">SportLa</h3> -->
+			<!-- font/icons taken from http://www.iconarchive.com and available for commercial use -->
+			<!-- https://www.fontspace.com/character/collegiate-heavy-outline -->
+				<a href="/secured/welcome.xhtml" class="logosportla">
+                	<h:graphicImage value = "/customicons/ui-logo-sportla.png" style="width:195px; margin:3px;margin-top:6px;border: 0;float:right"/>
+                </a>
+	            <h:form rendered="#{sessionInfoBean.loggedIn}" >
+		                <p:panelMenu style="margin-top:50px">
+		                	<p:submenu label="Reservations" rendered="#{!sessionInfoBean.hasRole('ADMIN')}">
+		                        <p:menuitem value="Items" url="/secured/reservation.xhtml" icon="ui ui-icon-tag"/>
+		                        <p:menuitem value="Groups" url="/secured/groups.xhtml" rendered="#{sessionInfoBean.hasRole('EMPLOYEE')}" icon="ui ui-icon-folder-open"/>
+		                    </p:submenu>
+		                    <p:submenu label="Administration" rendered="#{sessionInfoBean.hasRole('ADMIN')}">
+		                    	<p:menuitem value="Lab Items" url="/admin/adminlabitems.xhtml" icon="ui ui-icon-tag"/>
+		                    	<p:menuitem value="Stock Items" url="/admin/adminstockitems.xhtml" icon="ui ui-icon-tag"/>
+		                    	<p:menuitem value="Reservations" url="/secured/reservation.xhtml" icon="ui ui-icon-calculator"/>
+		                        <p:menuitem value="Users" url="/admin/adminusers.xhtml" icon="ui ui-icon-person"	/>
+								<p:menuitem value="Groups" url="/secured/groups.xhtml" icon="ui ui-icon-folder-open"/>
+								<p:submenu label="Time Management">
+									<p:menuitem value="Opening Hours" url="/admin/adminopeninghours.xhtml" icon="ui ui-icon-clock"/>
+									<p:menuitem value="Holidays" url="/admin/adminholidays.xhtml" icon="ui ui-icon-image"/>
+								</p:submenu>
+		                    </p:submenu>
+		                    <p:submenu label="Navigations">
+			                    <p:menuitem value="Login" url="/login.xhtml" rendered="#{!sessionInfoBean.loggedIn}" icon="ui ui-icon-power"/>
+			                    <p:menuitem value="Home" url="/secured/welcome.xhtml" rendered="#{sessionInfoBean.loggedIn}" icon="ui ui-icon-home"/>
+			                    <p:menuitem value="Help" url="/secured/help.xhtml" rendered="#{sessionInfoBean.loggedIn}" icon="ui 	ui-icon-help"/>
+			                    <p:menuitem value="Logout" url="/logout" rendered="#{sessionInfoBean.loggedIn}" icon="ui ui-icon-power"/>
+			                    
 
-            <div id="header" style="margin-bottom: 10px;">
-                <ui:include src="/WEB-INF/includes/header.xhtml" />
+			                </p:submenu>
+		                </p:panelMenu>
+
+	                
+	                <div id="footer" style="margin-left: 30px;margin-top: 50px;float: left" >
+	                	<h:form>
+	                	<ui:include src="/WEB-INF/includes/footer.xhtml" />
+	                	</h:form>
+	            	</div>
+	            	
+	            	
+	            </h:form>
+	            
             </div>
+            <div class="content">         
+	            <div id="header" style="margin-bottom: 10px;">
+	                <ui:include src="/WEB-INF/includes/header.xhtml" />
+	            </div>
+	            
+	
+	            <div id="content">
+	                <ui:insert name="content">Content</ui:insert>
+	            </div>
+	
 
-            <div id="content">
-                <ui:insert name="content">Content</ui:insert>
-            </div>
-
-            <div id="footer" style="margin-top: 10px;">
-                <ui:include src="/WEB-INF/includes/footer.xhtml" />
             </div>
 
         </div>
-
+        
+		<!--   <div id="footer"> -->
+			<!--   <h:graphicImage value = "/customicons/ui-bar-sports.png"/> -->
+		<!--</div> -->
+		
     </h:body>
 </html>

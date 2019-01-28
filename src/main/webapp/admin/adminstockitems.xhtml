@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/templates/main.xhtml">
+                
+    <ui:define name ="content">
+        <h:form id="stockItemCreationForm">
+	        <p:panel header="Administration / Stock Items">	
+	        	<h:panelGrid columns="2">
+	  				<p:commandButton value="Add Stock Item" update=":stockItemAddForm:stockItemAddDialog" oncomplete="PF('stockItemAddDialog').show()" icon="ui-icon-plusthick" title="New Item">
+	  				</p:commandButton>
+	  				<p:commandButton value="New Stock Item" update=":stockItemNewForm:stockItemNewDialog" oncomplete="PF('stockItemNewDialog').show()" icon="ui-icon-plusthick" title="New Item">
+	  				</p:commandButton>
+	            </h:panelGrid> 
+            </p:panel>
+            
+            
+            <p:dataTable id="stockItemTable" var="stockItem" value="#{stockItemListController.getStockItems()}" resizableColumns="true" >
+               
+                <p:column headerText="Id" style="width:30px;text-align: center">
+                    <h:outputText value="#{stockItem.stockItemId}"/>
+                </p:column>
+
+                <p:column headerText="Item Name">
+                    <h:outputText value="#{stockItem.labItem.itemName}"/>
+                </p:column>
+                <p:column headerText="Lab Name">
+                    <h:outputText value="#{stockItem.labName}" />
+                </p:column>
+                <p:column headerText="Location">
+                    <h:outputText value="#{stockItem.location}" />
+                </p:column>
+                <p:column headerText="Condition" style="width:100px;text-align: center">
+                    <h:outputText value="#{stockItem.getCondition()}" />
+            	</p:column>
+            	
+            	<p:column style="width:100px;text-align: center">
+					<p:commandButton update=":stockItemEditForm:stockItemEditDialog" oncomplete="PF('stockItemEditDialog').show()" icon="ui-icon-pencil" title="Edit" action="#{stockItemDetailController.doLoadLabItem()}">
+					    <f:setPropertyActionListener value="#{stockItem}" target="#{stockItemDetailController.stockItem}" />
+					</p:commandButton>
+                    <p:commandButton action="#{stockItemDetailController.doDeleteStockItem()}" icon="ui-icon-trash" title="Delete" update=":stockItemCreationForm:stockItemTable">
+                        <f:setPropertyActionListener value="#{stockItem}" target="#{stockItemDetailController.stockItem}" />
+                        <p:confirm header="Confirmation" message="Are you sure that you want to delete this item? You cannot undo this operation." icon="ui-icon-blank" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+ 		</h:form>
+ 		
+ 		<h:form id="stockItemEditForm">
+                <p:dialog header="Edit Items" id="stockItemEditDialog" dynamic="true" widgetVar="stockItemEditDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">   
+	                <p:outputPanel id="stockItemData" rendered="#{not empty stockItemDetailController.stockItem}">
+	                	<h:panelGrid columns="3">
+	                        <p:outputLabel  value="Item Name" />
+	                        <p:inputText id="itemName" value="#{labItemDetailController.labItem.itemName}" disabled="true" style="width:290px" required="true" requiredMessage="Item Name required."/>
+	                        <p:outputLabel for="itemName" value="" />
+	                        
+	                        <p:outputLabel value="Lab Name" />
+	                        <p:inputText id="lab" value="#{stockItemDetailController.stockItem.labName}" style="width:290px" required="true" requiredMessage="Lab Name required."/>
+							<p:outputLabel for="lab" value="" />
+							
+	                        <p:outputLabel value="Location" />
+	                        <p:inputText id="location" value="#{stockItemDetailController.stockItem.location}" required="true" requiredMessage="Location required."/>
+	                        <p:outputLabel for="location" value="" />
+					        
+	                        <p:outputLabel value="Description" style="width:150px"/>
+						    <p:inputTextarea id="description" value="#{stockItemDetailController.stockItem.description}" rows="5" cols="30" counter="display" maxlength="255" counterTemplate="{0} characters remaining." autoResize="false" />
+							<p:outputLabel for="description" value="" style="width:150px"/>
+							
+							<p:outputLabel value="Blocked" />
+					        <p:selectBooleanCheckbox id = "blocked" value="#{stockItemDetailController.stockItem.blocked}" itemLabel="" disabled="#{!stockItemDetailController.stockItem.isAvailable() and !stockItemDetailController.stockItem.blocked}"/>
+					        <p:outputLabel for="blocked" value="" />
+					        
+							<h:panelGroup />
+							<h:outputText id="display" />
+		                </h:panelGrid>
+		                
+		                <p:separator />
+		                
+					    <h:panelGrid columns="3">
+	                        <p:commandButton value="Save" action="#{stockItemDetailController.doSaveStockItem()}" oncomplete="if (!args.validationFailed) PF('stockItemEditDialog').hide()" update=":stockItemCreationForm:stockItemTable"/>
+					        <p:commandButton value="Reload" action="#{stockItemDetailController.doReloadStockItem()}" update="stockItemData"/>
+					        <p:commandButton value="Abort" onclick="PF('stockItemEditDialog').hide()"/>
+					    </h:panelGrid>
+					        
+					    <p:messages id="editMessages" closable="true" >
+							<p:autoUpdate />
+						</p:messages>
+					</p:outputPanel>
+				</p:dialog>  
+ 		</h:form>
+ 		
+ 		<h:form id="stockItemAddForm">
+            <p:dialog header="New Stock Item" id="stockItemAddDialog" widgetVar="stockItemAddDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    
+                <p:outputPanel id="stockItemAdd" widgetVar="stockItemAdd">
+                
+                	<h:panelGrid id="addStockGrid" columns="4">
+                       <p:outputLabel value="Labitem" />
+				        <p:selectOneMenu id="addItemName" value="#{labItemDetailController.newLabItem}" filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Lab Item required.">
+               				<f:selectItem itemLabel="Select Labitem" itemValue="" noSelectionOption="false" />
+                			<f:selectItems value="#{labItemView.items}" var="labItem" itemValue="#{labItem}" itemLabel="#{labItem.itemName}"/> 
+                			<f:converter converterId="customConverter"/>
+           				</p:selectOneMenu>
+           				<p:outputLabel for="addItemName" value="" />
+           				<h:panelGroup />
+           				
+                        <p:outputLabel value="Lab Name" />
+                        <p:inputText id="addLab" value="#{stockItemDetailController.newStockItem.labName}" required="true" requiredMessage="Lab Name required."/>
+                        <p:outputLabel for="addLab" value="" />
+                        <p:watermark for="addLab" value="Lab 1" id="addLabwatermark" />
+
+                        <p:outputLabel value="Location" />
+                        <p:inputText id="addLocation" value="#{stockItemDetailController.newStockItem.location}" required="true" requiredMessage="Location required."/>
+                        <p:outputLabel for="addLocation" value="" />
+                        <p:watermark for="addLocation" value="Shelf A" id="addLocationwatermark" />
+
+                        <p:outputLabel for="addDescription" value="Description" />
+                        <p:inputText id="addDescription" value="#{stockItemDetailController.newStockItem.description}" />
+                        <p:watermark for="addDescription" value="Item Description" id="addDescriptionwatermark" />
+                        <h:panelGroup />
+
+                        <p:outputLabel for="number" value="Count" />
+                        <p:inputText id="number" value="#{stockItemDetailController.number}" />
+                        <h:panelGroup />
+                        
+                        <h:panelGroup />
+                        <h:panelGroup />                        
+                        <p:slider for="number" />
+	                </h:panelGrid>
+	                
+					<p:separator />
+					
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Save" action="#{stockItemDetailController.doAddStockItem()}" oncomplete="if (!args.validationFailed) PF('stockItemAddDialog').hide()" update="@widgetVar(stockItemAdd), :stockItemCreationForm:stockItemTable"/>
+                        <p:commandButton value="Abort" onclick="PF('stockItemAddDialog').hide()"/>
+                    </h:panelGrid>
+                    
+	                <p:messages id="addMessages" closable="true" >
+						<p:autoUpdate />
+					</p:messages>
+                </p:outputPanel>
+            </p:dialog> 
+        </h:form>
+        
+        <h:form id="stockItemNewForm">
+            <p:dialog header="New Stock Item" id="stockItemNewDialog" dynamic="true" widgetVar="stockItemNewDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    
+                <p:outputPanel id="stockItemNew" widgetVar="stockItemNew">
+                
+                	<h:panelGrid id="addStockGrid" columns="4">
+           				<p:outputLabel value="Labitem" />
+                        <p:inputText id="addItemName" value="#{labItemDetailController.newLabItem.itemName}"  required="true" requiredMessage="Lab Item Name required."/>
+                        <p:outputLabel for="addItemName" value="" />
+                        <p:watermark for="addItemName" value="New Labitem" id="addItemNamewatermark" />
+                        
+                        
+	                    <p:outputLabel value="Max Reservation Time" />
+		                <p:inputNumber id="maxDays" value="#{labItemDetailController.days}" mask="999" 
+		                        				required="true" requiredMessage="Max Reservation Time (Days) required." converterMessage="Max Reservation Time (Days) required."
+		                        				minValue="0" maxValue="365" symbol=" Days" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxDays" value="" />
+		                <h:panelGroup />
+		                
+		                <h:panelGroup />
+		                <p:inputNumber id="maxHours" value="#{labItemDetailController.hours}" mask="99" 
+		                        				required="true" requiredMessage="Max Reservation Time (Hours) required." converterMessage="Max Reservation Time (Hours) required."
+		                        				minValue="0" maxValue="23" symbol=" Hours" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxHours" value="" />
+		                <h:panelGroup />
+		                
+		                <h:panelGroup />
+		                <p:inputNumber id="maxMinutes" value="#{labItemDetailController.minutes}" mask="99" 
+		                        				required="true" requiredMessage="Max Reservation Time (Minutes) required." converterMessage="Max Reservation Time (Minutes) required."
+		                        				minValue="0" maxValue="59" symbol=" Minutes" symbolPosition="s" decimalPlaces="0"/>
+		                <p:outputLabel for="maxMinutes" value="" />
+						<h:panelGroup />
+           				
+                        <p:outputLabel value="Lab Name" />
+                        <p:inputText id="addLab" value="#{stockItemDetailController.newStockItem.labName}" required="true" requiredMessage="Lab Name required."/>
+                        <p:outputLabel for="addLab" value="" />
+                        <p:watermark for="addLab" value="Lab 1" id="addLabwatermark" />
+
+                        <p:outputLabel value="Location" />
+                        <p:inputText id="addLocation" value="#{stockItemDetailController.newStockItem.location}" required="true" requiredMessage="Location required."/>
+                        <p:outputLabel for="addLocation" value="" />
+                        <p:watermark for="addLocation" value="Shelf A" id="addLocationwatermark" />
+
+                        <p:outputLabel value="Description" />
+                        <p:inputText id="addDescription" value="#{stockItemDetailController.newStockItem.description}" />
+                        <p:outputLabel for="addDescription" value="" />
+                        <p:watermark for="addDescription" value="Item Description" id="addDescriptionwatermark" />
+                        
+                        <p:outputLabel for="number" value="Count" />
+                        <p:inputText id="number" value="#{stockItemDetailController.number}" />
+                        <h:panelGroup />
+                        <h:panelGroup />
+                        
+                        <h:panelGroup />                        
+                        <p:slider for="number"/>
+                        <h:panelGroup />
+                        <h:panelGroup />
+
+              
+
+	                </h:panelGrid>
+	                	<p:separator />
+                        	<p:outputLabel for="addManual" value="" />
+                        	<p:fileUpload id="addManual" label="Manuals" multiple="false" uploadLabel="Upload..." update=":messages" value="#{fileUploadView.file}" mode="advanced" skinSimple="false" fileUploadListener="#{fileUploadView.handleFileUpload}"/>                     
+						<p:separator /> 
+	                
+					<p:separator />
+					
+                    <h:panelGrid columns="2">
+                        <p:commandButton value="Save" action="#{stockItemDetailController.doAddStockItem()}" oncomplete="if (!args.validationFailed) PF('stockItemNewDialog').hide()" update="@widgetVar(stockItemNew), :stockItemCreationForm:stockItemTable"/>
+                        <p:commandButton value="Abort" onclick="PF('stockItemAddDialog').hide()"/>
+                    </h:panelGrid>
+                    
+	                <p:messages id="newMessages" closable="true" >
+						<p:autoUpdate />
+					</p:messages>
+                </p:outputPanel>
+            </p:dialog> 
+        </h:form>
+ 		
+ 		<h:form id="stockItemConfirmationForm">
+ 		
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="500" style="text-align: center;padding-top: 0px;">
+            	<h:panelGrid columns="2" style="margin: 0 auto">
+	                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                </h:panelGrid>
+            </p:confirmDialog>    
+        
+        </h:form>
+    </ui:define>
+</ui:composition>

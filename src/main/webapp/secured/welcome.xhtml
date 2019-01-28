@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -9,13 +9,20 @@
                 template="/WEB-INF/templates/main.xhtml">
     <ui:define name ="content">
         <h:form>
-            <p:panel header="What do you see here?" >
-                <div style="height:50px">
-                    This is a simple PrimeFaces 6.1 project running on Spring Boot 1.5.8.
+            <p:panel header="SportLa / A Laboratory Device Manager" >
+                <div style="height:auto; padding: 16px;">
+                <!-- icons taken from http://www.iconarchive.com and available for commercial use -->
+                	  <!-- http://www.iconarchive.com/show/noto-emoji-people-clothing-objects-icons-by-google/12125-eye-icon.html -->
+                	  <h:graphicImage value = "/customicons/ui-icon-eye.png" style="width:30px; margin-right:10px"/>
+                	  See your Laboratory Device Status <br/><br/>
+                	  <!-- http://www.iconarchive.com/show/free-large-boss-icons-by-aha-soft/Supervisor-icon.html -->
+                	  <h:graphicImage value = "/customicons/ui-icon-admin.png" style="width:30px; margin-right:10px"/>
+                	  Manage your Reservations <br/><br/>
+                	  <!-- http://www.iconarchive.com/show/100-flat-2-icons-by-graphicloads/people-icon.html -->
+                	  <h:graphicImage value = "/customicons/ui-icon-people.png" style="width:30px; margin-right:10px"/>
+                	  Administrate your Lab Environment<br/><br/><br/>
+                	  Need further help? Click on the help section on the left!
                 </div>
-            </p:panel>
-            <p:panel header="JSF 2.2 Bean Access">
-                #{helloWorldBean.hello}
             </p:panel>
         </h:form>
     </ui:define>
